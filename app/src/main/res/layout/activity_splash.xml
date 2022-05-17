@@ -7,13 +7,32 @@
     tools:context=".SplashActivity">
 
     <ImageView
-        android:layout_width="315dp"
-        android:layout_height="100dp"
         android:id="@+id/logo"
-        android:src="@drawable/image_dicoding"
+        android:layout_width="225dp"
+        android:layout_height="203dp"
+        android:src="@drawable/gitlogo"
+        android:alpha="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.306" />
+
+    <TextView
+        android:id="@+id/ecoTrans_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/musticapro_semibold"
+        android:text="EcoTrans"
+        android:textColor="@color/green_2"
+        android:textSize="30dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintVertical_bias="0.033" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

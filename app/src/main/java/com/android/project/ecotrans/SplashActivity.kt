@@ -1,18 +1,20 @@
 package com.android.project.ecotrans
 
+import android.R
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
 import com.android.project.ecotrans.databinding.ActivitySplashBinding
+
 
 @Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {
@@ -57,6 +59,13 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun setupAnimation() {
-        ObjectAnimator.ofFloat(binding.logo, View.ALPHA, 1f).duration = 1000
+        val logo = ObjectAnimator.ofFloat(binding.logo, View.ALPHA, 1f).setDuration(1000)
+        val ecotrans = ObjectAnimator.ofFloat(binding.ecoTransText, View.ALPHA, 1f).setDuration(1000)
+
+        AnimatorSet().apply {
+            playSequentially(logo, ecotrans)
+            start()
+        }
+
     }
 }
