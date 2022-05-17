@@ -74,9 +74,9 @@ class RegisterActivity : AppCompatActivity() {
 //                Toast.makeText(this@RegisterActivity, "Unable to Register", Toast.LENGTH_SHORT).show()
 //            }
 //        }
-//        binding.goLogin.setOnClickListener {
-//            startActivity(Intent(this, LoginActivity::class.java))
-//        }
+        binding.gotosignin.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {

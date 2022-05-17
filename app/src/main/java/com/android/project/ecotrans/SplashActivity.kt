@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -52,15 +53,16 @@ class SplashActivity : AppCompatActivity() {
 
     private fun setupAction() {
         Handler().postDelayed({
-            val intent = Intent(this@SplashActivity, MainActivity::class.java)
+            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+//            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
             startActivity(intent)
             finish()
         }, 3000)
     }
 
     private fun setupAnimation() {
-        val logo = ObjectAnimator.ofFloat(binding.logo, View.ALPHA, 1f).setDuration(1000)
-        val ecotrans = ObjectAnimator.ofFloat(binding.ecoTransText, View.ALPHA, 1f).setDuration(1000)
+        val logo = ObjectAnimator.ofFloat(binding.logo, View.ALPHA, 1f).setDuration(750)
+        val ecotrans = ObjectAnimator.ofFloat(binding.ecoTransText, View.ALPHA, 1f).setDuration(750)
 
         AnimatorSet().apply {
             playSequentially(logo, ecotrans)

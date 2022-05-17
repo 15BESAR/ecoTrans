@@ -81,9 +81,9 @@ class LoginActivity : AppCompatActivity() {
 //                Toast.makeText(this@LoginActivity, "Unable to Login", Toast.LENGTH_SHORT).show()
 //            }
 //        }
-//        binding.goSignup.setOnClickListener {
-//            startActivity(Intent(this, RegisterActivity::class.java))
-//        }
+        binding.gotosignup.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
     }
 
     private fun setupAnimation() {
