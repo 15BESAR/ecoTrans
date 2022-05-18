@@ -32,7 +32,7 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
     init {
     }
 
-//    fun postLogin(email: String, password: String) {
+    fun postLogin(email: String, password: String) {
 //        _isLoading.value = true
 //        _isError.value = false
 //        var userModel: UserModel
@@ -66,5 +66,5 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
 //                Log.e("MainActivity", "onFailure: ${t.message}")
 //            }
 //        })
-//    }
+    }
 }
