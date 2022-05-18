@@ -62,7 +62,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun setupAnimation() {
         val logo = ObjectAnimator.ofFloat(binding.logo, View.ALPHA, 1f).setDuration(750)
-        val ecotrans = ObjectAnimator.ofFloat(binding.ecoTransText, View.ALPHA, 1f).setDuration(750)
+        val ecotrans = ObjectAnimator.ofFloat(binding.ecoTransSplashText, View.ALPHA, 1f).setDuration(750)
 
         AnimatorSet().apply {
             playSequentially(logo, ecotrans)
