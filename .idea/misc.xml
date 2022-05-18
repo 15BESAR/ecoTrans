@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/drawable-v24/ic_baseline_settings_24.xml" value="0.2965" />
+        <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2965" />
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/drawable/bg_button.xml" value="0.165" />
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/drawable/bg_button_disable.xml" value="0.165" />
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.165" />
@@ -12,10 +13,11 @@
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/drawable/ic_close_black_24dp.xml" value="0.165" />
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/font/font.xml" value="0.3927083333333333" />
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/layout/activity_login.xml" value="0.33" />
-        <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/layout/activity_main.xml" value="0.35507246376811596" />
+        <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/layout/activity_splash.xml" value="0.35507246376811596" />
         <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/menu/menu.xml" value="0.3625" />
+        <entry key="..\:/Users/ivens/Desktop/ecoTrans/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1935" />
       </map>
     </option>
   </component>
