@@ -75,18 +75,21 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-//        binding.btnLogin.setOnClickListener {
-//            var email = binding.myLoginEmailText.text
-//            var password = binding.myLoginPasswordText.text
-//            var checkEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-//            var checkPassword = password.toString().length >= 6
-//            if (checkEmail && checkPassword){
-//                loginViewModel.postLogin(email.toString(), password.toString())
-//            }else{
-//                Toast.makeText(this@LoginActivity, "Unable to Login", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-        binding.gotosignup.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
+            var email = binding.editTextLoginEmail.text
+            var password = binding.editTextLoginPassword.text
+
+            var checkEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            var checkPassword = password.toString().length >= 6
+
+            if (checkEmail && checkPassword){
+                loginViewModel.postLogin(email.toString(), password.toString())
+            }else{
+                Toast.makeText(this@LoginActivity, "Unable to Login", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.textGoToSignUp.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
@@ -100,15 +103,15 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-//        if (isLoading) {
-//            binding.loginProgressBar.visibility = View.VISIBLE
-//            binding.btnLogin.visibility = View.GONE
-//            binding.goSignup.visibility = View.GONE
-//        } else {
-//            binding.loginProgressBar.visibility = View.GONE
-//            binding.btnLogin.visibility = View.VISIBLE
-//            binding.goSignup.visibility = View.VISIBLE
-//        }
+        if (isLoading) {
+            binding.progressBarLogin.visibility = View.VISIBLE
+            binding.btnLogin.visibility = View.GONE
+            binding.textGoToSignUp.visibility = View.GONE
+        } else {
+            binding.progressBarLogin.visibility = View.GONE
+            binding.btnLogin.visibility = View.VISIBLE
+            binding.textGoToSignUp.visibility = View.VISIBLE
+        }
     }
 
     private fun showErrorMessage(errorMessage: String){
