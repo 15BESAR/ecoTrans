@@ -10,7 +10,7 @@
         android:id="@+id/logo"
         android:layout_width="225dp"
         android:layout_height="203dp"
-        android:src="@drawable/gitlogo"
+        android:src="@drawable/ecotranslogo"
         android:alpha="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

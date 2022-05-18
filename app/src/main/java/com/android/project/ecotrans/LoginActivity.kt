@@ -44,9 +44,14 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupView()
         setupViewModel()
         setupAction()
         setupAnimation()
+    }
+
+    private fun setupView() {
+        supportActionBar?.hide()
     }
 
     private fun setupViewModel() {

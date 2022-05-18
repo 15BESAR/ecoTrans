@@ -43,8 +43,13 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupView()
         setupViewModel()
         setupAction()
+    }
+
+    private fun setupView() {
+        supportActionBar?.hide()
     }
 
     private fun setupViewModel() {
