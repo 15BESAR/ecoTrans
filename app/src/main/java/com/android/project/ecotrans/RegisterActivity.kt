@@ -46,6 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         setupView()
         setupViewModel()
         setupAction()
+        setupAnimation()
     }
 
     private fun setupView() {
@@ -67,33 +68,44 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-//        binding.btnRegister.setOnClickListener {
-//            var name = binding.myRegisterNameText.text
-//            var email = binding.myRegisterEmailText.text
-//            var password = binding.myRegisterPasswordText.text
-//            var checkEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-//            var checkPassword = password.toString().length >= 6
-//            if (checkEmail && checkPassword){
-//                registerViewModel.postRegister(name.toString(), email.toString(), password.toString())
-//            }else{
-//                Toast.makeText(this@RegisterActivity, "Unable to Register", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-        binding.gotosignin.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
+            var name = binding.editTextRegisterName.text
+            var email = binding.editTextRegisterEmail.text
+            var password = binding.editTextRegisterPassword.text
+
+            var checkEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            var checkPassword = password.toString().length >= 6
+
+            if (checkEmail && checkPassword){
+                registerViewModel.postRegister(name.toString(), email.toString(), password.toString())
+            }else{
+                Toast.makeText(this@RegisterActivity, "Unable to Register", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.textGoToSignIn.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 
+    private fun setupAnimation() {
+//        ObjectAnimator.ofFloat(binding.logoGit, View.TRANSLATION_X, -30f, 30f).apply {
+//            duration = 4000
+//            repeatCount = ObjectAnimator.INFINITE
+//            repeatMode = ObjectAnimator.REVERSE
+//        }.start()
+    }
+
     private fun showLoading(isLoading: Boolean) {
-//        if (isLoading) {
-//            binding.registerProgressBar.visibility = View.VISIBLE
-//            binding.goLogin.visibility = View.GONE
-//            binding.btnRegister.visibility = View.GONE
-//        } else {
-//            binding.registerProgressBar.visibility = View.GONE
-//            binding.btnRegister.visibility = View.VISIBLE
-//            binding.goLogin.visibility = View.VISIBLE
-//        }
+        if (isLoading) {
+            binding.progressBarRegister.visibility = View.VISIBLE
+            binding.textGoToSignIn.visibility = View.GONE
+            binding.btnRegister.visibility = View.GONE
+        } else {
+            binding.progressBarRegister.visibility = View.GONE
+            binding.textGoToSignIn.visibility = View.VISIBLE
+            binding.btnRegister.visibility = View.VISIBLE
+        }
     }
 
     private fun showErrorMessage(errorMessage: String){
