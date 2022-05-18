@@ -23,7 +23,7 @@ class RegisterViewModel(private val pref: UserPreference) : ViewModel() {
 
     }
 
-//    fun postRegister(name: String, email: String, password: String) {
+    fun postRegister(name: String, email: String, password: String) {
 //        _isLoading.value = true
 //        _isError.value = false
 //        var client = ApiConfig.getApiService().register(name, email, password)
@@ -50,5 +50,5 @@ class RegisterViewModel(private val pref: UserPreference) : ViewModel() {
 //                Log.e("MainActivity", "onFailure: ${t.message}")
 //            }
 //        })
-//    }
+    }
 }
