@@ -9,7 +9,7 @@
     android:layout_margin="16dp"
     android:backgroundTint="@color/green_1"
     android:elevation="10dp"
-    card_view:cardCornerRadius="10dp"
+    card_view:cardCornerRadius="15dp"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
