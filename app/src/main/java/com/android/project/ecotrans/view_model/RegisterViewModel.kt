@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.android.project.ecotrans.api_config.ApiConfig
 import com.android.project.ecotrans.model.UserPreference
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,8 +25,8 @@ class RegisterViewModel(private val pref: UserPreference) : ViewModel() {
     }
 
     fun postRegister(name: String, email: String, password: String) {
-//        _isLoading.value = true
-//        _isError.value = false
+        _isLoading.value = true
+        _isError.value = false
 //        var client = ApiConfig.getApiService().register(name, email, password)
 //        client.enqueue(object : Callback<PostResponseRegister> {
 //            override fun onResponse(
