@@ -45,9 +45,9 @@ class MainActivityAdapter(private val listUser: ArrayList<String>, private val c
     }
 
     class MainActivityHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgAvatar: ImageView = itemView.findViewById(R.id.imgAvatar)
-        var tvName: TextView = itemView.findViewById(R.id.tv_name)
-        var tvType: TextView = itemView.findViewById(R.id.tv_type)
+        var imgSmallMap: ImageView = itemView.findViewById(R.id.imageView_locationListItem_smallMap)
+        var tvName: TextView = itemView.findViewById(R.id.textView_locationListItem_name)
+        var tvDetail: TextView = itemView.findViewById(R.id.textView_locationListItem_detail)
     }
 
     interface OnItemClickback {
