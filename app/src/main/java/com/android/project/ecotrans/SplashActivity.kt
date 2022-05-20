@@ -16,10 +16,11 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.android.project.ecotrans.databinding.ActivitySplashBinding
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 @Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
     private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +44,13 @@ class SplashActivity : AppCompatActivity() {
 //        }
 
         setupView()
+        setupViewModel()
         setupAnimation()
         setupAction()
+    }
+
+    private fun setupViewModel() {
+        TODO("Not yet implemented")
     }
 
     private fun setupView() {
