@@ -13,6 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EcoTrans">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAc1B146PyjmtGCCnGzXOBLjKWkbql99gw" />
+
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />

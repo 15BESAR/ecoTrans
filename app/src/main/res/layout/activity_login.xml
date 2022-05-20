@@ -10,7 +10,7 @@
         android:id="@+id/ecoTrans_login_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="480dp"
+        android:layout_marginBottom="488dp"
         android:fontFamily="@font/musticapro_semibold"
         android:text="EcoTrans"
         android:textColor="@color/green_2"
@@ -18,9 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:layout_constraintVertical_bias="0.033" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.android.project.ecotrans.custom_view.MyEditTextEmail
         android:id="@+id/editText_login_email"
