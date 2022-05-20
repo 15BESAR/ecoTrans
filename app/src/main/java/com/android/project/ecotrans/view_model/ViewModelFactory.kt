@@ -16,6 +16,12 @@ class ViewModelFactory(private val pref: UserPreference, private val context: Co
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(pref) as T
             }
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
+                ProfileViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
+                SplashViewModel(pref) as T
+            }
 //            modelClass.isAssignableFrom(MainAddViewModel::class.java) -> {
 //                MainAddViewModel(pref) as T
 //            }
