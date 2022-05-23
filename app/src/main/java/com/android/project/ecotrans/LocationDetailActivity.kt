@@ -10,6 +10,16 @@ class LocationDetailActivity : AppCompatActivity() {
 
         setupView()
         setupViewModel()
+        setupAction()
+        setupAnimation()
+    }
+
+    private fun setupAnimation() {
+        TODO("Not yet implemented")
+    }
+
+    private fun setupAction() {
+        TODO("Not yet implemented")
     }
 
     private fun setupViewModel() {
