@@ -48,7 +48,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        TODO("Not yet implemented")
+        supportActionBar?.hide()
     }
 
     private fun showLoading(isLoading: Boolean) {
