@@ -1,11 +1,27 @@
 package com.android.project.ecotrans.api_service
 
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
+
+    @FormUrlEncoded
+    @POST("register")
+    fun register(
+        @Field("username") username: String,
+        @Field("password") password: String,
+        @Field("email") email: String,
+        @Field("firstName") firstName: String,
+        @Field("lastName") lastName: String,
+        @Field("birthDate") birthDate: String
+    ): Call<ResponseRegister>
+
+    @FormUrlEncoded
+    @POST("login")
+    fun login(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): Call<ResponseLogin>
 
 //    @GET("search/users")
 //    fun searchUser(
