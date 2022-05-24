@@ -24,32 +24,45 @@ class RegisterViewModel(private val pref: UserPreference) : ViewModel() {
 
     }
 
-    fun postRegister(name: String, email: String, password: String) {
+    fun postRegister(
+        username: String,
+        password: String,
+        email: String,
+        firstName: String,
+        lastName: String,
+        birthDate: String
+    ) {
         _isLoading.value = true
         _isError.value = false
-//        var client = ApiConfig.getApiService().register(name, email, password)
-//        client.enqueue(object : Callback<PostResponseRegister> {
-//            override fun onResponse(
-//                call: Call<PostResponseRegister>,
-//                response: retrofit2.Response<PostResponseRegister>
-//            ) {
-//                _isLoading.value = false
-//                if (response.isSuccessful) {
-//
-//                    _errorMessage.value = response.body()?.message as String
-//                } else {
-//                    Log.e("MainActivity", "onFailure: ${response.message()}")
-//
-//                    _errorMessage.value = "Email Already Taken"
-//                    _isError.value = true
-//                }
-//            }
-//            override fun onFailure(call: Call<PostResponseRegister>, t: Throwable) {
-//                _isLoading.value = false
-//                _isError.value = true
-//                _errorMessage.value = t.message
-//                Log.e("MainActivity", "onFailure: ${t.message}")
-//            }
-//        })
+        var client = ApiConfig.getApiService().register(
+            username,
+            password,
+            email,
+            firstName,
+            lastName,
+            birthDate
+        )
+        client.enqueue(object : Callback<ResponseRegister> {
+            override fun onResponse(
+                call: Call<ResponseRegister>,
+                response: retrofit2.Response<ResponseRegister>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful) {
+                    _errorMessage.value = response.body()?.status as String
+                } else {
+                    Log.e("RegisterActivity", "onFailure: ${response.message()}")
+
+                    _errorMessage.value = response.message()
+                    _isError.value = true
+                }
+            }
+            override fun onFailure(call: Call<ResponseRegister>, t: Throwable) {
+                _isLoading.value = false
+                _isError.value = true
+                _errorMessage.value = t.message
+                Log.e("RegisterActivity", "onFailure: ${t.message}")
+            }
+        })
     }
 }

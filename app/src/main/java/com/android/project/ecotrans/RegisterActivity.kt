@@ -1,14 +1,13 @@
 package com.android.project.ecotrans
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -17,6 +16,7 @@ import com.android.project.ecotrans.databinding.ActivityRegisterBinding
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.view_model.RegisterViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
+
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -69,7 +69,10 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.btnRegister.setOnClickListener {
-            var name = binding.editTextRegisterName.text
+            var firstname = binding.editTextRegisterFirstname.text
+            var lastname = binding.editTextRegisterLastname.text
+            var username = binding.editTextRegisterUsername.text
+            var date = binding.editTextRegisterDate.text
             var email = binding.editTextRegisterEmail.text
             var password = binding.editTextRegisterPassword.text
 
@@ -77,7 +80,12 @@ class RegisterActivity : AppCompatActivity() {
             var checkPassword = password.toString().length >= 6
 
             if (checkEmail && checkPassword){
-                registerViewModel.postRegister(name.toString(), email.toString(), password.toString())
+                registerViewModel.postRegister(username.toString(),
+                    password.toString(),
+                    email.toString(),
+                    firstname.toString(),
+                    lastname.toString(),
+                    date.toString())
             }else{
                 Toast.makeText(this@RegisterActivity, "Unable to Register", Toast.LENGTH_SHORT).show()
             }
