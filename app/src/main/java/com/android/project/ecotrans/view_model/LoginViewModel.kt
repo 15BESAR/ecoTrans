@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.android.project.ecotrans.api_config.ApiConfig
 import com.android.project.ecotrans.model.UserModel
 import com.android.project.ecotrans.model.UserPreference
+import com.android.project.ecotrans.response.PostResponseLogin
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,10 +39,10 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
         _isError.value = false
         var userModel: UserModel
         var client = ApiConfig.getApiService().login(email, password)
-        client.enqueue(object : Callback<ResponseLogin> {
+        client.enqueue(object : Callback<PostResponseLogin> {
             override fun onResponse(
-                call: Call<ResponseLogin>,
-                response: retrofit2.Response<ResponseLogin>
+                call: Call<PostResponseLogin>,
+                response: retrofit2.Response<PostResponseLogin>
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
@@ -60,7 +61,7 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
                     _isError.value = true
                 }
             }
-            override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
+            override fun onFailure(call: Call<PostResponseLogin>, t: Throwable) {
                 _isLoading.value = false
                 _isError.value = true
                 _errorMessage.value = t.message as String
