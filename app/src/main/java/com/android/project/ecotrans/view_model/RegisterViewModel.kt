@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.project.ecotrans.api_config.ApiConfig
 import com.android.project.ecotrans.model.UserPreference
+import com.android.project.ecotrans.response.PostResponseRegister
 import retrofit2.Call
 import retrofit2.Callback
 
@@ -25,31 +26,33 @@ class RegisterViewModel(private val pref: UserPreference) : ViewModel() {
     }
 
     fun postRegister(
-        username: String,
-        password: String,
-        email: String,
-        firstName: String,
-        lastName: String,
-        birthDate: String
+//        username: String,
+//        password: String,
+//        email: String,
+//        firstName: String,
+//        lastName: String,
+//        birthDate: String
+        name: String, email: String, password: String
     ) {
         _isLoading.value = true
         _isError.value = false
         var client = ApiConfig.getApiService().register(
-            username,
-            password,
-            email,
-            firstName,
-            lastName,
-            birthDate
+//            username,
+//            password,
+//            email,
+//            firstName,
+//            lastName,
+//            birthDate
+            name, email, password
         )
-        client.enqueue(object : Callback<ResponseRegister> {
+        client.enqueue(object : Callback<PostResponseRegister> {
             override fun onResponse(
-                call: Call<ResponseRegister>,
-                response: retrofit2.Response<ResponseRegister>
+                call: Call<PostResponseRegister>,
+                response: retrofit2.Response<PostResponseRegister>
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-                    _errorMessage.value = response.body()?.status as String
+                    _errorMessage.value = response.body()?.message as String
                 } else {
                     Log.e("RegisterActivity", "onFailure: ${response.message()}")
 
@@ -57,7 +60,7 @@ class RegisterViewModel(private val pref: UserPreference) : ViewModel() {
                     _isError.value = true
                 }
             }
-            override fun onFailure(call: Call<ResponseRegister>, t: Throwable) {
+            override fun onFailure(call: Call<PostResponseRegister>, t: Throwable) {
                 _isLoading.value = false
                 _isError.value = true
                 _errorMessage.value = t.message

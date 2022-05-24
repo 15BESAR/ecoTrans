@@ -80,12 +80,15 @@ class RegisterActivity : AppCompatActivity() {
             var checkPassword = password.toString().length >= 6
 
             if (checkEmail && checkPassword){
-                registerViewModel.postRegister(username.toString(),
-                    password.toString(),
-                    email.toString(),
-                    firstname.toString(),
-                    lastname.toString(),
-                    date.toString())
+                registerViewModel.postRegister(
+//                    username.toString(),
+//                    password.toString(),
+//                    email.toString(),
+//                    firstname.toString(),
+//                    lastname.toString(),
+//                    date.toString()
+                    username.toString(), email.toString(), password.toString()
+                )
             }else{
                 Toast.makeText(this@RegisterActivity, "Unable to Register", Toast.LENGTH_SHORT).show()
             }
