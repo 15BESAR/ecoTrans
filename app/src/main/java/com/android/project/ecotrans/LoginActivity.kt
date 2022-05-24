@@ -25,20 +25,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        val inflater = menuInflater
-//        inflater.inflate(R.menu.menu_language, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == R.id.language){
-//            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
-//        }
-//
-//        return super.onOptionsItemSelected(item)
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -76,14 +62,13 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.btnLogin.setOnClickListener {
-            var email = binding.editTextLoginEmail.text
+            var username = binding.editTextLoginUsername.text
             var password = binding.editTextLoginPassword.text
 
-            var checkEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
             var checkPassword = password.toString().length >= 6
 
-            if (checkEmail && checkPassword){
-                loginViewModel.postLogin(email.toString(), password.toString())
+            if (checkPassword){
+                loginViewModel.postLogin(username.toString(), password.toString())
             }else{
                 Toast.makeText(this@LoginActivity, "Unable to Login", Toast.LENGTH_SHORT).show()
             }
