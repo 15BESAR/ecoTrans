@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:backgroundTint="@color/green_1"
+    android:elevation="10dp"
+    card_view:cardCornerRadius="15dp"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/imageView_voucherListItem_smallMap"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:elevation="15dp"
+            android:innerRadius="0dp"
+            android:shape="ring"
+            android:src="@drawable/ecotranslogo"
+            android:thicknessRatio="1.9"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.098"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_voucherListItem_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:text="Name"
+            android:textColor="@color/green_2"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/imageView_voucherListItem_smallMap"
+            card_view:layout_constraintTop_toTopOf="@+id/imageView_voucherListItem_smallMap" />
+
+        <TextView
+            android:id="@+id/textView_voucherListItem_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp"
+            android:paddingLeft="10dp"
+            android:text="Detail"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            card_view:layout_constraintBottom_toBottomOf="@+id/imageView_voucherListItem_smallMap"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/imageView_voucherListItem_smallMap"
+            card_view:layout_constraintTop_toBottomOf="@+id/textView_voucherListItem_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
