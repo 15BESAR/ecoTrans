@@ -20,7 +20,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 @Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,13 +43,8 @@ class SplashActivity : AppCompatActivity() {
 //        }
 
         setupView()
-        setupViewModel()
         setupAnimation()
         setupAction()
-    }
-
-    private fun setupViewModel() {
-        TODO("Not yet implemented")
     }
 
     private fun setupView() {
