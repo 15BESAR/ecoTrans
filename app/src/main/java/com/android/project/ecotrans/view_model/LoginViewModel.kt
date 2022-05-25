@@ -36,6 +36,12 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
+//    private var _userData = MutableLiveData<User>()
+//    var userData: LiveData<User> = _userData
+
+    private var _isDetailed = MutableLiveData<Boolean>()
+    var isDetailed: LiveData<Boolean> = _isDetailed
+
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
     }
@@ -53,6 +59,7 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
     fun postLogin(username: String, password: String) {
         _isLoading.value = true
         _isError.value = false
+        _isDetailed.value = true
         var userModel: UserModel
 
         val json = JSONObject()
@@ -71,6 +78,9 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
                 if (response.isSuccessful) {
                     var id = response.body()?.userId as String
                     var isLogin = true
+
+                    getUserData(id)
+
                     var token = response.body()?.token as String
                     userModel = UserModel(id, username, isLogin, token)
 
@@ -87,6 +97,39 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
                 _isLoading.value = false
                 _isError.value = true
                 _errorMessage.value = t.message as String
+                Log.e("MainActivity", "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    fun getUserData(id: String) {
+//        _isLoading.value = true
+//        _isError.value = false
+//        var user: User
+        var client = ApiConfig.getApiService().user(id)
+        client.enqueue(object : Callback<User> {
+            override fun onResponse(
+                call: Call<User>,
+                response: retrofit2.Response<User>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful) {
+//                    user = response.body() as User
+
+                    if (response.body()?.job.isNullOrEmpty()){
+                        _isDetailed.value = false
+                    }
+                } else {
+                    Log.e("MainActivity", "onFailure: ${response.message()}")
+
+//                    _errorMessage.value = "Wrong Password or Email"
+//                    _isError.value = true
+                }
+            }
+            override fun onFailure(call: Call<User>, t: Throwable) {
+//                _isLoading.value = false
+//                _isError.value = true
+//                _errorMessage.value = t.message as String
                 Log.e("MainActivity", "onFailure: ${t.message}")
             }
         })
