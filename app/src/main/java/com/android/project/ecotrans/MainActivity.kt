@@ -96,6 +96,19 @@ class MainActivity : AppCompatActivity() {
             ViewModelFactory(UserPreference.getInstance(dataStore), this)
         )[MainViewModel::class.java]
 
+        mainViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+        mainViewModel.errorMessage.observe(this) {
+            showErrorMessage(it)
+        }
+        mainViewModel.getUser().observe(this) { user ->
+            if(!user.isLogin){
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+        }
+
     }
 
     private fun setupView() {
@@ -110,9 +123,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showError(isError: Boolean){
-        if (isError){
-            Toast.makeText(this@MainActivity, "ERROR", Toast.LENGTH_SHORT).show()
-        }
+    private fun showErrorMessage(errorMessage: String){
+        Toast.makeText(this@MainActivity, errorMessage.toString(), Toast.LENGTH_SHORT).show()
     }
 }
