@@ -41,28 +41,4 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
     init {
     }
 
-    private fun searchLocation(){
-        _isLoading.value = true
-        _isError.value = false
-        var client = ApiConfig.getApiService().searchLocation(input)
-        client.enqueue(object : Callback<ResponseAutoComplete> {
-            override fun onResponse(
-                call: Call<ResponseAutoComplete>,
-                response: Response<ResponseAutoComplete>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful) {
-                    _listPredictionsItem.value = response.body()?.predictions as List<PredictionsItem>
-                } else {
-                    Log.e("MainActivity", "onFailure: ${response.message()}")
-                    _isError.value = true
-                }
-            }
-            override fun onFailure(call: Call<ResponseAutoComplete>, t: Throwable) {
-                _isLoading.value = false
-                _isError.value = true
-                Log.e("MainActivity", "onFailure: ${t.message}")
-            }
-        })
-    }
 }
