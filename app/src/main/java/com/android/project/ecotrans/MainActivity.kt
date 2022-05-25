@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.datastore.core.DataStore
@@ -16,7 +15,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.android.project.ecotrans.databinding.ActivityMainBinding
 import com.android.project.ecotrans.model.UserPreference
-import com.android.project.ecotrans.view_model.LoginViewModel
+import com.android.project.ecotrans.response.PredictionsItem
 import com.android.project.ecotrans.view_model.MainViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
 
@@ -25,6 +24,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var token: String
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
@@ -102,6 +102,12 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.errorMessage.observe(this) {
             showErrorMessage(it)
         }
+        mainViewModel.getUser().observe(this) {
+            token = it.token
+        }
+        mainViewModel.listPredictionsItem.observe(this) {
+            setLocationList(it)
+        }
         mainViewModel.getUser().observe(this) { user ->
             if(!user.isLogin){
                 startActivity(Intent(this, LoginActivity::class.java))
@@ -109,6 +115,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun setLocationList(it: List<PredictionsItem>) {
+        val adapter = MainActivityAdapter(it, this)
+        binding.recyclerViewMainLocationList.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : MainActivityAdapter.OnItemClickback{
+            override fun onItemClicked(data: PredictionsItem) {
+                //TODO
+            }
+        })
     }
 
     private fun setupView() {
