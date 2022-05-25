@@ -38,6 +38,9 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
+    private var _userData = MutableLiveData<User>()
+    var userData: LiveData<User> = _userData
+
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
     }
