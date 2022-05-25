@@ -92,75 +92,7 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
         })
     }
 
-//    fun searchLocation(input: String) {
-//        _isLoading.value = true
-//        _isError.value = false
-//        var userModel: UserModel
-//
-//        val json = JSONObject()
-//        json.put("input", input)
-//        val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
-//
-//        var client = ApiConfig.getApiService().searchLocation(requestBody)
-//        client.enqueue(object : Callback<ResponseAutoComplete> {
-//            override fun onResponse(
-//                call: Call<ResponseAutoComplete>,
-//                response: retrofit2.Response<ResponseAutoComplete>
-//            ) {
-//                _isLoading.value = false
-//                if (response.isSuccessful) {
-//
-//                    response.body()
-////                    _errorMessage.value = "login " + response.message() as String
-//                } else {
-//                    Log.e("MainActivity", "onFailure: ${response.message()}")
-//
-////                    _errorMessage.value = "Wrong Password or Email"
-//                    _isError.value = true
-//                }
-//            }
-//            override fun onFailure(call: Call<ResponseAutoComplete>, t: Throwable) {
-//                _isLoading.value = false
-//                _isError.value = true
-//                _errorMessage.value = t.message as String
-//                Log.e("MainActivity", "onFailure: ${t.message}")
-//            }
-//        })
-//    }
 
-//    fun getUser(id: String) {
-//        _isLoading.value = true
-//        _isError.value = false
-//        var userModel: UserModel
-//        var client = ApiConfig.getApiService().user(id)
-//        client.enqueue(object : Callback<User> {
-//            override fun onResponse(
-//                call: Call<User>,
-//                response: retrofit2.Response<User>
-//            ) {
-//                _isLoading.value = false
-//                if (response.isSuccessful) {
-////                    var id = response.body()?.userId as String
-////                    var name = username as String
-////                    var isLogin = true
-////                    var token = response.body()?.token as String
-////                    userModel = UserModel(id, name, isLogin, token)
-////
-////                    _errorMessage.value = "login " + response.body()?. as String
-////                    saveUser(userModel)
-//                } else {
-//                    Log.e("MainActivity", "onFailure: ${response.message()}")
-//
-//                    _errorMessage.value = "Wrong Password or Email"
-//                    _isError.value = true
-//                }
-//            }
-//            override fun onFailure(call: Call<User>, t: Throwable) {
-//                _isLoading.value = false
-//                _isError.value = true
-//                _errorMessage.value = t.message as String
-//                Log.e("MainActivity", "onFailure: ${t.message}")
-//            }
-//        })
-//    }
+
+
 }
