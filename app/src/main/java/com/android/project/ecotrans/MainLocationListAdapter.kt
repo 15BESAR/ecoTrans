@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.android.project.ecotrans.response.PredictionsItem
 
 
-class MainActivityAdapter(private val listUser: ArrayList<String>, private val context: Context) : RecyclerView.Adapter<MainActivityAdapter.MainActivityHolder>(){
+class MainActivityAdapter(private val listLocation: List<PredictionsItem>, private val context: Context) : RecyclerView.Adapter<MainActivityAdapter.MainActivityHolder>(){
     private lateinit var onItemClickCallback: OnItemClickback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainActivityHolder {
@@ -35,13 +36,13 @@ class MainActivityAdapter(private val listUser: ArrayList<String>, private val c
 //        holder.tvType.text = type
 
         holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listUser[holder.adapterPosition])
+            onItemClickCallback.onItemClicked(listLocation[holder.adapterPosition])
         }
 
     }
 
     override fun getItemCount(): Int {
-        return listUser.size
+        return listLocation.size
     }
 
     class MainActivityHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -51,6 +52,6 @@ class MainActivityAdapter(private val listUser: ArrayList<String>, private val c
     }
 
     interface OnItemClickback {
-        fun onItemClicked(data: String)
+        fun onItemClicked(data: PredictionsItem)
     }
 }
