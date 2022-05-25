@@ -76,14 +76,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.btnLogin.setOnClickListener {
-            var email = binding.editTextLoginEmail.text
+            var username = binding.editTextLoginUsername.text
             var password = binding.editTextLoginPassword.text
 
-            var checkEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            var checkEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()
             var checkPassword = password.toString().length >= 6
 
             if (checkEmail && checkPassword){
-                loginViewModel.postLogin(email.toString(), password.toString())
+                loginViewModel.postLogin(username.toString(), password.toString())
             }else{
                 Toast.makeText(this@LoginActivity, "Unable to Login", Toast.LENGTH_SHORT).show()
             }
