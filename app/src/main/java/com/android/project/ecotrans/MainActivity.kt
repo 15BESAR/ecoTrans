@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.project.ecotrans.databinding.ActivityMainBinding
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.response.PredictionsItem
+import com.android.project.ecotrans.view_model.LoginViewModel
 import com.android.project.ecotrans.view_model.MainViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
 
@@ -24,6 +25,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var loginViewModel: LoginViewModel
     private lateinit var token: String
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -111,7 +113,18 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getUser().observe(this) { user ->
             if(!user.isLogin){
                 startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+            }
+        }
+
+
+        loginViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(UserPreference.getInstance(dataStore), this)
+        )[LoginViewModel::class.java]
+
+        loginViewModel.isDetailed.observe(this){
+            if (!it){
+                startActivity(Intent(this, ProfileActivity::class.java))
             }
         }
 
