@@ -20,16 +20,16 @@ import retrofit2.Response
 
 class MainViewModel(private val pref: UserPreference) : ViewModel() {
 
-    var input: String = "jalan"
-    fun querySearch(string: String){
-        input = string
-        searchLocation()
-    }
+//    var input: String = "jalan"
+//    fun querySearch(string: String){
+//        input = string
+//        searchLocation()
+//    }
 
-    private var _listPredictionsItem = MutableLiveData<List<PredictionsItem>>()
-    var listPredictionsItem: LiveData<List<PredictionsItem>> = _listPredictionsItem
-    private var _isLoadingLocationList = MutableLiveData<Boolean>()
-    var isLoadingLocationList: LiveData<Boolean> = _isLoadingLocationList
+//    private var _listPredictionsItem = MutableLiveData<List<PredictionsItem>>()
+//    var listPredictionsItem: LiveData<List<PredictionsItem>> = _listPredictionsItem
+//    private var _isLoadingLocationList = MutableLiveData<Boolean>()
+//    var isLoadingLocationList: LiveData<Boolean> = _isLoadingLocationList
 
 
     private var _userData = MutableLiveData<User>()
@@ -89,41 +89,43 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
         })
     }
 
-    fun searchLocation() {
-        _isLoadingLocationList.value = true
-        _isError.value = false
-        var autoLocation: ResponseAutoComplete
-
-        val json = JSONObject()
-        json.put("input", input)
-        val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
-
-        var client = ApiConfig.getApiService().searchLocation(requestBody)
-        client.enqueue(object : Callback<ResponseAutoComplete> {
-            override fun onResponse(
-                call: Call<ResponseAutoComplete>,
-                response: retrofit2.Response<ResponseAutoComplete>
-            ) {
-                _isLoadingLocationList.value = false
-                if (response.isSuccessful) {
-
-                    _listPredictionsItem.value = response.body()?.predictions as List<PredictionsItem>
-
-//                    _errorMessage.value = "login " + response.message() as String
-                } else {
-                    Log.e("MainActivity", "onFailure: ${response.message()}")
-
-//                    _errorMessage.value = "Wrong Password or Email"
-//                    _isError.value = true
-                }
-            }
-            override fun onFailure(call: Call<ResponseAutoComplete>, t: Throwable) {
-//                _isLoading.value = false
-//                _isError.value = true
-//                _errorMessage.value = t.message as String
-                Log.e("MainActivity", "onFailure: ${t.message}")
-            }
-        })
-    }
+//    fun searchLocation() {
+//
+//        _isLoadingLocationList.value = true
+//
+//        _isError.value = false
+//        var autoLocation: ResponseAutoComplete
+//
+//        val json = JSONObject()
+//        json.put("input", input)
+//        val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//
+//        var client = ApiConfig.getApiService().searchLocation(requestBody)
+//        client.enqueue(object : Callback<ResponseAutoComplete> {
+//            override fun onResponse(
+//                call: Call<ResponseAutoComplete>,
+//                response: retrofit2.Response<ResponseAutoComplete>
+//            ) {
+//                _isLoadingLocationList.value = false
+//                if (response.isSuccessful) {
+//
+//                    _listPredictionsItem.value = response.body()?.predictions as List<PredictionsItem>
+//
+////                    _errorMessage.value = "login " + response.message() as String
+//                } else {
+//                    Log.e("MainActivity", "onFailure: ${response.message()}")
+//
+////                    _errorMessage.value = "Wrong Password or Email"
+////                    _isError.value = true
+//                }
+//            }
+//            override fun onFailure(call: Call<ResponseAutoComplete>, t: Throwable) {
+////                _isLoading.value = false
+////                _isError.value = true
+////                _errorMessage.value = t.message as String
+//                Log.e("MainActivity", "onFailure: ${t.message}")
+//            }
+//        })
+//    }
 
 }

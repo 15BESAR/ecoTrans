@@ -27,7 +27,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var loginViewModel: LoginViewModel
     private lateinit var token: String
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -45,13 +44,13 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                mainViewModel.querySearch(query)
-                mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
-                    setLocationList(items)
-                }
-                mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
-                    showLoadingLocationList(it)
-                }
+//                mainViewModel.querySearch(query)
+//                mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
+//                    setLocationList(items)
+//                }
+//                mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
+//                    showLoadingLocationList(it)
+//                }
                 searchView.clearFocus()
                 return true
             }
@@ -120,13 +119,13 @@ class MainActivity : AppCompatActivity() {
             token = it.token
         }
 
-        //livedata LocationList
-        mainViewModel.listPredictionsItem.observe(this) { items ->
-            setLocationList(items)
-        }
-        mainViewModel.isLoadingLocationList.observe(this) {
-            showLoadingLocationList(it)
-        }
+//        //livedata LocationList
+//        mainViewModel.listPredictionsItem.observe(this) { items ->
+//            setLocationList(items)
+//        }
+//        mainViewModel.isLoadingLocationList.observe(this) {
+//            showLoadingLocationList(it)
+//        }
 
         //!isLogin
         mainViewModel.getUser().observe(this) { user ->
@@ -157,16 +156,16 @@ class MainActivity : AppCompatActivity() {
         user.email
     }
 
-    private fun setLocationList(it: List<PredictionsItem>) {
-        val adapter = MainActivityAdapter(it, this)
-        binding.recyclerViewMainLocationList.adapter = adapter
-
-        adapter.setOnItemClickCallback(object : MainActivityAdapter.OnItemClickback{
-            override fun onItemClicked(location: PredictionsItem) {
-                selectedLocation(location)
-            }
-        })
-    }
+//    private fun setLocationList(it: List<PredictionsItem>) {
+//        val adapter = MainActivityAdapter(it, this)
+//        binding.recyclerViewMainLocationList.adapter = adapter
+//
+//        adapter.setOnItemClickCallback(object : MainActivityAdapter.OnItemClickback{
+//            override fun onItemClicked(location: PredictionsItem) {
+//                selectedLocation(location)
+//            }
+//        })
+//    }
     private fun selectedLocation(location: PredictionsItem){
         val intent = Intent(this@MainActivity, LocationDetailActivity::class.java)
         intent.putExtra("Location", location)
@@ -181,13 +180,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showLoadingLocationList(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBarMainLocationList.visibility = View.VISIBLE
-        } else {
-            binding.progressBarMainLocationList.visibility = View.GONE
-        }
-    }
+//    private fun showLoadingLocationList(isLoading: Boolean) {
+//        if (isLoading) {
+//            binding.progressBarMainLocationList.visibility = View.VISIBLE
+//        } else {
+//            binding.progressBarMainLocationList.visibility = View.GONE
+//        }
+//    }
 
     private fun showErrorMessage(errorMessage: String){
         Toast.makeText(this@MainActivity, errorMessage.toString(), Toast.LENGTH_SHORT).show()
