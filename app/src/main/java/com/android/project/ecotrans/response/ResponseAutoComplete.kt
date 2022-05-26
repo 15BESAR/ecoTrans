@@ -22,7 +22,6 @@ data class MatchedSubstringsItem(
 ): Parcelable
 
 @Parcelize
-
 data class MainTextMatchedSubstringsItem(
 
 	@field:SerializedName("offset")
