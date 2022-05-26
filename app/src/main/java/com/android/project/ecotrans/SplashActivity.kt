@@ -53,7 +53,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun setupAction() {
         Handler().postDelayed({
-            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+            val intent = Intent(this@SplashActivity, MainActivity::class.java)
 //            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
             startActivity(intent)
             finish()
