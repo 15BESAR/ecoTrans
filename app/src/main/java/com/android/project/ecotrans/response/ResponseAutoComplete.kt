@@ -1,13 +1,17 @@
 package com.android.project.ecotrans.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ResponseAutoComplete(
 
 	@field:SerializedName("predictions")
 	val predictions: List<PredictionsItem?>? = null
-)
+): Parcelable
 
+@Parcelize
 data class MatchedSubstringsItem(
 
 	@field:SerializedName("offset")
@@ -15,8 +19,9 @@ data class MatchedSubstringsItem(
 
 	@field:SerializedName("length")
 	val length: Int? = null
-)
+): Parcelable
 
+@Parcelize
 data class MainTextMatchedSubstringsItem(
 
 	@field:SerializedName("offset")
@@ -24,8 +29,9 @@ data class MainTextMatchedSubstringsItem(
 
 	@field:SerializedName("length")
 	val length: Int? = null
-)
+): Parcelable
 
+@Parcelize
 data class PredictionsItem(
 
 	@field:SerializedName("types")
@@ -45,8 +51,9 @@ data class PredictionsItem(
 
 	@field:SerializedName("place_id")
 	val placeId: String? = null
-)
+): Parcelable
 
+@Parcelize
 data class TermsItem(
 
 	@field:SerializedName("offset")
@@ -54,8 +61,9 @@ data class TermsItem(
 
 	@field:SerializedName("value")
 	val value: String? = null
-)
+): Parcelable
 
+@Parcelize
 data class StructuredFormatting(
 
 	@field:SerializedName("main_text_matched_substrings")
@@ -66,4 +74,4 @@ data class StructuredFormatting(
 
 	@field:SerializedName("main_text")
 	val mainText: String? = null
-)
+): Parcelable
