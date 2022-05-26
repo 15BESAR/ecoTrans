@@ -89,6 +89,9 @@ class RegisterActivity : AppCompatActivity() {
                     date.toString()
 //                    username.toString(), email.toString(), password.toString()
                 )
+
+                startActivity(Intent(this, LoginActivity::class.java))
+
             }else{
                 Toast.makeText(this@RegisterActivity, "Unable to Register", Toast.LENGTH_SHORT).show()
             }
