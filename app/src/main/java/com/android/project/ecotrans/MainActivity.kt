@@ -145,11 +145,19 @@ class MainActivity : AppCompatActivity() {
         TODO("Not yet implemented")
     }
 
-    private fun showLoading(isLoading: Boolean) {
+    private fun showLoadingMainDashboard(isLoading: Boolean) {
         if (isLoading) {
-//            binding.mprogressBar.visibility = View.VISIBLE
+            binding.progressBarMainDashboard.visibility = View.VISIBLE
         } else {
-//            binding.mprogressBar.visibility = View.GONE
+            binding.progressBarMainDashboard.visibility = View.GONE
+        }
+    }
+
+    private fun showLoadingLocationList(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBarMainLocationList.visibility = View.VISIBLE
+        } else {
+            binding.progressBarMainLocationList.visibility = View.GONE
         }
     }
 
