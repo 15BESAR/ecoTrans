@@ -68,7 +68,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }else if (item.itemId == R.id.main_profile){
 //            val intent = Intent(this, FavoriteActivity::class.java)
-            startActivity(intent)
+//            startActivity(intent)
+
+            mainViewModel = ViewModelProvider(
+                this,
+                ViewModelFactory(UserPreference.getInstance(dataStore), this)
+            )[MainViewModel::class.java]
+            mainViewModel.logout()
         }
 
         return super.onOptionsItemSelected(item)
@@ -79,20 +85,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        token = intent.getStringExtra("token").toString()
-
-        setupView()
+//        setupView()
         setupViewModel()
         setupAction()
-        setupAnimation()
+//        setupAnimation()
     }
 
-    private fun setupAnimation() {
-        TODO("Not yet implemented")
-    }
-
+//    private fun setupAnimation() {
+//        TODO("Not yet implemented")
+//    }
+//
     private fun setupAction() {
-        TODO("Not yet implemented")
+        binding.btnPurchase.setOnClickListener{
+            var isDetailed = !binding.textViewMainVoucherInterest.text.isNullOrEmpty()
+
+            val intent = Intent(this, PurchaseActivity::class.java)
+            intent.putExtra("isDetailed", isDetailed)
+            startActivity(intent)
+
+        }
     }
 
     private fun setupViewModel() {
@@ -107,7 +118,11 @@ class MainActivity : AppCompatActivity() {
 
         //livedata Dashboard
         mainViewModel.getUser().observe(this){
-            mainViewModel.getUserData(token, it.id)
+            if (!it.token.isNullOrEmpty()){
+                token = it.token
+                mainViewModel.getUserData(it.token, it.id)
+            }
+
         }
         mainViewModel.userData.observe(this){
             setDashboard(it)
@@ -115,9 +130,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.isLoadingDashboard.observe(this) {
             showLoadingMainDashboard(it)
         }
-        mainViewModel.getUser().observe(this) {
-            token = it.token
-        }
+
 
 //        //livedata LocationList
 //        mainViewModel.listPredictionsItem.observe(this) { items ->
@@ -143,17 +156,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupView() {
-        TODO("Not yet implemented")
-    }
+//    private fun setupView() {
+//        TODO("Not yet implemented")
+//    }
 
     private fun setDashboard(user: User) {
-        user.firstName
-        user.lastName
-        user.points
-        user.voucherInterest
-        user.username
-        user.email
+        binding.textViewMainFirstname.text = user.firstName
+        binding.textViewMainLastname.text = user.lastName
+        binding.textViewMainPoints.text = user.points.toString()
+        binding.textViewMainVoucherInterest.text = user.voucherInterest
+        binding.textViewMainUsername.text = user.username
+        binding.textViewMainEmail.text = user.email
     }
 
 //    private fun setLocationList(it: List<PredictionsItem>) {
@@ -166,16 +179,25 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        })
 //    }
-    private fun selectedLocation(location: PredictionsItem){
-        val intent = Intent(this@MainActivity, LocationDetailActivity::class.java)
-        intent.putExtra("Location", location)
-        startActivity(intent)
-    }
+
+//    private fun selectedLocation(location: PredictionsItem){
+//        val intent = Intent(this@MainActivity, LocationDetailActivity::class.java)
+//        intent.putExtra("Location", location)
+//        startActivity(intent)
+//    }
 
     private fun showLoadingMainDashboard(isLoading: Boolean) {
         if (isLoading) {
+            binding.textViewMainFirstname.visibility = View.GONE
+            binding.textViewMainLastname.visibility = View.GONE
+            binding.textViewMainEmail.visibility = View.GONE
+            binding.btnPurchase.visibility = View.GONE
             binding.progressBarMainDashboard.visibility = View.VISIBLE
         } else {
+            binding.textViewMainFirstname.visibility = View.VISIBLE
+            binding.textViewMainLastname.visibility = View.VISIBLE
+            binding.textViewMainEmail.visibility = View.VISIBLE
+            binding.btnPurchase.visibility = View.VISIBLE
             binding.progressBarMainDashboard.visibility = View.GONE
         }
     }
