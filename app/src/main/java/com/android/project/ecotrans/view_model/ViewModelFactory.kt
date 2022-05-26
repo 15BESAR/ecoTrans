@@ -22,6 +22,9 @@ class ViewModelFactory(private val pref: UserPreference, private val context: Co
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(pref) as T
             }
+            modelClass.isAssignableFrom(PurchaseViewModel::class.java) -> {
+                PurchaseViewModel(pref) as T
+            }
 //            modelClass.isAssignableFrom(MainAddViewModel::class.java) -> {
 //                MainAddViewModel(pref) as T
 //            }
