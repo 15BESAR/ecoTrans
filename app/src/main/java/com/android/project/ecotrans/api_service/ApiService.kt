@@ -32,8 +32,10 @@ interface ApiService {
         @Body requestBody: RequestBody
     ): Call<ResponseLogin>
 
+    @Headers("Content-Type: application/json")
     @GET("user/{id}")
     fun user(
+        @Header("Authorization") token: String,
         @Path("id") id: String
     ): Call<User>
 
