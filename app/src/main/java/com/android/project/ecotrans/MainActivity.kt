@@ -3,17 +3,19 @@ package com.android.project.ecotrans
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.android.project.ecotrans.databinding.ActivityMainBinding
+import com.android.project.ecotrans.model.User
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.response.PredictionsItem
 import com.android.project.ecotrans.view_model.LoginViewModel
@@ -78,6 +80,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        token = intent.getStringExtra("token").toString()
+
         setupView()
         setupViewModel()
         setupAction()
@@ -98,36 +102,59 @@ class MainActivity : AppCompatActivity() {
             ViewModelFactory(UserPreference.getInstance(dataStore), this)
         )[MainViewModel::class.java]
 
-        mainViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
         mainViewModel.errorMessage.observe(this) {
             showErrorMessage(it)
+        }
+
+        //livedata Dashboard
+        mainViewModel.getUser().observe(this){
+            mainViewModel.getUserData(token, it.id)
+        }
+        mainViewModel.userData.observe(this){
+            setDashboard(it)
+        }
+        mainViewModel.isLoadingDashboard.observe(this) {
+            showLoadingMainDashboard(it)
         }
         mainViewModel.getUser().observe(this) {
             token = it.token
         }
-        mainViewModel.listPredictionsItem.observe(this) {
-            setLocationList(it)
+
+        //livedata LocationList
+        mainViewModel.listPredictionsItem.observe(this) { items ->
+            setLocationList(items)
         }
+        mainViewModel.isLoadingLocationList.observe(this) {
+            showLoadingLocationList(it)
+        }
+
+        //!isLogin
         mainViewModel.getUser().observe(this) { user ->
             if(!user.isLogin){
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         }
 
-
-        loginViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(UserPreference.getInstance(dataStore), this)
-        )[LoginViewModel::class.java]
-
-        loginViewModel.isDetailed.observe(this){
+        //!isDetailed
+        mainViewModel.isDetailed.observe(this){
             if (!it){
                 startActivity(Intent(this, ProfileActivity::class.java))
             }
         }
 
+    }
+
+    private fun setupView() {
+        TODO("Not yet implemented")
+    }
+
+    private fun setDashboard(user: User) {
+        user.firstName
+        user.lastName
+        user.points
+        user.voucherInterest
+        user.username
+        user.email
     }
 
     private fun setLocationList(it: List<PredictionsItem>) {
