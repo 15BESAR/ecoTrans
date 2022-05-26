@@ -28,9 +28,15 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
 
     private var _listPredictionsItem = MutableLiveData<List<PredictionsItem>>()
     var listPredictionsItem: LiveData<List<PredictionsItem>> = _listPredictionsItem
+    private var _isLoadingLocationList = MutableLiveData<Boolean>()
+    var isLoadingLocationList: LiveData<Boolean> = _isLoadingLocationList
 
-    private var _isLoading = MutableLiveData<Boolean>()
-    var isLoading: LiveData<Boolean> = _isLoading
+
+    private var _userData = MutableLiveData<User>()
+    var userData: LiveData<User> = _userData
+    private var _isLoadingDasboard = MutableLiveData<Boolean>()
+    var isLoadingDashboard: LiveData<Boolean> = _isLoadingDasboard
+
 
     private var _isError = MutableLiveData<Boolean>()
     var isError: LiveData<Boolean> = _isError
