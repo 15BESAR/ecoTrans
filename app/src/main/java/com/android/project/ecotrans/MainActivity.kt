@@ -135,14 +135,15 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerViewMainLocationList.adapter = adapter
 
         adapter.setOnItemClickCallback(object : MainActivityAdapter.OnItemClickback{
-            override fun onItemClicked(data: PredictionsItem) {
-                //TODO
+            override fun onItemClicked(location: PredictionsItem) {
+                selectedLocation(location)
             }
         })
     }
-
-    private fun setupView() {
-        TODO("Not yet implemented")
+    private fun selectedLocation(location: PredictionsItem){
+        val intent = Intent(this@MainActivity, LocationDetailActivity::class.java)
+        intent.putExtra("Location", location)
+        startActivity(intent)
     }
 
     private fun showLoadingMainDashboard(isLoading: Boolean) {
