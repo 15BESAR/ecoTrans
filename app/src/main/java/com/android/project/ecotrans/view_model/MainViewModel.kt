@@ -1,16 +1,14 @@
 package com.android.project.ecotrans.view_model
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.android.project.ecotrans.api_config.ApiConfig
 import com.android.project.ecotrans.model.User
 import com.android.project.ecotrans.model.UserModel
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.response.PredictionsItem
 import com.android.project.ecotrans.response.ResponseAutoComplete
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -50,6 +48,12 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
 
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            pref.logout()
+        }
     }
 
     init {
