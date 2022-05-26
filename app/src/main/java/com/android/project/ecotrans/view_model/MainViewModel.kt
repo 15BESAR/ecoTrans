@@ -23,7 +23,7 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
     var input: String = "jalan"
     fun querySearch(string: String){
         input = string
-//        searchUser()
+        searchLocation()
     }
 
     private var _listPredictionsItem = MutableLiveData<List<PredictionsItem>>()
@@ -40,12 +40,13 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
 
     private var _isError = MutableLiveData<Boolean>()
     var isError: LiveData<Boolean> = _isError
-
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
-    private var _userData = MutableLiveData<User>()
-    var userData: LiveData<User> = _userData
+
+    private var _isDetailed = MutableLiveData<Boolean>()
+    var isDetailed: LiveData<Boolean> = _isDetailed
+
 
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
@@ -54,19 +55,24 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
     init {
     }
 
-    fun getUser(id: String) {
-        _isLoading.value = true
+    fun getUserData(token: String, id: String) {
+        _isLoadingDasboard.value = true
         _isError.value = false
-        var user: User
-        var client = ApiConfig.getApiService().user(id)
+        _isDetailed.value = true
+
+        var client = ApiConfig.getApiService().user("Bearer $token", id)
         client.enqueue(object : Callback<User> {
             override fun onResponse(
                 call: Call<User>,
                 response: retrofit2.Response<User>
             ) {
-                _isLoading.value = false
+                _isLoadingDasboard.value = false
                 if (response.isSuccessful) {
-                    user = response.body() as User
+                    _userData.value = response.body() as User
+                    if(_userData.value?.job.isNullOrEmpty()){
+                        _isDetailed.value = false
+                    }
+
                 } else {
                     Log.e("MainActivity", "onFailure: ${response.message()}")
 
@@ -83,8 +89,8 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
         })
     }
 
-    fun searchLocation(input: String) {
-        _isLoading.value = true
+    fun searchLocation() {
+        _isLoadingLocationList.value = true
         _isError.value = false
         var autoLocation: ResponseAutoComplete
 
@@ -98,7 +104,7 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
                 call: Call<ResponseAutoComplete>,
                 response: retrofit2.Response<ResponseAutoComplete>
             ) {
-                _isLoading.value = false
+                _isLoadingLocationList.value = false
                 if (response.isSuccessful) {
 
                     _listPredictionsItem.value = response.body()?.predictions as List<PredictionsItem>
