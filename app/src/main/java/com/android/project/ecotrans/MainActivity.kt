@@ -44,12 +44,12 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 mainViewModel.querySearch(query)
-//                mainViewModel.listUser.observe(this@MainActivity) { items ->
-//                    setItems(items)
-//                }
-//                mainViewModel.isLoading.observe(this@MainActivity) {
-//                    showLoading(it)
-//                }
+                mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
+                    setLocationList(items)
+                }
+                mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
+                    showLoadingLocationList(it)
+                }
                 searchView.clearFocus()
                 return true
             }
