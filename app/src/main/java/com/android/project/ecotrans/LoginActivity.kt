@@ -69,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.getUser().observe(this) { user ->
             if(user.isLogin){
                 startActivity(Intent(this, MainActivity::class.java))
+                intent.putExtra("token", user.token)
                 finish()
             }
         }
