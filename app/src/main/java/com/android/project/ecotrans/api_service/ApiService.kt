@@ -39,6 +39,14 @@ interface ApiService {
         @Path("id") id: String
     ): Call<User>
 
+    @Headers("Content-Type: application/json")
+    @PUT("user/{id}")
+    fun putuserdata(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Body requestBody: RequestBody
+    ): Call<User>
+
 
 //    @FormUrlEncoded
 //    @POST("login")
