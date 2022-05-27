@@ -22,6 +22,9 @@ class ProfileViewModel(private val pref: UserPreference) : ViewModel() {
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
+    private var _isDetailed = MutableLiveData<Boolean>()
+    var isDetailed: LiveData<Boolean> = _isDetailed
+
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
     }
@@ -38,6 +41,7 @@ class ProfileViewModel(private val pref: UserPreference) : ViewModel() {
     fun addProfileData(token: String, id: String, requestBody: RequestBody) {
         _isLoadingProfileData.value = true
         _isError.value = false
+        _isDetailed.value = false
 
         var client = ApiConfig.getApiService().putuserdata("Bearer $token", id, requestBody)
         client.enqueue(object : Callback<User> {
@@ -47,19 +51,18 @@ class ProfileViewModel(private val pref: UserPreference) : ViewModel() {
             ) {
                 _isLoadingProfileData.value = false
                 if (response.isSuccessful) {
-
+                    _errorMessage.value = response.message() as String
+                    _isDetailed.value = true
                 } else {
-                    Log.e("MainActivity", "onFailure: ${response.message()}")
+                    Log.e("ProfileActivity", "onFailure: ${response.message()}")
 
-//                    _errorMessage.value = "Wrong Password or Email"
-//                    _isError.value = true
+                    _errorMessage.value = response.message() as String
                 }
             }
             override fun onFailure(call: Call<User>, t: Throwable) {
-//                _isLoading.value = false
-//                _isError.value = true
-//                _errorMessage.value = t.message as String
-                Log.e("MainActivity", "onFailure: ${t.message}")
+                _errorMessage.value = t.message as String
+                _isLoadingProfileData.value = false
+                Log.e("ProfileActivity", "onFailure: ${t.message}")
             }
         })
     }
