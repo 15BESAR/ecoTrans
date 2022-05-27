@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/imageView_voucherListItem_smallMap"
-            android:layout_width="102dp"
-            android:layout_height="59dp"
+            android:layout_width="71dp"
+            android:layout_height="66dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:elevation="15dp"
@@ -105,14 +105,25 @@
             android:id="@+id/textView_voucherListItem_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="24dp"
             android:fontFamily="@font/musticapro_semibold"
             android:text="0 left"
             android:textColor="@color/grey_1"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintVertical_bias="0.493" />
+            card_view:layout_constraintVertical_bias="0.144" />
+
+        <ImageButton
+            android:id="@+id/imageButton_voucherListItem_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_exit_to_app_24"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="@+id/textView_voucherListItem_stock"
+            card_view:layout_constraintStart_toStartOf="@+id/textView_voucherListItem_stock"
+            card_view:layout_constraintTop_toBottomOf="@+id/textView_voucherListItem_stock"
+            card_view:layout_constraintVertical_bias="0.363" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
