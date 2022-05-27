@@ -102,7 +102,14 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, PurchaseActivity::class.java)
             intent.putExtra("isDetailed", isDetailed)
             startActivity(intent)
+        }
 
+        binding.btnGotodetail.setOnClickListener {
+            val description = "Jalan Tubagus Ismail Raya No.76, Sekeloa, Kota Bandung, Jawa Barat, Indonesia"
+            val place_id = "ChIJTTd6FwDnaC4RkQxw5RdbZhk"
+            intent = Intent(this, LocationDetailActivity::class.java)
+            intent.putExtra("description", description)
+            intent.putExtra("place_id", place_id)
         }
     }
 
