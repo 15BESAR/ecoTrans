@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="HOME PAGE"-->
-<!--        android:textSize="50dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView_main_dashboard"
         android:layout_width="0dp"
@@ -223,5 +213,15 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toTopOf="@+id/recyclerView_main_locationList"-->
 <!--        tools:visibility="visible" />-->
+
+    <com.android.project.ecotrans.custom_view.MyButton
+        android:id="@+id/btn_gotodetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="gotoDetail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liner_main_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
