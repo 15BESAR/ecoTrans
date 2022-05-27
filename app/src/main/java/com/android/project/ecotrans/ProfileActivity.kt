@@ -1,13 +1,17 @@
 package com.android.project.ecotrans
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import com.android.project.ecotrans.databinding.ActivityMainBinding
 import com.android.project.ecotrans.databinding.ActivityProfileBinding
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.view_model.ProfileViewModel
@@ -27,7 +31,8 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupView()
         setupViewModel()
@@ -41,9 +46,20 @@ class ProfileActivity : AppCompatActivity() {
 //
     private fun setupAction() {
         binding.btnSave.setOnClickListener {
+
+            val isMarried: Boolean
+            isMarried = binding.autoCompleteTextViewProfileMarriageStatus.text.toString() == "True"
+
+            val income = binding.autoCompleteTextViewProfileIncome.text.toString().toInt()
+
             val json = JSONObject()
-//                json.put("username", username)
-//                json.put("password", password)
+            json.put("job", binding.autoCompleteTextViewProfileJob.text)
+            json.put("voucherInterest", binding.autoCompleteTextViewProfileVourcherInterest.text)
+            json.put("domicile", binding.autoCompleteTextViewProfileDomicile.text)
+            json.put("education", binding.autoCompleteTextViewProfileEducation.text)
+            json.put("marriageStatus", isMarried)
+            json.put("income", income)
+            json.put("vehicle", binding.autoCompleteTextViewProfileVehicle.text)
             val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
             if (!token.isNullOrEmpty() && !id.isNullOrEmpty()){
@@ -57,6 +73,20 @@ class ProfileActivity : AppCompatActivity() {
             this,
             ViewModelFactory(UserPreference.getInstance(dataStore), this)
         )[ProfileViewModel::class.java]
+
+        profileViewModel.errorMessage.observe(this){
+            showErrorMessage(it)
+        }
+
+        profileViewModel.isLoadingProfileData.observe(this) {
+            showLoading(it)
+        }
+
+        profileViewModel.isDetailed.observe(this){
+            if(it){
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+        }
 
         profileViewModel.getUser().observe(this){
             if (!it.token.isNullOrEmpty()){
@@ -72,19 +102,23 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setupView() {
         supportActionBar?.hide()
+        binding.autoCompleteTextViewProfileVourcherInterest.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.interest)))
+        binding.autoCompleteTextViewProfileEducation.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.education)))
+        binding.autoCompleteTextViewProfileMarriageStatus.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.status)))
+        binding.autoCompleteTextViewProfileVehicle.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.vehicle)))
     }
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
-//            binding.mprogressBar.visibility = View.VISIBLE
+            binding.progressBarSave.visibility = View.VISIBLE
+            binding.btnSave.visibility = View.GONE
         } else {
-//            binding.mprogressBar.visibility = View.GONE
+            binding.progressBarSave.visibility = View.GONE
+            binding.btnSave.visibility = View.VISIBLE
         }
     }
 
-    private fun showError(isError: Boolean){
-        if (isError){
-            Toast.makeText(this@ProfileActivity, "ERROR", Toast.LENGTH_SHORT).show()
-        }
+    private fun showErrorMessage(errorMessage: String){
+        Toast.makeText(this@ProfileActivity, errorMessage.toString(), Toast.LENGTH_SHORT).show()
     }
 }
