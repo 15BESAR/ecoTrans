@@ -15,7 +15,7 @@
         android:title="TODO" />
     <item
         android:id="@+id/main_profile"
-        android:icon="@drawable/ic_baseline_profile_24"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
         app:showAsAction="collapseActionView|always"
         android:title="TODO" />
 </menu>
