@@ -3,8 +3,49 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string-array name="job">
-        <item>Student</item>
-        <item>Entrepreneur</item>
+<!--    <string-array name="status">-->
+<!--        <item>Married</item>-->
+<!--        <item>Not Married</item>-->
+<!--        <item>Divorce</item>-->
+<!--    </string-array>-->
+
+    <string-array name="status">
+        <item>True</item>
+        <item>False</item>
     </string-array>
+
+    <string-array name="education">
+        <item>High School Diploma</item>
+        <item>Bachelors</item>
+        <item>PhD</item>
+        <item>Master</item>
+    </string-array>
+
+<!--    <string-array name="income">-->
+<!--        <item>Less than Rp2,000,000</item>-->
+<!--        <item>Rp2,000,000 - Rp5,000,000</item>-->
+<!--        <item>Rp5,000,000 - Rp10,000,000</item>-->
+<!--        <item>Rp10,000,000 - Rp20,000,000</item>-->
+<!--        <item>More than Rp20,000,000</item>-->
+<!--    </string-array>-->
+
+    <string-array name="interest">
+        <item>Electronics Vouchers</item>
+        <item>Fashion Vouchers</item>
+        <item>Health and Beauty Vouchers</item>
+        <item>Food Vouchers</item>
+        <item>Automotive Vouchers</item>
+        <item>Public Transportation Cashback Vouchers</item>
+        <item>Household Utilities Cashback Vouchers</item>
+    </string-array>
+
+    <string-array name="vehicle">
+        <item>Car</item>
+        <item>Motorcycle</item>
+        <item>Bicycle</item>
+        <item>Bus</item>
+        <item>Train</item>
+        <item>Taxi</item>
+    </string-array>
+
 </resources>
