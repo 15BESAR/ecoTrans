@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.android.project.ecotrans.model.UserPreference
 
+
 class ViewModelFactory(private val pref: UserPreference, private val context: Context) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -25,9 +26,9 @@ class ViewModelFactory(private val pref: UserPreference, private val context: Co
             modelClass.isAssignableFrom(PurchaseViewModel::class.java) -> {
                 PurchaseViewModel(pref) as T
             }
-//            modelClass.isAssignableFrom(MainAddViewModel::class.java) -> {
-//                MainAddViewModel(pref) as T
-//            }
+            modelClass.isAssignableFrom(LocationDetailViewModel::class.java) -> {
+                LocationDetailViewModel(pref) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
