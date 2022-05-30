@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -13,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.project.ecotrans.databinding.ActivityFinishBinding
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.view_model.FinishViewModel
-import com.android.project.ecotrans.view_model.LoginViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -62,6 +60,12 @@ class FinishActivity : AppCompatActivity() {
 
     private fun setupView() {
         supportActionBar?.hide()
+
+        binding.textViewFinishReward.text = "100 Given"
+        binding.textViewFinishEmissionSaved.text = "42.01"
+        binding.textViewFinishDistanceTraveled.text = "2.1 km"
+        binding.textViewFinishTimeFinish.text = "16:00"
+        binding.textViewFinishTimeStart.text = "15:00"
     }
 
     private fun showLoading(it: Boolean) {
