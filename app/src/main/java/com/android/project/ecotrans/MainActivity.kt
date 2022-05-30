@@ -14,11 +14,14 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.project.ecotrans.databinding.ActivityMainBinding
 import com.android.project.ecotrans.model.User
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.response.PredictionsItem
-import com.android.project.ecotrans.view_model.LoginViewModel
+import com.android.project.ecotrans.response.ResponseAutoComplete
+import com.android.project.ecotrans.response.ResponseVoucher
 import com.android.project.ecotrans.view_model.MainViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
 
@@ -40,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         val searchView = menu.findItem(R.id.main_search).actionView as SearchView
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.queryHint = "insert..."
+        searchView.queryHint = "input location name..."
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -85,13 +88,88 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setupView()
+        setupView()
         setupViewModel()
         setupAction()
 //        setupAnimation()
     }
 
-//    private fun setupAnimation() {
+    private fun setupView() {
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerViewMainLocationList.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        binding.recyclerViewMainLocationList.addItemDecoration(itemDecoration)
+        setupLocationList()
+    }
+
+    private fun setupLocationList(){
+        val listLocation = ArrayList<PredictionsItem>()
+        var location : PredictionsItem
+//        for (item in items!!){
+//            user = User()
+//
+//            user.id = item?.id
+//            user.login = item?.login
+//            user.avatar_url = item?.avatarUrl
+//            user.followers_url = item?.followersUrl
+//            user.following_url = item?.followingUrl
+//            user.type = item?.type
+//            user.url = item?.url
+//
+//            listItem.add(user)
+//        }
+
+        location = PredictionsItem()
+        location.description = "Jalan A"
+        location.placeId = "id = 0"
+        listLocation.add(location)
+
+        location = PredictionsItem()
+        location.description = "Jalan B"
+        location.placeId = "id = 1"
+        listLocation.add(location)
+
+        location = PredictionsItem()
+        location.description = "Jalan C"
+        location.placeId = "id = 2"
+        listLocation.add(location)
+
+        location = PredictionsItem()
+        location.description = "Jalan D"
+        location.placeId = "id = 3"
+        listLocation.add(location)
+
+        location = PredictionsItem()
+        location.description = "Jalan E"
+        location.placeId = "id = 4"
+        listLocation.add(location)
+
+        location = PredictionsItem()
+        location.description = "Jalan F"
+        location.placeId = "id = 5"
+        listLocation.add(location)
+
+
+        val adapter = MainLocationListAdapter()
+        adapter.setContext(this)
+        adapter.setListLocation(listLocation)
+        binding.recyclerViewMainLocationList.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : MainLocationListAdapter.OnItemClickback{
+            override fun onItemClicked(data: PredictionsItem) {
+                selectedLocationDetail(data)
+            }
+        })
+    }
+
+    private fun selectedLocationDetail(data: PredictionsItem) {
+        intent = Intent(this, LocationDetailActivity::class.java)
+        intent.putExtra("location", data)
+        startActivity(intent)
+
+    }
+
+    //    private fun setupAnimation() {
 //        TODO("Not yet implemented")
 //    }
 //
@@ -104,13 +182,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.btnGotodetail.setOnClickListener {
-            val description = "Jalan Tubagus Ismail Raya No.76, Sekeloa, Kota Bandung, Jawa Barat, Indonesia"
-            val place_id = "ChIJTTd6FwDnaC4RkQxw5RdbZhk"
-            intent = Intent(this, LocationDetailActivity::class.java)
-            intent.putExtra("description", description)
-            intent.putExtra("place_id", place_id)
-        }
+//        binding.btnGotodetail.setOnClickListener {
+//            val description = "Jalan Tubagus Ismail Raya No.76, Sekeloa, Kota Bandung, Jawa Barat, Indonesia"
+//            val place_id = "ChIJTTd6FwDnaC4RkQxw5RdbZhk"
+//            intent = Intent(this, LocationDetailActivity::class.java)
+//            intent.putExtra("description", description)
+//            intent.putExtra("place_id", place_id)
+//        }
     }
 
     private fun setupViewModel() {
