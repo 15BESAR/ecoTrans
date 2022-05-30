@@ -33,6 +33,12 @@ class ViewModelFactory(private val pref: UserPreference, private val context: Co
             modelClass.isAssignableFrom(FinishViewModel::class.java) -> {
                 FinishViewModel(pref) as T
             }
+            modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
+                SplashViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(BoughtViewModel::class.java) -> {
+                BoughtViewModel(pref) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
