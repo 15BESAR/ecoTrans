@@ -2,53 +2,64 @@ package com.android.project.ecotrans
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.android.project.ecotrans.databinding.ActivityMainLocationlistItemBinding
 import com.android.project.ecotrans.response.PredictionsItem
+import com.android.project.ecotrans.response.ResponseAutoComplete
+import com.android.project.ecotrans.response.ResponseVoucher
+import com.bumptech.glide.Glide
 
-
-class MainActivityAdapter(private val listLocation: List<PredictionsItem>, private val context: Context) : RecyclerView.Adapter<MainActivityAdapter.MainActivityHolder>(){
+class MainLocationListAdapter() : RecyclerView.Adapter<MainLocationListAdapter.MainLocationListHolder>(){
     private lateinit var onItemClickCallback: OnItemClickback
+    private lateinit var context: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainActivityHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.activity_main_locationlist_item, parent, false)
-        return MainActivityHolder(view)
+    fun setContext(context: Context){
+        this.context = context
+    }
+
+    private val listLocation: ArrayList<PredictionsItem> = ArrayList()
+    fun setListLocation(listLocation: List<PredictionsItem>){
+        this.listLocation.addAll(listLocation)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainLocationListHolder {
+        val binding = ActivityMainLocationlistItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MainLocationListHolder(binding, context)
     }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickback){
         this.onItemClickCallback = onItemClickCallback
     }
 
-    override fun onBindViewHolder(holder: MainActivityHolder, position: Int) {
-//        val (id, avatar_url, url, followers_url, following_url,
-//            name, company, public_repos, follower,
-//            following, type, login) = listUser[position]
-
-//        Glide.with(holder.itemView.context)
-//            .load(avatar_url)
-//            .circleCrop()
-//            .into(holder.imgAvatar)
-//
-//        holder.tvName.text = login
-//        holder.tvType.text = type
-
+    override fun onBindViewHolder(holder: MainLocationListHolder, position: Int) {
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listLocation[holder.adapterPosition])
         }
-
+        holder.bind(listLocation[position])
     }
 
     override fun getItemCount(): Int {
         return listLocation.size
     }
 
-    class MainActivityHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgSmallMap: ImageView = itemView.findViewById(R.id.imageView_locationListItem_smallMap)
-        var tvName: TextView = itemView.findViewById(R.id.textView_locationListItem_name)
-        var tvDetail: TextView = itemView.findViewById(R.id.textView_locationListItem_detail)
+    class MainLocationListHolder(private val binding: ActivityMainLocationlistItemBinding, context: Context) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: PredictionsItem) {
+            with(binding) {
+//                Glide.with(itemView.context)
+//                    .load(user.avatar_url)
+//                    .circleCrop()
+//                    .into(imgAvatar)
+
+                textViewLocationListItemName.text = data.description
+                textViewLocationListItemDetail.text = data.placeId
+            }
+
+        }
     }
 
     interface OnItemClickback {
