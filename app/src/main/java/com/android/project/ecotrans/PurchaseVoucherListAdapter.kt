@@ -2,56 +2,69 @@ package com.android.project.ecotrans
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.android.project.ecotrans.response.PredictionsItem
+import com.android.project.ecotrans.databinding.ActivityPurchaseVoucherlistItemBinding
+import com.android.project.ecotrans.model.UserPreference
+import com.android.project.ecotrans.response.ResponseVoucher
+import com.android.project.ecotrans.view_model.PurchaseViewModel
+import com.android.project.ecotrans.view_model.ViewModelFactory
 
-
-class PurchaseActivityAdapter(private val listLocation: List<PredictionsItem>, private val context: Context) : RecyclerView.Adapter<PurchaseActivityAdapter.PurchaseActivityHolder>(){
+class PurchaseVoucherListAdapter() : RecyclerView.Adapter<PurchaseVoucherListAdapter.PurchaseVoucherListHolder>(){
     private lateinit var onItemClickCallback: OnItemClickback
+    private lateinit var context: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchaseActivityHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.activity_main_locationlist_item, parent, false)
-        return PurchaseActivityHolder(view)
+    fun setContext(context: Context){
+        this.context = context
+    }
+
+    private val listVoucher: ArrayList<ResponseVoucher> = ArrayList()
+    fun setListVoucher(listVoucher: List<ResponseVoucher>){
+        this.listVoucher.addAll(listVoucher)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchaseVoucherListHolder {
+        val binding = ActivityPurchaseVoucherlistItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PurchaseVoucherListHolder(binding, context)
     }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickback){
         this.onItemClickCallback = onItemClickCallback
     }
 
-    override fun onBindViewHolder(holder: PurchaseActivityHolder, position: Int) {
-//        val (id, avatar_url, url, followers_url, following_url,
-//            name, company, public_repos, follower,
-//            following, type, login) = listUser[position]
-
-//        Glide.with(holder.itemView.context)
-//            .load(avatar_url)
-//            .circleCrop()
-//            .into(holder.imgAvatar)
-//
-//        holder.tvName.text = login
-//        holder.tvType.text = type
-
+    override fun onBindViewHolder(holder: PurchaseVoucherListHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listLocation[holder.adapterPosition])
+            onItemClickCallback.onItemClicked(listVoucher[holder.adapterPosition])
         }
-
+        holder.bind(listVoucher[position])
     }
 
     override fun getItemCount(): Int {
-        return listLocation.size
+        return listVoucher.size
     }
 
-    class PurchaseActivityHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgSmallMap: ImageView = itemView.findViewById(R.id.imageView_locationListItem_smallMap)
-        var tvName: TextView = itemView.findViewById(R.id.textView_locationListItem_name)
-        var tvDetail: TextView = itemView.findViewById(R.id.textView_locationListItem_detail)
+    class PurchaseVoucherListHolder(private val binding: ActivityPurchaseVoucherlistItemBinding, context: Context) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: ResponseVoucher) {
+            with(binding) {
+//                Glide.with(itemView.context)
+//                    .load(user.avatar_url)
+//                    .circleCrop()
+//                    .into(imgAvatar)
+
+                textViewVoucherListItemName.text = data.voucherName
+                textViewVoucherListItemCategory.text = data.category
+                textViewVoucherListItemPartner.text = data.partnerName
+                textViewVoucherListItemPrice.text = data.price.toString()
+                textViewVoucherListItemStock.text = data.stock.toString()
+            }
+
+        }
     }
 
     interface OnItemClickback {
-        fun onItemClicked(data: PredictionsItem)
+        fun onItemClicked(data: ResponseVoucher)
     }
 }
