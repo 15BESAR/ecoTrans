@@ -1,6 +1,7 @@
 package com.android.project.ecotrans
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -9,10 +10,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.android.project.ecotrans.databinding.ActivityLocationDetailBinding
-import com.android.project.ecotrans.databinding.ActivityMainBinding
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.view_model.LocationDetailViewModel
-import com.android.project.ecotrans.view_model.MainViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -37,7 +36,9 @@ class LocationDetailActivity : AppCompatActivity() {
 //    }
 
     private fun setupAction() {
-//        TODO("Not yet implemented")
+        binding.btnStart.setOnClickListener {
+            startActivity(Intent(this, MapNavigationActivity::class.java))
+        }
     }
 
     private fun setupViewModel() {

@@ -11,7 +11,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
-import com.android.project.ecotrans.databinding.ActivityMainBinding
 import com.android.project.ecotrans.databinding.ActivityProfileBinding
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.view_model.ProfileViewModel
