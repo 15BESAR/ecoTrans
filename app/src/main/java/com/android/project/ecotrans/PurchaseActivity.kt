@@ -59,6 +59,17 @@ class PurchaseActivity : AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
             }
         }
+
+        purchaseViewModel.errorMessage.observe(this){
+            showErrorMessage(it)
+        }
+
+        purchaseViewModel.isBought.observe(this){
+            if (it){
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 
     private fun setupView() {
@@ -136,44 +147,24 @@ class PurchaseActivity : AppCompatActivity() {
         voucher.voucherName = "Gratis Ongkir hingga 10RB"
         listVoucher.add(voucher)
 
-        voucher = ResponseVoucher()
-        voucher.category = "GoFood"
-        voucher.partnerName = "GOJEK"
-        voucher.price = 500
-        voucher.stock = 10
-        voucher.voucherName = "Diskon 50% hingga 25RB"
-        listVoucher.add(voucher)
-
-        voucher = ResponseVoucher()
-        voucher.category = "Furniture"
-        voucher.partnerName = "Tokopedia"
-        voucher.price = 1000
-        voucher.stock = 10
-        voucher.voucherName = "Diskon 5% hingga 100RB"
-        listVoucher.add(voucher)
-
-        voucher = ResponseVoucher()
-        voucher.category = "GoSend"
-        voucher.partnerName = "GOJEK"
-        voucher.price = 200
-        voucher.stock = 10
-        voucher.voucherName = "Gratis Ongkir hingga 10RB"
-        listVoucher.add(voucher)
-
-
         val adapter = PurchaseVoucherListAdapter()
         adapter.setContext(this)
         adapter.setListVoucher(listVoucher)
+        adapter.setViewModel(purchaseViewModel)
         binding.recyclerViewPurchaseVoucherlist.adapter = adapter
 
-        adapter.setOnItemClickCallback(object : PurchaseVoucherListAdapter.OnItemClickback{
-            override fun onItemClicked(data: ResponseVoucher) {
-                buyVoucher(data)
-            }
-        })
+//        adapter.setOnItemClickCallback(object : PurchaseVoucherListAdapter.OnItemClickback{
+//            override fun onItemClicked(data: ResponseVoucher) {
+//                buyVoucher(data)
+//            }
+//        })
     }
 
-    private fun buyVoucher(data: ResponseVoucher) {
-        //
+//    private fun buyVoucher(data: ResponseVoucher) {
+//        //
+//    }
+
+    private fun showErrorMessage(errorMessage: String){
+        Toast.makeText(this@PurchaseActivity, errorMessage.toString(), Toast.LENGTH_SHORT).show()
     }
 }

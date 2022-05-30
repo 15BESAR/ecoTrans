@@ -16,17 +16,19 @@ class PurchaseViewModel(private val pref: UserPreference) : ViewModel() {
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
+    private var _isBought = MutableLiveData<Boolean>()
+    var isBought: LiveData<Boolean> = _isBought
+
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
     }
 
-    fun saveUser(user: UserModel) {
-        viewModelScope.launch {
-            pref.saveUser(user)
-        }
+    init {
     }
 
-    init {
+    fun test(s: String){
+        _errorMessage.value = "$s voucher bought"
+        _isBought.value = true
     }
 
     fun postUpdate(email: String, password: String) {
