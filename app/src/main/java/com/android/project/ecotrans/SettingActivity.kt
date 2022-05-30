@@ -8,8 +8,8 @@ class SettingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
-        setupView()
         setupViewModel()
+        setupView()
         setupAction()
         setupAnimation()
     }

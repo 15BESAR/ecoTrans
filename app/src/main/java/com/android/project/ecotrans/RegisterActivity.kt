@@ -41,8 +41,8 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupView()
         setupViewModel()
+        setupView()
         setupAction()
         setupAnimation()
     }

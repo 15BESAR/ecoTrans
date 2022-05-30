@@ -25,8 +25,8 @@ class FinishActivity : AppCompatActivity() {
         binding = ActivityFinishBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupView()
         setupViewModel()
+        setupView()
         setupAction()
 //        setupAnimation()
     }

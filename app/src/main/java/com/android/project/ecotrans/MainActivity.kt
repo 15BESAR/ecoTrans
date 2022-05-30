@@ -88,8 +88,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupView()
         setupViewModel()
+        setupView()
         setupAction()
 //        setupAnimation()
     }
@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerViewMainLocationList.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.recyclerViewMainLocationList.addItemDecoration(itemDecoration)
+
         setupLocationList()
     }
 
@@ -179,6 +180,11 @@ class MainActivity : AppCompatActivity() {
 
             val intent = Intent(this, PurchaseActivity::class.java)
             intent.putExtra("isDetailed", isDetailed)
+            startActivity(intent)
+        }
+
+        binding.btnBought.setOnClickListener {
+            val intent = Intent(this, BoughtActivity::class.java)
             startActivity(intent)
         }
 
@@ -277,12 +283,14 @@ class MainActivity : AppCompatActivity() {
             binding.textViewMainLastname.visibility = View.GONE
             binding.textViewMainEmail.visibility = View.GONE
             binding.btnPurchase.visibility = View.GONE
+            binding.btnBought.visibility = View.GONE
             binding.progressBarMainDashboard.visibility = View.VISIBLE
         } else {
             binding.textViewMainFirstname.visibility = View.VISIBLE
             binding.textViewMainLastname.visibility = View.VISIBLE
             binding.textViewMainEmail.visibility = View.VISIBLE
             binding.btnPurchase.visibility = View.VISIBLE
+            binding.btnBought.visibility = View.VISIBLE
             binding.progressBarMainDashboard.visibility = View.GONE
         }
     }

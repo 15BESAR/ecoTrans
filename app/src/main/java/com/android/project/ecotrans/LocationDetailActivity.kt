@@ -25,8 +25,8 @@ class LocationDetailActivity : AppCompatActivity() {
         binding = ActivityLocationDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupView()
         setupViewModel()
+        setupView()
         setupAction()
 //        setupAnimation()
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -32,8 +33,9 @@ class PurchaseActivity : AppCompatActivity() {
 
         val isDetailed:Boolean = intent.getBooleanExtra("isDetailed", false)
 
-        setupView()
+
         setupViewModel(isDetailed)
+        setupView()
 //        setupAction()
 //        setupAnimation()
     }

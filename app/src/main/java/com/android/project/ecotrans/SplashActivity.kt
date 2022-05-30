@@ -42,6 +42,7 @@ class SplashActivity : AppCompatActivity() {
 //            }
 //        }
 
+        setupViewModel()
         setupView()
         setupAnimation()
         setupAction()
