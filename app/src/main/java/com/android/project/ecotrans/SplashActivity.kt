@@ -14,13 +14,19 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import com.android.project.ecotrans.databinding.ActivitySplashBinding
+import com.android.project.ecotrans.model.UserPreference
+import com.android.project.ecotrans.view_model.MainViewModel
+import com.android.project.ecotrans.view_model.SplashViewModel
+import com.android.project.ecotrans.view_model.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 @Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
+    private lateinit var splashViewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +54,37 @@ class SplashActivity : AppCompatActivity() {
         setupAction()
     }
 
+    private fun setupViewModel() {
+        splashViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(UserPreference.getInstance(dataStore), this)
+        )[SplashViewModel::class.java]
+
+        splashViewModel.getUser().observe(this){
+            if(it.isLogin){
+                Handler().postDelayed({
+                    val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                    startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
+                    startActivity(intent)
+                    finish()
+                }, 1500)
+            }else{
+                Handler().postDelayed({
+                    val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                    startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
+                    startActivity(intent)
+                    finish()
+                }, 1500)
+            }
+        }
+    }
+
     private fun setupView() {
         supportActionBar?.hide()
     }
 
     private fun setupAction() {
-        Handler().postDelayed({
-            val intent = Intent(this@SplashActivity, MainActivity::class.java)
-//            startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
-            startActivity(intent)
-            finish()
-        }, 3000)
+
     }
 
     private fun setupAnimation() {
