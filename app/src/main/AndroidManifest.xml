@@ -20,6 +20,9 @@
         <activity
             android:name=".PurchaseActivity"
             android:exported="false" />
+        <activity
+            android:name=".BoughtActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
