@@ -13,10 +13,14 @@ import com.android.project.ecotrans.databinding.ActivityLocationDetailBinding
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.view_model.LocationDetailViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class LocationDetailActivity : AppCompatActivity() {
+class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
+    private lateinit var detailMap: GoogleMap
     private lateinit var binding: ActivityLocationDetailBinding
     private lateinit var locationDetailViewModel: LocationDetailViewModel
 
@@ -78,9 +82,16 @@ class LocationDetailActivity : AppCompatActivity() {
 
     private fun setupView() {
         supportActionBar?.hide()
+
+        val detailMapFragment = supportFragmentManager.findFragmentById(R.id.fragment_locationDetail_map) as SupportMapFragment
+        detailMapFragment.getMapAsync(this)
     }
 
     private fun showErrorMessage(errorMessage: String){
         Toast.makeText(this@LocationDetailActivity, errorMessage.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onMapReady(detailMap: GoogleMap) {
+        this.detailMap = detailMap
     }
 }
