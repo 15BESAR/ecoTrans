@@ -6,39 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".LocationDetailActivity">
 
-    <FrameLayout
-        android:id="@+id/frameLayout_locationDetail_map"
+    <fragment
+        android:id="@+id/fragment_locationDetail_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".MapsActivity" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Map Fragment"
-        app:layout_constraintBottom_toBottomOf="@+id/frameLayout_locationDetail_map"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Map Fragment"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/frameLayout_locationDetail_map"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/liner_locationDetail_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/ic_liner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout_locationDetail_map" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_locationDetail_map" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_locatinoDetail_preference_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
         android:backgroundTint="@color/green_1"
         android:elevation="10dp"
@@ -191,28 +192,25 @@
         android:id="@+id/liner_locationDetail_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/ic_liner"
+        app:layout_constraintBottom_toTopOf="@+id/btn_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView_locatinoDetail_preference_3" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView_locatinoDetail_preference_3"
+        app:layout_constraintVertical_bias="0.7" />
 
     <com.android.project.ecotrans.custom_view.MyButton
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:text="Start"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/liner_locationDetail_2" />
-
-
-
-
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
