@@ -14,11 +14,15 @@ import com.android.project.ecotrans.databinding.ActivityMapNavigationBinding
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.view_model.LocationDetailViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class MapNavigationActivity : AppCompatActivity() {
+class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
+    private lateinit var navMap: GoogleMap
     private lateinit var binding: ActivityMapNavigationBinding
     private lateinit var locationDetailViewModel: LocationDetailViewModel
 
@@ -80,9 +84,17 @@ class MapNavigationActivity : AppCompatActivity() {
 
     private fun setupView() {
         supportActionBar?.hide()
+
+        val navMapFragment = supportFragmentManager
+            .findFragmentById(R.id.fragment_mapNavigation_map) as SupportMapFragment
+        navMapFragment.getMapAsync(this)
     }
 
     private fun showErrorMessage(errorMessage: String){
         Toast.makeText(this@MapNavigationActivity, errorMessage.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onMapReady(navMap: GoogleMap) {
+       this.navMap = navMap
     }
 }
