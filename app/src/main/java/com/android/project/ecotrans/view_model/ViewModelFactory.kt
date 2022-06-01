@@ -39,6 +39,9 @@ class ViewModelFactory(private val pref: UserPreference, private val context: Co
             modelClass.isAssignableFrom(BoughtViewModel::class.java) -> {
                 BoughtViewModel(pref) as T
             }
+            modelClass.isAssignableFrom(MapNavigationViewModel::class.java) -> {
+                MapNavigationViewModel(pref) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
