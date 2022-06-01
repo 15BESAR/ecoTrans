@@ -14,19 +14,19 @@ class SettingActivity : AppCompatActivity() {
         setupAnimation()
     }
 
-    private fun setupAnimation() {
-        TODO("Not yet implemented")
-    }
-
-    private fun setupAction() {
-        TODO("Not yet implemented")
-    }
-
     private fun setupViewModel() {
-        TODO("Not yet implemented")
+
     }
 
     private fun setupView() {
         supportActionBar?.hide()
+    }
+
+    private fun setupAction() {
+
+    }
+
+    private fun setupAnimation() {
+
     }
 }

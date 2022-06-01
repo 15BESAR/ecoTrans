@@ -35,12 +35,6 @@ class FinishActivity : AppCompatActivity() {
 //        TODO("Not yet implemented")
 //    }
 
-    private fun setupAction() {
-        binding.btnGoBackToHome.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-        }
-    }
-
     private fun setupViewModel() {
         finishViewModel = ViewModelProvider(
             this,
@@ -54,8 +48,6 @@ class FinishActivity : AppCompatActivity() {
         finishViewModel.errorMessage.observe(this){
             showErrorMessage(it)
         }
-
-
     }
 
     private fun setupView() {
@@ -66,6 +58,12 @@ class FinishActivity : AppCompatActivity() {
         binding.textViewFinishDistanceTraveled.text = "2.1 km"
         binding.textViewFinishTimeFinish.text = "16:00"
         binding.textViewFinishTimeStart.text = "15:00"
+    }
+
+    private fun setupAction() {
+        binding.btnGoBackToHome.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
     }
 
     private fun showLoading(it: Boolean) {

@@ -43,11 +43,7 @@ class LoginActivity : AppCompatActivity() {
         setupViewModel()
         setupView()
         setupAction()
-        setupAnimation()
-    }
-
-    private fun setupView() {
-        supportActionBar?.hide()
+//        setupAnimation()
     }
 
     private fun setupViewModel() {
@@ -70,6 +66,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupView() {
+        supportActionBar?.hide()
+    }
+
     private fun setupAction() {
         binding.btnLogin.setOnClickListener {
             var username = binding.editTextLoginUsername.text
@@ -90,13 +90,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupAnimation() {
+//    private fun setupAnimation() {
 //        ObjectAnimator.ofFloat(binding.logoGit, View.TRANSLATION_X, -30f, 30f).apply {
 //            duration = 4000
 //            repeatCount = ObjectAnimator.INFINITE
 //            repeatMode = ObjectAnimator.REVERSE
 //        }.start()
-    }
+//    }
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {

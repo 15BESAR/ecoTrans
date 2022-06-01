@@ -22,20 +22,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var registerViewModel: RegisterViewModel
     private lateinit var binding: ActivityRegisterBinding
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        val inflater = menuInflater
-//        inflater.inflate(R.menu.menu_language, menu)
-//        return true
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == R.id.language){
-//            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
-//        }
-//
-//        return super.onOptionsItemSelected(item)
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -45,10 +31,6 @@ class RegisterActivity : AppCompatActivity() {
         setupView()
         setupAction()
         setupAnimation()
-    }
-
-    private fun setupView() {
-        supportActionBar?.hide()
     }
 
     private fun setupViewModel() {
@@ -63,6 +45,10 @@ class RegisterActivity : AppCompatActivity() {
         registerViewModel.errorMessage.observe(this){
             showErrorMessage(it)
         }
+    }
+
+    private fun setupView() {
+        supportActionBar?.hide()
     }
 
     private fun setupAction() {
@@ -85,7 +71,6 @@ class RegisterActivity : AppCompatActivity() {
                     firstname.toString(),
                     lastname.toString(),
                     date.toString()
-//                    username.toString(), email.toString(), password.toString()
                 )
 
                 startActivity(Intent(this, LoginActivity::class.java))
@@ -123,6 +108,4 @@ class RegisterActivity : AppCompatActivity() {
     private fun showErrorMessage(errorMessage: String){
         Toast.makeText(this@RegisterActivity, errorMessage.toString(), Toast.LENGTH_SHORT).show()
     }
-
-
 }

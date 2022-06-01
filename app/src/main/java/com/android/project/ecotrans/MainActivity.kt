@@ -94,6 +94,56 @@ class MainActivity : AppCompatActivity() {
 //        setupAnimation()
     }
 
+    private fun setupViewModel() {
+        mainViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(UserPreference.getInstance(dataStore), this)
+        )[MainViewModel::class.java]
+
+        mainViewModel.errorMessage.observe(this) {
+            showErrorMessage(it)
+        }
+
+        //livedata Dashboard
+        mainViewModel.getUser().observe(this){
+            if (!it.token.isNullOrEmpty()){
+                token = it.token
+                mainViewModel.getUserData(it.token, it.id)
+            }
+
+        }
+        mainViewModel.userData.observe(this){
+            setDashboard(it)
+        }
+        mainViewModel.isLoadingDashboard.observe(this) {
+            showLoadingMainDashboard(it)
+        }
+
+
+//        //livedata LocationList
+//        mainViewModel.listPredictionsItem.observe(this) { items ->
+//            setLocationList(items)
+//        }
+//        mainViewModel.isLoadingLocationList.observe(this) {
+//            showLoadingLocationList(it)
+//        }
+
+        //!isLogin
+        mainViewModel.getUser().observe(this) { user ->
+            if(!user.isLogin){
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+        }
+
+        //!isDetailed
+        mainViewModel.isDetailed.observe(this){
+            if (!it){
+                startActivity(Intent(this, ProfileActivity::class.java))
+            }
+        }
+
+    }
+
     private fun setupView() {
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerViewMainLocationList.layoutManager = layoutManager
@@ -102,6 +152,33 @@ class MainActivity : AppCompatActivity() {
 
         setupLocationList()
     }
+
+    private fun setupAction() {
+        binding.btnPurchase.setOnClickListener{
+            var isDetailed = !binding.textViewMainVoucherInterest.text.isNullOrEmpty()
+
+            val intent = Intent(this, PurchaseActivity::class.java)
+            intent.putExtra("isDetailed", isDetailed)
+            startActivity(intent)
+        }
+
+        binding.btnBought.setOnClickListener {
+            val intent = Intent(this, BoughtActivity::class.java)
+            startActivity(intent)
+        }
+
+//        binding.btnGotodetail.setOnClickListener {
+//            val description = "Jalan Tubagus Ismail Raya No.76, Sekeloa, Kota Bandung, Jawa Barat, Indonesia"
+//            val place_id = "ChIJTTd6FwDnaC4RkQxw5RdbZhk"
+//            intent = Intent(this, LocationDetailActivity::class.java)
+//            intent.putExtra("description", description)
+//            intent.putExtra("place_id", place_id)
+//        }
+    }
+
+//    private fun setupAnimation() {
+//        TODO("Not yet implemented")
+//    }
 
     private fun setupLocationList(){
         val listLocation = ArrayList<PredictionsItem>()
@@ -169,87 +246,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
 
     }
-
-    //    private fun setupAnimation() {
-//        TODO("Not yet implemented")
-//    }
-//
-    private fun setupAction() {
-        binding.btnPurchase.setOnClickListener{
-            var isDetailed = !binding.textViewMainVoucherInterest.text.isNullOrEmpty()
-
-            val intent = Intent(this, PurchaseActivity::class.java)
-            intent.putExtra("isDetailed", isDetailed)
-            startActivity(intent)
-        }
-
-        binding.btnBought.setOnClickListener {
-            val intent = Intent(this, BoughtActivity::class.java)
-            startActivity(intent)
-        }
-
-//        binding.btnGotodetail.setOnClickListener {
-//            val description = "Jalan Tubagus Ismail Raya No.76, Sekeloa, Kota Bandung, Jawa Barat, Indonesia"
-//            val place_id = "ChIJTTd6FwDnaC4RkQxw5RdbZhk"
-//            intent = Intent(this, LocationDetailActivity::class.java)
-//            intent.putExtra("description", description)
-//            intent.putExtra("place_id", place_id)
-//        }
-    }
-
-    private fun setupViewModel() {
-        mainViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(UserPreference.getInstance(dataStore), this)
-        )[MainViewModel::class.java]
-
-        mainViewModel.errorMessage.observe(this) {
-            showErrorMessage(it)
-        }
-
-        //livedata Dashboard
-        mainViewModel.getUser().observe(this){
-            if (!it.token.isNullOrEmpty()){
-                token = it.token
-                mainViewModel.getUserData(it.token, it.id)
-            }
-
-        }
-        mainViewModel.userData.observe(this){
-            setDashboard(it)
-        }
-        mainViewModel.isLoadingDashboard.observe(this) {
-            showLoadingMainDashboard(it)
-        }
-
-
-//        //livedata LocationList
-//        mainViewModel.listPredictionsItem.observe(this) { items ->
-//            setLocationList(items)
-//        }
-//        mainViewModel.isLoadingLocationList.observe(this) {
-//            showLoadingLocationList(it)
-//        }
-
-        //!isLogin
-        mainViewModel.getUser().observe(this) { user ->
-            if(!user.isLogin){
-                startActivity(Intent(this, LoginActivity::class.java))
-            }
-        }
-
-        //!isDetailed
-        mainViewModel.isDetailed.observe(this){
-            if (!it){
-                startActivity(Intent(this, ProfileActivity::class.java))
-            }
-        }
-
-    }
-
-//    private fun setupView() {
-//        TODO("Not yet implemented")
-//    }
 
     private fun setDashboard(user: User) {
         binding.textViewMainFirstname.text = user.firstName

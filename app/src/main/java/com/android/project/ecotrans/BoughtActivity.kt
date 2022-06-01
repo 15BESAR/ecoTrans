@@ -41,18 +41,6 @@ class BoughtActivity : AppCompatActivity() {
 //        setupAnimation()
     }
 
-    private fun setupAction() {
-        //
-    }
-
-//    private fun setupAnimation() {
-//        TODO("Not yet implemented")
-//    }
-//
-//    private fun setupAction() {
-//        TODO("Not yet implemented")
-//    }
-
     private fun setupViewModel(isDetailed: Boolean) {
         boughtViewModel = ViewModelProvider(
             this,
@@ -73,6 +61,18 @@ class BoughtActivity : AppCompatActivity() {
         binding.recyclerViewBoughtVoucherlist.addItemDecoration(itemDecoration)
         setupVoucherList()
     }
+
+    private fun setupAction() {
+        //
+    }
+
+//    private fun setupAnimation() {
+//        TODO("Not yet implemented")
+//    }
+//
+//    private fun setupAction() {
+//        TODO("Not yet implemented")
+//    }
 
     private fun setupVoucherList(){
         val listVoucher = ArrayList<ResponseVoucher>()

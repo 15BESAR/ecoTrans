@@ -35,16 +35,6 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 //        setupAnimation()
     }
 
-//    private fun setupAnimation() {
-//        TODO("Not yet implemented")
-//    }
-
-    private fun setupAction() {
-        binding.btnStart.setOnClickListener {
-            startActivity(Intent(this, MapNavigationActivity::class.java))
-        }
-    }
-
     private fun setupViewModel() {
         locationDetailViewModel = ViewModelProvider(
             this,
@@ -68,6 +58,23 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun setupView() {
+        supportActionBar?.hide()
+
+        val detailMapFragment = supportFragmentManager.findFragmentById(R.id.fragment_locationDetail_map) as SupportMapFragment
+        detailMapFragment.getMapAsync(this)
+    }
+
+    private fun setupAction() {
+        binding.btnStart.setOnClickListener {
+            startActivity(Intent(this, MapNavigationActivity::class.java))
+        }
+    }
+
+//    private fun setupAnimation() {
+//        TODO("Not yet implemented")
+//    }
+
     private fun showLoadingPreferenceList(it: Boolean?) {
 
     }
@@ -78,13 +85,6 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun showLoading(it: Boolean?) {
 
-    }
-
-    private fun setupView() {
-        supportActionBar?.hide()
-
-        val detailMapFragment = supportFragmentManager.findFragmentById(R.id.fragment_locationDetail_map) as SupportMapFragment
-        detailMapFragment.getMapAsync(this)
     }
 
     private fun showErrorMessage(errorMessage: String){

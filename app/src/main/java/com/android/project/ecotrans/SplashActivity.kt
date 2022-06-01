@@ -44,14 +44,12 @@ class SplashActivity : AppCompatActivity() {
 //
 //            } else {
 //                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//
 //            }
 //        }
 
         setupViewModel()
         setupView()
         setupAnimation()
-        setupAction()
     }
 
     private fun setupViewModel() {
@@ -83,10 +81,6 @@ class SplashActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setupAction() {
-
-    }
-
     private fun setupAnimation() {
         val logo = ObjectAnimator.ofFloat(binding.logo, View.ALPHA, 1f).setDuration(750)
         val ecotrans = ObjectAnimator.ofFloat(binding.ecoTransSplashText, View.ALPHA, 1f).setDuration(750)
@@ -95,6 +89,5 @@ class SplashActivity : AppCompatActivity() {
             playSequentially(logo, ecotrans)
             start()
         }
-
     }
 }

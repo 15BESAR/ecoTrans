@@ -40,34 +40,6 @@ class ProfileActivity : AppCompatActivity() {
 //        setupAnimation()
     }
 
-//    private fun setupAnimation() {
-//        TODO("Not yet implemented")
-//    }
-//
-    private fun setupAction() {
-        binding.btnSave.setOnClickListener {
-
-            val isMarried: Boolean
-            isMarried = binding.autoCompleteTextViewProfileMarriageStatus.text.toString() == "True"
-
-            val income = binding.autoCompleteTextViewProfileIncome.text.toString().toInt()
-
-            val json = JSONObject()
-            json.put("job", binding.autoCompleteTextViewProfileJob.text)
-            json.put("voucherInterest", binding.autoCompleteTextViewProfileVourcherInterest.text)
-            json.put("domicile", binding.autoCompleteTextViewProfileDomicile.text)
-            json.put("education", binding.autoCompleteTextViewProfileEducation.text)
-            json.put("marriageStatus", isMarried)
-            json.put("income", income)
-            json.put("vehicle", binding.autoCompleteTextViewProfileVehicle.text)
-            val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
-
-            if (!token.isNullOrEmpty() && !id.isNullOrEmpty()){
-                profileViewModel.addProfileData(token, id, requestBody)
-            }
-        }
-    }
-
     private fun setupViewModel() {
         profileViewModel = ViewModelProvider(
             this,
@@ -96,8 +68,6 @@ class ProfileActivity : AppCompatActivity() {
                 id = it.id
             }
         }
-
-
     }
 
     private fun setupView() {
@@ -107,6 +77,32 @@ class ProfileActivity : AppCompatActivity() {
         binding.autoCompleteTextViewProfileMarriageStatus.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.status)))
         binding.autoCompleteTextViewProfileVehicle.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.vehicle)))
     }
+
+    private fun setupAction() {
+        binding.btnSave.setOnClickListener {
+
+            val isMarried: Boolean = binding.autoCompleteTextViewProfileMarriageStatus.text.toString() == "True"
+            val income = binding.autoCompleteTextViewProfileIncome.text.toString().toInt()
+
+            val json = JSONObject()
+            json.put("job", binding.autoCompleteTextViewProfileJob.text)
+            json.put("voucherInterest", binding.autoCompleteTextViewProfileVourcherInterest.text)
+            json.put("domicile", binding.autoCompleteTextViewProfileDomicile.text)
+            json.put("education", binding.autoCompleteTextViewProfileEducation.text)
+            json.put("marriageStatus", isMarried)
+            json.put("income", income)
+            json.put("vehicle", binding.autoCompleteTextViewProfileVehicle.text)
+            val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
+
+            if (!token.isNullOrEmpty() && !id.isNullOrEmpty()){
+                profileViewModel.addProfileData(token, id, requestBody)
+            }
+        }
+    }
+
+//    private fun setupAnimation() {
+//        TODO("Not yet implemented")
+//    }
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {

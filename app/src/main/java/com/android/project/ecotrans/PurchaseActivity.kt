@@ -36,17 +36,11 @@ class PurchaseActivity : AppCompatActivity() {
 
         setupViewModel(isDetailed)
         setupView()
-//        setupAction()
+        setupAction()
 //        setupAnimation()
     }
 
-//    private fun setupAnimation() {
-//        TODO("Not yet implemented")
-//    }
-//
-//    private fun setupAction() {
-//        TODO("Not yet implemented")
-//    }
+
 
     private fun setupViewModel(isDetailed: Boolean) {
         purchaseViewModel = ViewModelProvider(
@@ -56,7 +50,8 @@ class PurchaseActivity : AppCompatActivity() {
 
         purchaseViewModel.getUser().observe(this){
             if (!isDetailed){
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, ProfileActivity::class.java))
+                finish()
             }
         }
 
@@ -81,6 +76,14 @@ class PurchaseActivity : AppCompatActivity() {
         binding.recyclerViewPurchaseVoucherlist.addItemDecoration(itemDecoration)
         setupVoucherList()
     }
+
+    private fun setupAction() {
+
+    }
+
+//    private fun setupAnimation() {
+//        TODO("Not yet implemented")
+//    }
 
     private fun setupVoucherList(){
         val listVoucher = ArrayList<ResponseVoucher>()

@@ -31,15 +31,44 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapNavigationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupView()
         setupViewModel()
+        setupView()
         setupAction()
 //        setupAnimation()
     }
 
-//    private fun setupAnimation() {
-//        TODO("Not yet implemented")
-//    }
+    private fun setupViewModel() {
+        mapNavigationViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(UserPreference.getInstance(dataStore), this)
+        )[MapNavigationViewModel::class.java]
+
+        mapNavigationViewModel.errorMessage.observe(this){
+            showErrorMessage(it)
+        }
+
+        mapNavigationViewModel.isLoading.observe(this){
+            showLoading(it)
+        }
+
+        mapNavigationViewModel.isLoadingJourneyInformation.observe(this){
+            showLoadingJourneyInformation(it)
+        }
+
+        mapNavigationViewModel.isLoadingPreferenceList.observe(this){
+            showLoadingPreferenceList(it)
+        }
+    }
+
+    private fun setupView() {
+        supportActionBar?.hide()
+
+        val navMapFragment = supportFragmentManager
+            .findFragmentById(R.id.fragment_mapNavigation_map) as SupportMapFragment
+        navMapFragment.getMapAsync(this)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    }
 
     private fun setupAction() {
         binding.btnDone.setOnClickListener {
@@ -47,28 +76,9 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun setupViewModel() {
-        locationDetailViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(UserPreference.getInstance(dataStore), this)
-        )[LocationDetailViewModel::class.java]
-
-        locationDetailViewModel.errorMessage.observe(this){
-            showErrorMessage(it)
-        }
-
-        locationDetailViewModel.isLoading.observe(this){
-            showLoading(it)
-        }
-
-        locationDetailViewModel.isLoadingJourneyInformation.observe(this){
-            showLoadingJourneyInformation(it)
-        }
-
-        locationDetailViewModel.isLoadingPreferenceList.observe(this){
-            showLoadingPreferenceList(it)
-        }
-    }
+//    private fun setupAnimation() {
+//        TODO("Not yet implemented")
+//    }
 
     private fun showLoadingPreferenceList(it: Boolean?) {
 
@@ -80,14 +90,6 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun showLoading(it: Boolean?) {
 
-    }
-
-    private fun setupView() {
-        supportActionBar?.hide()
-
-        val navMapFragment = supportFragmentManager
-            .findFragmentById(R.id.fragment_mapNavigation_map) as SupportMapFragment
-        navMapFragment.getMapAsync(this)
     }
 
     private fun showErrorMessage(errorMessage: String){
