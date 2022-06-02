@@ -1,6 +1,7 @@
 package com.android.project.ecotrans
 
 import android.Manifest
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 
+
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -38,7 +40,6 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var destinationLocationLatLng: LatLng
     private var boundsBuilder = LatLngBounds.builder()
-    private var markersList: ArrayList<Marker> = ArrayList()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -47,7 +48,7 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityLocationDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        this.destinationLocationLatLng = LatLng(-6.2263142289959035, 106.77837073347132)
+        this.destinationLocationLatLng = LatLng(-6.8770772, 107.6182631)
         this.username = "stevenss"
 
         setupViewModel()
@@ -125,6 +126,7 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         this.detailMap = detailMap
         this.detailMap.clear()
 
+        this.detailMap.uiSettings.isZoomControlsEnabled = true
         getOriginLocation()
         showDestinationLocation()
     }
@@ -182,7 +184,7 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun showMyMarker(location: Location) {
 //        val originLocation = LatLng(location.latitude, location.longitude)
-        val originLocation = LatLng(-6.2134472927623605, 106.7728346583767)
+        val originLocation = LatLng(-6.8837471, 107.6163225)
         detailMap.addMarker(
             MarkerOptions()
                 .position(originLocation)
@@ -208,12 +210,6 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             detailMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 128))
         })
     }
-
-//    private fun getOriginMarker(): BitmapDescriptor{
-//        var hsv: FloatArray = FloatArray(3)
-//        Color.colorToHSV(Color.parseColor(""), hsv)
-//        return BitmapDescriptorFactory.defaultMarker(hsv[0])
-//    }
 
     private fun getDestinationMarker(): BitmapDescriptor{
         var hsv: FloatArray = FloatArray(3)
