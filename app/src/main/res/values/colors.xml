@@ -12,8 +12,10 @@
     <color name="green">#00ff00</color>
     <color name="blue">#0000ff</color>
 
+
     <color name="green_1">#8FB491</color>
     <color name="green_2">#558357</color>
+    <color name="green_3">#5F7161</color>
 
     <color name="grey_1">#808080</color>
 </resources>
