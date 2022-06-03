@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
@@ -49,6 +50,8 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setupView() {
         supportActionBar?.hide()
+        binding.autoCompleteTextViewRegisterDay.setAdapter(ArrayAdapter(this, R.layout.dropdown_date_item, resources.getStringArray(R.array.day)))
+        binding.autoCompleteTextViewRegisterMonth.setAdapter(ArrayAdapter(this, R.layout.dropdown_date_item, resources.getStringArray(R.array.month)))
     }
 
     private fun setupAction() {
@@ -56,7 +59,11 @@ class RegisterActivity : AppCompatActivity() {
             var firstname = binding.editTextRegisterFirstname.text
             var lastname = binding.editTextRegisterLastname.text
             var username = binding.editTextRegisterUsername.text
-            var date = binding.editTextRegisterDate.text
+
+            var date = binding.autoCompleteTextViewRegisterYear.text.toString() + "-" +
+                    binding.autoCompleteTextViewRegisterMonth.text.toString() + "-" +
+                    binding.autoCompleteTextViewRegisterYear.text.toString()
+
             var email = binding.editTextRegisterEmail.text
             var password = binding.editTextRegisterPassword.text
 
@@ -70,7 +77,7 @@ class RegisterActivity : AppCompatActivity() {
                     email.toString(),
                     firstname.toString(),
                     lastname.toString(),
-                    date.toString()
+                    date
                 )
 
                 startActivity(Intent(this, LoginActivity::class.java))
