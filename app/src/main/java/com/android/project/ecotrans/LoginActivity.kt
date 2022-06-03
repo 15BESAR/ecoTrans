@@ -85,6 +85,10 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnSignup.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
         binding.textGoToSignUp.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
@@ -103,10 +107,12 @@ class LoginActivity : AppCompatActivity() {
             binding.progressBarLogin.visibility = View.VISIBLE
             binding.btnLogin.visibility = View.GONE
             binding.textGoToSignUp.visibility = View.GONE
+            binding.btnSignup.visibility = View.GONE
         } else {
             binding.progressBarLogin.visibility = View.GONE
             binding.btnLogin.visibility = View.VISIBLE
             binding.textGoToSignUp.visibility = View.VISIBLE
+            binding.btnSignup.visibility = View.VISIBLE
         }
     }
 
