@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -71,6 +73,9 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
+
+
+
         supportActionBar?.hide()
         binding.autoCompleteTextViewProfileVourcherInterest.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.interest)))
         binding.autoCompleteTextViewProfileEducation.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.education)))
