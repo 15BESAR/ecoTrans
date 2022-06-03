@@ -4,7 +4,7 @@
     android:viewportWidth="300"
     android:viewportHeight="50">
     <path
-        android:fillColor="#558357"
+        android:fillColor="@color/new_grey"
         android:name="Rounded Rectangle 1"
         android:pathData="m21 18.5h258c3.59 0 6.5 2.91 6.5 6.5c0 3.59 -2.91 6.5 -6.5 6.5h-258c-3.59 0 -6.5 -2.91 -6.5 -6.5c0 -3.59 2.91 -6.5 6.5 -6.5z" />
 </vector>
