@@ -1,15 +1,14 @@
 package com.android.project.ecotrans
 
-import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.KeyEvent
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -20,8 +19,6 @@ import com.android.project.ecotrans.databinding.ActivityMainBinding
 import com.android.project.ecotrans.model.User
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.response.PredictionsItem
-import com.android.project.ecotrans.response.ResponseAutoComplete
-import com.android.project.ecotrans.response.ResponseVoucher
 import com.android.project.ecotrans.view_model.MainViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
 
@@ -32,56 +29,56 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var token: String
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//
+//        val inflater = menuInflater
+//        inflater.inflate(R.menu.menu, menu)
+//
+//        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+//
+//        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//        val searchView = menu.findItem(R.id.main_search).actionView as SearchView
+//
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+//        searchView.queryHint = "input location name..."
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//
+//            override fun onQueryTextSubmit(query: String): Boolean {
+////                mainViewModel.querySearch(query)
+////                mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
+////                    setLocationList(items)
+////                }
+////                mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
+////                    showLoadingLocationList(it)
+////                }
+//                searchView.clearFocus()
+//                return true
+//            }
+//
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                return false
+//            }
+//        })
+//        return true
+//    }
 
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
-
-        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
-
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu.findItem(R.id.main_search).actionView as SearchView
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.queryHint = "input location name..."
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-//                mainViewModel.querySearch(query)
-//                mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
-//                    setLocationList(items)
-//                }
-//                mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
-//                    showLoadingLocationList(it)
-//                }
-                searchView.clearFocus()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.main_setting){
-//            val intent = Intent(this, ConfigActivity::class.java)
-            startActivity(intent)
-        }else if (item.itemId == R.id.main_profile){
-//            val intent = Intent(this, FavoriteActivity::class.java)
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if(item.itemId == R.id.main_setting){
+////            val intent = Intent(this, ConfigActivity::class.java)
 //            startActivity(intent)
-
-            mainViewModel = ViewModelProvider(
-                this,
-                ViewModelFactory(UserPreference.getInstance(dataStore), this)
-            )[MainViewModel::class.java]
-            mainViewModel.logout()
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
+//        }else if (item.itemId == R.id.main_profile){
+////            val intent = Intent(this, FavoriteActivity::class.java)
+////            startActivity(intent)
+//
+//            mainViewModel = ViewModelProvider(
+//                this,
+//                ViewModelFactory(UserPreference.getInstance(dataStore), this)
+//            )[MainViewModel::class.java]
+//            mainViewModel.logout()
+//        }
+//
+//        return super.onOptionsItemSelected(item)
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         //!isLogin
         mainViewModel.getUser().observe(this) { user ->
             if(!user.isLogin){
-                startActivity(Intent(this, LoginActivity::class.java))
+//                startActivity(Intent(this, LoginActivity::class.java))
             }
         }
 
@@ -145,6 +142,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
+
+        supportActionBar?.hide()
+
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerViewMainLocationList.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
@@ -174,6 +174,41 @@ class MainActivity : AppCompatActivity() {
 //            intent.putExtra("description", description)
 //            intent.putExtra("place_id", place_id)
 //        }
+
+
+
+
+        binding.imageViewMainSearch.setOnClickListener {
+//                    mainViewModel.querySearch(query)
+//                    mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
+//                        setLocationList(items)
+//                    }
+//                    mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
+//                        showLoadingLocationList(it)
+//                    }
+
+            binding.editTextMainSearch.text.clear()
+        }
+
+        binding.editTextMainSearch.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                if (event.getAction() === KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+//                    mainViewModel.querySearch(query)
+//                    mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
+//                        setLocationList(items)
+//                    }
+//                    mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
+//                        showLoadingLocationList(it)
+//                    }
+
+                    binding.editTextMainSearch.text.clear()
+                    return true
+                }
+                return false
+            }
+        })
     }
 
 //    private fun setupAnimation() {
