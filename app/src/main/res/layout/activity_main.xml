@@ -6,21 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/editText_main_search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/search_bg"
+        android:elevation="10dp"
+        android:hint="Search"
+        android:textSize="16dp"
+        android:paddingVertical="10dp"
+        android:paddingLeft="16dp"
+        android:textColorHint="@color/new_grey"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_main_search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_main_search"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:elevation="10dp"
+        android:src="@drawable/ic_baseline_search_24"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_main_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.958"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editText_main_search" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView_main_dashboard"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_margin="16dp"
-        app:cardBackgroundColor="@color/green_1"
-        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/new_white"
+        app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/editText_main_search">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/search_bg"
             android:layout_gravity="center">
 
             <ProgressBar
@@ -29,13 +62,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:indeterminateTint="@color/new_teal_2"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible"
-                android:indeterminateTint="@color/green_2"/>
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/imageView_main_profile"
@@ -53,6 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:textColor="@color/new_grey"
                 android:fontFamily="@font/musticapro_semibold"
                 android:text="firstname"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,6 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:textColor="@color/new_grey"
                 android:fontFamily="@font/musticapro_semibold"
                 android:text="lastname"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView_main_profile"
@@ -79,14 +114,14 @@
                 android:id="@+id/textView_main_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/musticapro_semibold"
                 android:text="email"
-                android:textColor="@color/grey_1"
+                android:textColor="@color/green_1"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.038"
-                app:layout_constraintStart_toEndOf="@+id/imageView_main_profile"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textView_main_firstname"
                 app:layout_constraintTop_toBottomOf="@+id/textView_main_firstname" />
 
             <TextView
@@ -96,6 +131,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/musticapro_semibold"
                 android:text="Username : "
+                android:textColor="@color/new_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.127"
                 app:layout_constraintStart_toStartOf="@+id/imageView_main_profile"
@@ -105,8 +141,8 @@
                 android:id="@+id/textView_main_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/musticapro_semibold"
                 android:layout_marginLeft="8dp"
+                android:fontFamily="@font/musticapro_semibold"
                 android:text="-"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.04"
@@ -118,11 +154,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textColor="@color/new_grey"
                 android:fontFamily="@font/musticapro_semibold"
                 android:text="VoucherInterest : "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.004"
-                app:layout_constraintStart_toStartOf="@+id/imageView_main_profile"
+                app:layout_constraintEnd_toEndOf="@+id/text_username"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_username" />
 
             <TextView
@@ -130,11 +167,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/musticapro_semibold"
-                android:layout_marginLeft="8dp"
                 android:text="-"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.04"
-                app:layout_constraintStart_toEndOf="@+id/text_username"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textView_main_username"
                 app:layout_constraintTop_toTopOf="@+id/text_voucherInterest" />
 
             <TextView
@@ -142,10 +178,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textColor="@color/new_grey"
                 android:fontFamily="@font/musticapro_semibold"
                 android:text="Points : "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.201"
+                app:layout_constraintEnd_toEndOf="@+id/text_voucherInterest"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/imageView_main_profile"
                 app:layout_constraintTop_toBottomOf="@+id/text_voucherInterest" />
 
@@ -154,11 +191,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/musticapro_semibold"
-                android:layout_marginLeft="8dp"
                 android:text="-"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.04"
-                app:layout_constraintStart_toEndOf="@+id/text_username"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textView_main_username"
                 app:layout_constraintTop_toTopOf="@+id/text_points" />
 
             <ImageButton
@@ -166,52 +202,41 @@
                 android:layout_width="60dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/green_2"
+                android:background="@drawable/rounded_bg"
+                android:backgroundTint="@color/green_1"
                 android:src="@drawable/ic_baseline_bookmarks_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.638" />
+                app:layout_constraintVertical_bias="0.552" />
 
             <ImageButton
                 android:id="@+id/btn_purchase"
                 android:layout_width="60dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/green_2"
+                android:background="@drawable/rounded_bg"
+                android:backgroundTint="@color/green_1"
                 android:src="@drawable/ic_baseline_discount_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.953" />
+                app:layout_constraintVertical_bias="0.894" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
     </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/liner_main_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_liner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView_main_dashboard"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_main_locationList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/liner_main_1" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
         android:id="@+id/progressBar_main_locationList"
@@ -236,5 +261,26 @@
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/liner_main_1" />-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/gradient_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/liner_main_1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/liner_main_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="8dp"
+        android:src="@drawable/ic_liner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_main_dashboard"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
