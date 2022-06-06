@@ -13,6 +13,9 @@ import com.android.project.ecotrans.databinding.ActivityFinishBinding
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.view_model.FinishViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -48,6 +51,19 @@ class FinishActivity : AppCompatActivity() {
         finishViewModel.errorMessage.observe(this){
             showErrorMessage(it)
         }
+
+        //finish journey
+        val json = JSONObject()
+        json.put("origin", "ChIJl02Bz3GMaS4RCgefgFZdKtI")
+        json.put("destination", "ChIJY9TrwiH0aS4RrvGqlZvI_Mw")
+        json.put("startTime", "2018-12-10T13:49:51.141Z")
+        json.put("finishTime", "2018-12-10T16:49:51.141Z")
+        json.put("distanceTravelled", 10.43F)
+//        json.put("emissionSaved", 4.45F)
+//        json.put("reward", 102)
+        val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
+
+
     }
 
     private fun setupView() {
