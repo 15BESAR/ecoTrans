@@ -53,7 +53,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/search_bg"
+            android:background="@drawable/dashboard_bg"
             android:layout_gravity="center">
 
             <ProgressBar
@@ -198,6 +198,19 @@
                 app:layout_constraintTop_toTopOf="@+id/text_points" />
 
             <ImageButton
+                android:id="@+id/btn_logout"
+                android:layout_width="60dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_bg"
+                android:backgroundTint="@color/green_1"
+                android:src="@drawable/ic_baseline_exit_to_app_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.105" />
+
+            <ImageButton
                 android:id="@+id/btn_bought"
                 android:layout_width="60dp"
                 android:layout_height="48dp"
@@ -205,10 +218,9 @@
                 android:background="@drawable/rounded_bg"
                 android:backgroundTint="@color/green_1"
                 android:src="@drawable/ic_baseline_bookmarks_24"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/btn_purchase"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.552" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_logout" />
 
             <ImageButton
                 android:id="@+id/btn_purchase"
