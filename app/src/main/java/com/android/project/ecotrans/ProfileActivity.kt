@@ -103,6 +103,10 @@ class ProfileActivity : AppCompatActivity() {
                 profileViewModel.addProfileData(token, id, requestBody)
             }
         }
+
+        binding.imageViewProfileBack.setOnClickListener {
+            finish()
+        }
     }
 
 //    private fun setupAnimation() {
