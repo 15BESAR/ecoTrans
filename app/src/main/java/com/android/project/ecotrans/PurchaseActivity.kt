@@ -24,6 +24,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class PurchaseActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPurchaseBinding
     private lateinit var purchaseViewModel: PurchaseViewModel
+    private lateinit var userId: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +66,12 @@ class PurchaseActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        purchaseViewModel.getUser().observe(this){
+            if(!it.id.isNullOrEmpty()){
+                this.userId = it.id
+            }
+        }
     }
 
     private fun setupView() {
@@ -78,7 +85,9 @@ class PurchaseActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-
+        binding.imageViewPurchaseBack.setOnClickListener {
+            finish()
+        }
     }
 
 //    private fun setupAnimation() {
@@ -154,6 +163,7 @@ class PurchaseActivity : AppCompatActivity() {
         adapter.setContext(this)
         adapter.setListVoucher(listVoucher)
         adapter.setViewModel(purchaseViewModel)
+//        adapter.setUserId(this.userId)
         binding.recyclerViewPurchaseVoucherlist.adapter = adapter
 
 //        adapter.setOnItemClickCallback(object : PurchaseVoucherListAdapter.OnItemClickback{
