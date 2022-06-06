@@ -1,9 +1,7 @@
 package com.android.project.ecotrans.api_service
 
 import com.android.project.ecotrans.model.User
-import com.android.project.ecotrans.response.ResponseAutoComplete
-import com.android.project.ecotrans.response.ResponseLogin
-import com.android.project.ecotrans.response.ResponseRegister
+import com.android.project.ecotrans.response.*
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -37,7 +35,7 @@ interface ApiService {
     fun user(
         @Header("Authorization") token: String,
         @Path("id") id: String
-    ): Call<User>
+    ): Call<ResponseGetUser>
 
     @Headers("Content-Type: application/json")
     @PUT("user/{id}")
@@ -45,23 +43,8 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body requestBody: RequestBody
-    ): Call<User>
+    ): Call<ResponseUpdateUser>
 
-
-//    @FormUrlEncoded
-//    @POST("login")
-//    fun login(
-//        @Field("email") email: String,
-//        @Field("password") password: String
-//    ): Call<PostResponseLogin>
-//
-//    @FormUrlEncoded
-//    @POST("register")
-//    fun register(
-//        @Field("name") name: String,
-//        @Field("email") email: String,
-//        @Field("password") password: String
-//    ): Call<PostResponseRegister>
 
     @Headers("Content-Type: application/json")
     @GET("autocomplete")
