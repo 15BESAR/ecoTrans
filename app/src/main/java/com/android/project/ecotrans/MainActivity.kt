@@ -167,15 +167,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-//        binding.btnGotodetail.setOnClickListener {
-//            val description = "Jalan Tubagus Ismail Raya No.76, Sekeloa, Kota Bandung, Jawa Barat, Indonesia"
-//            val place_id = "ChIJTTd6FwDnaC4RkQxw5RdbZhk"
-//            intent = Intent(this, LocationDetailActivity::class.java)
-//            intent.putExtra("description", description)
-//            intent.putExtra("place_id", place_id)
-//        }
-
-
+        binding.btnLogout.setOnClickListener {
+            mainViewModel.logout()
+        }
 
 
         binding.imageViewMainSearch.setOnClickListener {
