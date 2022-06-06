@@ -1,30 +1,30 @@
 package com.android.project.ecotrans
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.annotation.TargetApi
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityOptionsCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
-import com.android.project.ecotrans.databinding.ActivityLocationDetailBinding
 import com.android.project.ecotrans.databinding.ActivityMapNavigationBinding
 import com.android.project.ecotrans.model.UserPreference
-import com.android.project.ecotrans.view_model.LocationDetailViewModel
 import com.android.project.ecotrans.view_model.MapNavigationViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
 import com.google.android.gms.common.api.ResolvableApiException
@@ -34,6 +34,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
 
@@ -54,6 +57,23 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var destinationLocationLatLng: LatLng
     private lateinit var username: String
     private var boundsBuilder = LatLngBounds.builder()
+
+    //test polyline
+    private var allLatLng = ArrayList<LatLng>()
+
+    //geofence
+    private lateinit var geofencingClient: GeofencingClient
+    private val geofencePendingIntent: PendingIntent by lazy {
+        val intent = Intent(this, MapNavigationGeofenceBroadcastReceiver::class.java)
+        intent.action = MapNavigationGeofenceBroadcastReceiver.ACTION_GEOFENCE_EVENT
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+        } else {
+            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +110,13 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         mapNavigationViewModel.isLoadingPreferenceList.observe(this){
             showLoadingPreferenceList(it)
         }
+
+        //get routes
+        val json = JSONObject()
+        json.put("origin", "Jalan Tubagus Depan No 76")
+        json.put("destination", "Borma Dago")
+        json.put("preference", "walking")
+        val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
     }
 
     private fun setupView() {
@@ -105,6 +132,10 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun setupAction() {
         binding.btnDone.setOnClickListener {
             startActivity(Intent(this, FinishActivity::class.java))
+        }
+
+        binding.imageViewMapNavigationBack.setOnClickListener {
+            finish()
         }
     }
 
@@ -130,7 +161,6 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(navMap: GoogleMap) {
         this.navMap = navMap
-        getOriginLocation()
         createLocationRequest()
         createLocationCallback()
 
@@ -138,18 +168,105 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         getOriginLocation()
         showDestinationLocation()
         showRoutes()
+        enableMyLocation()
+        addGeofence()
 
-//        binding.btnDone.setOnClickListener {
-//            if (!isTracking) {
-//                updateTrackingStatus(true)
-//                startLocationUpdates()
-//            } else {
-//                updateTrackingStatus(false)
-//                stopLocationUpdates()
-//            }
-//        }
+        binding.btnDone.setOnClickListener {
+            if (!isTracking) {
+                updateTrackingStatus(true)
+                startLocationUpdates()
+            } else {
+                updateTrackingStatus(false)
+                stopLocationUpdates()
+            }
+        }
+        updateTrackingStatus(true)
+        startLocationUpdates()
     }
-    
+
+    //////////////////// implementing geofence
+    private val requestBackgroundLocationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                enableMyLocation()
+            }
+        }
+
+    private val runningQOrLater = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+
+    @TargetApi(Build.VERSION_CODES.Q)
+    private val requestLocationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                if (runningQOrLater) {
+                    requestBackgroundLocationPermissionLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                } else {
+                    enableMyLocation()
+                }
+            }
+        }
+
+    @TargetApi(Build.VERSION_CODES.Q)
+    private fun checkForegroundAndBackgroundLocationPermission(): Boolean {
+        val foregroundLocationApproved = checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        val backgroundPermissionApproved =
+            if (runningQOrLater) {
+                checkPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            } else {
+                true
+            }
+        return foregroundLocationApproved && backgroundPermissionApproved
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun enableMyLocation() {
+        if (checkForegroundAndBackgroundLocationPermission()) {
+            navMap.isMyLocationEnabled = true
+        } else {
+            requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun addGeofence() {
+        geofencingClient = LocationServices.getGeofencingClient(this)
+
+        val geofence = Geofence.Builder()
+            .setRequestId("kampus")
+            .setCircularRegion(
+                -6.8770772,
+                107.6182631,
+                100.toFloat()
+            )
+            .setExpirationDuration(Geofence.NEVER_EXPIRE)
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL or Geofence.GEOFENCE_TRANSITION_ENTER)
+            .setLoiteringDelay(5000)
+            .build()
+
+        val geofencingRequest = GeofencingRequest.Builder()
+            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+            .addGeofence(geofence)
+            .build()
+
+        geofencingClient.removeGeofences(geofencePendingIntent).run {
+            addOnCompleteListener {
+                geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).run {
+                    addOnSuccessListener {
+                        showErrorMessage("Geofencing added")
+                    }
+                    addOnFailureListener {
+                        showErrorMessage("Geofencing not added : ${it.message}")
+                    }
+                }
+            }
+        }
+    }
+
+
     ////////////////////get my location
 
     private val requestPermissionLauncher =
@@ -265,6 +382,22 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
                     Log.d(TAG, "onLocationResult: " + location.latitude + ", " + location.longitude)
+                    val lastLatLng = LatLng(location.latitude, location.longitude)
+
+                    //draw polyline
+                    allLatLng.add(lastLatLng)
+                    navMap.addPolyline(
+                        PolylineOptions()
+                            .color(Color.CYAN)
+                            .width(10f)
+                            .addAll(allLatLng))
+
+                    val cameraPosition = CameraPosition.Builder()
+                        .target(lastLatLng)
+                        .zoom(17F)
+                        .build()
+                    val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
+                    navMap.animateCamera(cameraUpdate)
                 }
             }
         }
@@ -319,6 +452,15 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
                 .title("destination")
                 .icon(getDestinationMarker())
         )?.showInfoWindow()
+
+        navMap.addCircle(
+            CircleOptions()
+                .center(this.destinationLocationLatLng)
+                .radius(100.0)
+                .fillColor(0x22FF0000)
+                .strokeColor(Color.RED)
+                .strokeWidth(3f)
+        )
 
         navMap.setOnMapLoadedCallback(GoogleMap.OnMapLoadedCallback {
 //            boundsBuilder.include(this.destinationLocationLatLng)
@@ -382,4 +524,5 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return decoded
     }
+
 }
