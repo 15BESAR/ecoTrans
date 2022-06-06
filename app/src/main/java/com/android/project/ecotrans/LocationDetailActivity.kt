@@ -100,6 +100,10 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.btnStart.setOnClickListener {
             startActivity(Intent(this, MapNavigationActivity::class.java))
         }
+
+        binding.imageViewLocationDetailBack.setOnClickListener {
+            finish()
+        }
     }
 
 //    private fun setupAnimation() {
