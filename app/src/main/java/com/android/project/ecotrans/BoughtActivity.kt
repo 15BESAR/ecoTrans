@@ -63,7 +63,9 @@ class BoughtActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-        //
+        binding.imageViewBoughtBack.setOnClickListener {
+            finish()
+        }
     }
 
 //    private fun setupAnimation() {
@@ -76,8 +78,7 @@ class BoughtActivity : AppCompatActivity() {
 
     private fun setupVoucherList(){
         val listVoucher = ArrayList<ResponseVoucher>()
-        var voucher : ResponseVoucher
-//        for (item in items!!){
+        //        for (item in items!!){
 //            user = User()
 //
 //            user.id = item?.id
@@ -91,7 +92,7 @@ class BoughtActivity : AppCompatActivity() {
 //            listItem.add(user)
 //        }
 
-        voucher = ResponseVoucher()
+        var voucher : ResponseVoucher = ResponseVoucher()
         voucher.category = "GoFood"
         voucher.partnerName = "GOJEK"
         voucher.price = 500
