@@ -7,6 +7,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ResponseAutoComplete(
 
+	@field:SerializedName("error")
+	val error: Boolean? = null,
+
 	@field:SerializedName("predictions")
 	var predictions: List<PredictionsItem?>? = null
 ): Parcelable
