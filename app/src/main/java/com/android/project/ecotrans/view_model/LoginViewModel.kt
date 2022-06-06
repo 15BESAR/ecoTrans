@@ -3,11 +3,8 @@ package com.android.project.ecotrans.view_model
 import android.util.Log
 import androidx.lifecycle.*
 import com.android.project.ecotrans.api_config.ApiConfig
-import com.android.project.ecotrans.model.User
 import com.android.project.ecotrans.model.UserModel
 import com.android.project.ecotrans.model.UserPreference
-import com.android.project.ecotrans.response.PredictionsItem
-import com.android.project.ecotrans.response.ResponseAutoComplete
 import com.android.project.ecotrans.response.ResponseLogin
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -74,18 +71,18 @@ class LoginViewModel(private val pref: UserPreference) : ViewModel() {
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-                    var id = response.body()?.userId as String
+                    var id = response.body()?.loginResult?.userId as String
                     var isLogin = true
 
-                    var token = response.body()?.token as String
+                    var token = response.body()?.loginResult?.token as String
                     userModel = UserModel(id, username, isLogin, token)
 
-                    _errorMessage.value = "login " + response.message() as String
+                    _errorMessage.value = "login " + response.body()?.msg as String
                     saveUser(userModel)
                 } else {
                     Log.e("MainActivity", "onFailure: ${response.message()}")
 
-                    _errorMessage.value = "Wrong Password or Email"
+                    _errorMessage.value = response.message() as String
                     _isError.value = true
                 }
             }

@@ -6,6 +6,7 @@ import com.android.project.ecotrans.api_config.ApiConfig
 import com.android.project.ecotrans.model.User
 import com.android.project.ecotrans.model.UserModel
 import com.android.project.ecotrans.model.UserPreference
+import com.android.project.ecotrans.response.ResponseUpdateUser
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -44,10 +45,10 @@ class ProfileViewModel(private val pref: UserPreference) : ViewModel() {
         _isDetailed.value = false
 
         var client = ApiConfig.getApiService().putuserdata("Bearer $token", id, requestBody)
-        client.enqueue(object : Callback<User> {
+        client.enqueue(object : Callback<ResponseUpdateUser> {
             override fun onResponse(
-                call: Call<User>,
-                response: retrofit2.Response<User>
+                call: Call<ResponseUpdateUser>,
+                response: retrofit2.Response<ResponseUpdateUser>
             ) {
                 _isLoadingProfileData.value = false
                 if (response.isSuccessful) {
@@ -59,7 +60,7 @@ class ProfileViewModel(private val pref: UserPreference) : ViewModel() {
                     _errorMessage.value = response.message() as String
                 }
             }
-            override fun onFailure(call: Call<User>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseUpdateUser>, t: Throwable) {
                 _errorMessage.value = t.message as String
                 _isLoadingProfileData.value = false
                 Log.e("ProfileActivity", "onFailure: ${t.message}")

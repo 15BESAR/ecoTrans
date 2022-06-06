@@ -8,6 +8,7 @@ import com.android.project.ecotrans.model.UserModel
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.response.PredictionsItem
 import com.android.project.ecotrans.response.ResponseAutoComplete
+import com.android.project.ecotrans.response.ResponseGetUser
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -65,14 +66,14 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
         _isDetailed.value = true
 
         var client = ApiConfig.getApiService().user("Bearer $token", id)
-        client.enqueue(object : Callback<User> {
+        client.enqueue(object : Callback<ResponseGetUser> {
             override fun onResponse(
-                call: Call<User>,
-                response: retrofit2.Response<User>
+                call: Call<ResponseGetUser>,
+                response: retrofit2.Response<ResponseGetUser>
             ) {
                 _isLoadingDasboard.value = false
                 if (response.isSuccessful) {
-                    _userData.value = response.body() as User
+                    _userData.value = response.body()?.user as User
                     if(_userData.value?.job.isNullOrEmpty()){
                         _isDetailed.value = false
                     }
@@ -84,7 +85,7 @@ class MainViewModel(private val pref: UserPreference) : ViewModel() {
 //                    _isError.value = true
                 }
             }
-            override fun onFailure(call: Call<User>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseGetUser>, t: Throwable) {
 //                _isLoading.value = false
 //                _isError.value = true
 //                _errorMessage.value = t.message as String
