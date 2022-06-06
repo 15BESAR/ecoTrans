@@ -3,6 +3,8 @@ package com.android.project.ecotrans.response
 import com.google.gson.annotations.SerializedName
 
 data class ResponseVoucher(
+	@field:SerializedName("voucherId")
+	var voucherId: String? = null,
 
 	@field:SerializedName("voucherName")
 	var voucherName: String? = null,
