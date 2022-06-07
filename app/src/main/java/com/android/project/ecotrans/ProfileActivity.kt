@@ -73,9 +73,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-
-
-
         supportActionBar?.hide()
         binding.autoCompleteTextViewProfileVourcherInterest.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.interest)))
         binding.autoCompleteTextViewProfileEducation.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.education)))
