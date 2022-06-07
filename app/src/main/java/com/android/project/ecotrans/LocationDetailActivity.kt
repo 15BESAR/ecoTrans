@@ -1,13 +1,16 @@
 package com.android.project.ecotrans
 
 import android.Manifest
-import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.Color
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -129,10 +132,28 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(detailMap: GoogleMap) {
         this.detailMap = detailMap
         this.detailMap.clear()
+        setMapStyle()
 
         this.detailMap.uiSettings.isZoomControlsEnabled = true
         getOriginLocation()
         showDestinationLocation()
+    }
+
+
+    private fun setMapStyle() {
+        try {
+            val success =
+                detailMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.")
+            }
+        } catch (exception: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", exception)
+        }
+    }
+
+    companion object {
+        private const val TAG = "LocationDetailActivity"
     }
 
     private val requestPermissionLauncher =
