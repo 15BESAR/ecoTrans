@@ -1,6 +1,7 @@
 package com.android.project.ecotrans
 
 import android.Manifest
+import android.R.attr.strokeColor
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.PendingIntent
@@ -8,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.Color
 import android.location.Location
 import android.os.Build
@@ -31,6 +33,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
@@ -57,6 +60,10 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var destinationLocationLatLng: LatLng
     private lateinit var username: String
     private var boundsBuilder = LatLngBounds.builder()
+
+    //test radius
+    private lateinit var destinationCircle: Circle
+    private var inOnce: Boolean = false
 
     //test polyline
     private var allLatLng = ArrayList<LatLng>()
@@ -130,9 +137,9 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupAction() {
-        binding.btnDone.setOnClickListener {
-            startActivity(Intent(this, FinishActivity::class.java))
-        }
+//        binding.btnDone.setOnClickListener {
+//            startActivity(Intent(this, FinishActivity::class.java))
+//        }
 
         binding.imageViewMapNavigationBack.setOnClickListener {
             finish()
@@ -163,106 +170,38 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         this.navMap = navMap
         createLocationRequest()
         createLocationCallback()
+        setMapStyle()
 
         this.navMap.uiSettings.isZoomControlsEnabled = true
         getOriginLocation()
         showDestinationLocation()
         showRoutes()
-        enableMyLocation()
-        addGeofence()
-
-        binding.btnDone.setOnClickListener {
-            if (!isTracking) {
-                updateTrackingStatus(true)
-                startLocationUpdates()
-            } else {
-                updateTrackingStatus(false)
-                stopLocationUpdates()
-            }
-        }
-        updateTrackingStatus(true)
         startLocationUpdates()
-    }
 
-    //////////////////// implementing geofence
-    private val requestBackgroundLocationPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
-            if (isGranted) {
-                enableMyLocation()
-            }
-        }
-
-    private val runningQOrLater = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-
-    @TargetApi(Build.VERSION_CODES.Q)
-    private val requestLocationPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
-            if (isGranted) {
-                if (runningQOrLater) {
-                    requestBackgroundLocationPermissionLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                } else {
-                    enableMyLocation()
-                }
-            }
-        }
-
-    @TargetApi(Build.VERSION_CODES.Q)
-    private fun checkForegroundAndBackgroundLocationPermission(): Boolean {
-        val foregroundLocationApproved = checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-        val backgroundPermissionApproved =
-            if (runningQOrLater) {
-                checkPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-            } else {
-                true
-            }
-        return foregroundLocationApproved && backgroundPermissionApproved
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun enableMyLocation() {
-        if (checkForegroundAndBackgroundLocationPermission()) {
-            navMap.isMyLocationEnabled = true
-        } else {
-            requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun addGeofence() {
-        geofencingClient = LocationServices.getGeofencingClient(this)
-
-        val geofence = Geofence.Builder()
-            .setRequestId("kampus")
-            .setCircularRegion(
-                -6.8770772,
-                107.6182631,
-                100.toFloat()
+        navMap.setOnMyLocationChangeListener(OnMyLocationChangeListener { location ->
+            val distance = FloatArray(2)
+            Location.distanceBetween(
+            location.latitude, location.longitude,
+            destinationCircle.getCenter().latitude, destinationCircle.getCenter().longitude, distance
             )
-            .setExpirationDuration(Geofence.NEVER_EXPIRE)
-            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL or Geofence.GEOFENCE_TRANSITION_ENTER)
-            .setLoiteringDelay(5000)
-            .build()
 
-        val geofencingRequest = GeofencingRequest.Builder()
-            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-            .addGeofence(geofence)
-            .build()
-
-        geofencingClient.removeGeofences(geofencePendingIntent).run {
-            addOnCompleteListener {
-                geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).run {
-                    addOnSuccessListener {
-                        showErrorMessage("Geofencing added")
-                    }
-                    addOnFailureListener {
-                        showErrorMessage("Geofencing not added : ${it.message}")
-                    }
-                }
+            if (distance[0] <= destinationCircle.getRadius() && !inOnce) {
+                inOnce = true
+                stopLocationUpdates()
+                startActivity(Intent(this, FinishActivity::class.java))
             }
+        })
+    }
+
+    private fun setMapStyle() {
+        try {
+            val success =
+                navMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.")
+            }
+        } catch (exception: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", exception)
         }
     }
 
@@ -301,6 +240,7 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     showMyMarker(location)
+                    navMap.isMyLocationEnabled = true
                 } else {
                     Toast.makeText(
                         this@MapNavigationActivity,
@@ -320,6 +260,7 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun showMyMarker(location: Location) {
+
 //        val originLocation = LatLng(location.latitude, location.longitude)
         val originLocation = LatLng(-6.8837471, 107.6163225)
 //        navMap.addMarker(
@@ -432,14 +373,14 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         private const val TAG = "MapsActivity"
     }
 
-    private fun updateTrackingStatus(newStatus: Boolean) {
-        isTracking = newStatus
-        if (isTracking) {
-            binding.btnDone.text = getString(R.string.stop_running)
-        } else {
-            binding.btnDone.text = getString(R.string.start_running)
-        }
-    }
+//    private fun updateTrackingStatus(newStatus: Boolean) {
+//        isTracking = newStatus
+//        if (isTracking) {
+//            binding.btnDone.text = getString(R.string.stop_running)
+//        } else {
+//            binding.btnDone.text = getString(R.string.start_running)
+//        }
+//    }
     
     
     /////////////////// routes
@@ -453,7 +394,7 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
                 .icon(getDestinationMarker())
         )?.showInfoWindow()
 
-        navMap.addCircle(
+        destinationCircle = navMap.addCircle(
             CircleOptions()
                 .center(this.destinationLocationLatLng)
                 .radius(100.0)
