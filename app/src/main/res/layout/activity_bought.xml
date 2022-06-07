@@ -9,8 +9,8 @@
     <LinearLayout
         android:id="@+id/linearLayout_bought_actionbar"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:paddingBottom="5dp"
+        android:layout_height="35dp"
+        android:paddingBottom="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
