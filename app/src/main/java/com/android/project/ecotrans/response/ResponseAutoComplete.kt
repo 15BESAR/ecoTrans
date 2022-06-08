@@ -2,7 +2,7 @@ package com.android.project.ecotrans.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ResponseAutoComplete(
@@ -11,28 +11,28 @@ data class ResponseAutoComplete(
 	val error: Boolean? = null,
 
 	@field:SerializedName("predictions")
-	var predictions: List<PredictionsItem?>? = null
-): Parcelable
-
-@Parcelize
-data class MatchedSubstringsItem(
-
-	@field:SerializedName("offset")
-	var offset: Int? = null,
-
-	@field:SerializedName("length")
-	var length: Int? = null
-): Parcelable
+	val predictions: List<PredictionsItem?>? = null
+) : Parcelable
 
 @Parcelize
 data class MainTextMatchedSubstringsItem(
 
 	@field:SerializedName("offset")
-	var offset: Int? = null,
+	val offset: Int? = null,
 
 	@field:SerializedName("length")
-	var length: Int? = null
-): Parcelable
+	val length: Int? = null
+) : Parcelable
+
+@Parcelize
+data class TermsItem(
+
+	@field:SerializedName("offset")
+	val offset: Int? = null,
+
+	@field:SerializedName("value")
+	val value: String? = null
+) : Parcelable
 
 @Parcelize
 data class PredictionsItem(
@@ -41,40 +41,40 @@ data class PredictionsItem(
 	var types: List<String?>? = null,
 
 	@field:SerializedName("matched_substrings")
-	var matchedSubstrings: List<MatchedSubstringsItem?>? = null,
+	val matchedSubstrings: List<MatchedSubstringsItem?>? = null,
 
 	@field:SerializedName("terms")
-	var terms: List<TermsItem?>? = null,
+	val terms: List<TermsItem?>? = null,
 
 	@field:SerializedName("structured_formatting")
-	var structuredFormatting: StructuredFormatting? = null,
+	val structuredFormatting: StructuredFormatting? = null,
 
 	@field:SerializedName("description")
 	var description: String? = null,
 
 	@field:SerializedName("place_id")
 	var placeId: String? = null
-): Parcelable
-
-@Parcelize
-data class TermsItem(
-
-	@field:SerializedName("offset")
-	var offset: Int? = null,
-
-	@field:SerializedName("varue")
-	var varue: String? = null
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class StructuredFormatting(
 
 	@field:SerializedName("main_text_matched_substrings")
-	var mainTextMatchedSubstrings: List<MainTextMatchedSubstringsItem?>? = null,
+	val mainTextMatchedSubstrings: List<MainTextMatchedSubstringsItem?>? = null,
 
 	@field:SerializedName("secondary_text")
-	var secondaryText: String? = null,
+	val secondaryText: String? = null,
 
 	@field:SerializedName("main_text")
-	var mainText: String? = null
-): Parcelable
+	val mainText: String? = null
+) : Parcelable
+
+@Parcelize
+data class MatchedSubstringsItem(
+
+	@field:SerializedName("offset")
+	val offset: Int? = null,
+
+	@field:SerializedName("length")
+	val length: Int? = null
+) : Parcelable
