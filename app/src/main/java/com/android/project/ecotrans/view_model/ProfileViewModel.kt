@@ -3,7 +3,6 @@ package com.android.project.ecotrans.view_model
 import android.util.Log
 import androidx.lifecycle.*
 import com.android.project.ecotrans.api_config.ApiConfig
-import com.android.project.ecotrans.model.User
 import com.android.project.ecotrans.model.UserModel
 import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.response.ResponseUpdateUser
@@ -52,7 +51,7 @@ class ProfileViewModel(private val pref: UserPreference) : ViewModel() {
             ) {
                 _isLoadingProfileData.value = false
                 if (response.isSuccessful) {
-                    _errorMessage.value = response.message() as String
+                    _errorMessage.value = "User Updated"
                     _isDetailed.value = true
                 } else {
                     Log.e("ProfileActivity", "onFailure: ${response.message()}")
