@@ -56,7 +56,7 @@ class MainLocationListAdapter() : RecyclerView.Adapter<MainLocationListAdapter.M
 //                    .into(imgAvatar)
 
                 textViewLocationListItemName.text = data.description
-                textViewLocationListItemDetail.text = data.placeId
+                textViewLocationListItemDetail.text = data.types?.get(0) ?: "none"
             }
 
         }
