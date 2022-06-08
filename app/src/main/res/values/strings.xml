@@ -30,22 +30,23 @@
 <!--    </string-array>-->
 
     <string-array name="interest">
-        <item>Electronics Vouchers</item>
-        <item>Fashion Vouchers</item>
-        <item>Health and Beauty Vouchers</item>
-        <item>Food Vouchers</item>
-        <item>Automotive Vouchers</item>
-        <item>Public Transportation Cashback Vouchers</item>
-        <item>Household Utilities Cashback Vouchers</item>
+        <item>Electronic</item>
+        <item>Fashion</item>
+        <item>Food</item>
+        <item>Transportation</item>
+        <item>Ecommerce</item>
     </string-array>
 
     <string-array name="vehicle">
-        <item>Car</item>
-        <item>Motorcycle</item>
-        <item>Bicycle</item>
-        <item>Bus</item>
-        <item>Train</item>
-        <item>Taxi</item>
+        <item>walking</item>
+        <item>bicycling</item>
+        <item>driving</item>
+        <item>transit</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>m</item>
+        <item>f</item>
     </string-array>
 
     //test
@@ -53,16 +54,16 @@
     <string name="stop_running">Stop Running</string>
 
     <string-array name="day">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
 
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
         <item>10</item>
         <item>11</item>
         <item>12</item>
