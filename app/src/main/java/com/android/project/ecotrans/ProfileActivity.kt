@@ -78,6 +78,8 @@ class ProfileActivity : AppCompatActivity() {
         binding.autoCompleteTextViewProfileEducation.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.education)))
         binding.autoCompleteTextViewProfileMarriageStatus.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.status)))
         binding.autoCompleteTextViewProfileVehicle.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.vehicle)))
+        binding.autoCompleteTextViewProfileGender.setAdapter(ArrayAdapter(this, R.layout.dropdown_profile_item, resources.getStringArray(R.array.gender)))
+
     }
 
     private fun setupAction() {
@@ -94,6 +96,7 @@ class ProfileActivity : AppCompatActivity() {
             json.put("marriageStatus", isMarried)
             json.put("income", income)
             json.put("vehicle", binding.autoCompleteTextViewProfileVehicle.text)
+            json.put("gender", binding.autoCompleteTextViewProfileGender.text)
             val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
             if (!token.isNullOrEmpty() && !id.isNullOrEmpty()){
