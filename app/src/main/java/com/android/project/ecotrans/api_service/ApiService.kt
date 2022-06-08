@@ -47,9 +47,16 @@ interface ApiService {
 
 
     @Headers("Content-Type: application/json")
-    @GET("autocomplete")
+    @POST("autocomplete")
     fun searchLocation(
         @Body requestBody: RequestBody
     ): Call<ResponseAutoComplete>
+
+    @Headers("Content-Type: application/json")
+    @POST("routes")
+    fun getRoutes(
+        @Header("Authorization") token: String,
+        @Body requestBody: RequestBody
+    ): Call<ResponseRoutes>
 
 }
