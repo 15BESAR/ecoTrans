@@ -15,7 +15,7 @@
         android:backgroundTint="@color/green_1"
         android:elevation="10dp"
         android:foregroundGravity="center"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="22dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

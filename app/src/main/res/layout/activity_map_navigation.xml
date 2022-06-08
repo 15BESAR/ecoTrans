@@ -11,7 +11,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="45dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/cardView_finish"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,10 +20,20 @@
         tools:context=".MapsActivity" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/new_teal_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_mapNavigation_map" />
+
+
+    <LinearLayout
         android:id="@+id/linearLayout_mapNavigation_actionbar"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:paddingBottom="10dp"
+        android:layout_height="45dp"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,20 +44,27 @@
             android:id="@+id/imageView_mapNavigation_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="25dp"
             android:src="@drawable/ic_baseline_arrow_back_ios_24"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/new_teal_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_mapNavigation_actionbar" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_finish"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:elevation="16dp"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginHorizontal="16dp"
         android:foregroundGravity="center"
-        android:padding="20dp"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="22dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
