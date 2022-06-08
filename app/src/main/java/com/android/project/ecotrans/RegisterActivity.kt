@@ -60,9 +60,37 @@ class RegisterActivity : AppCompatActivity() {
             var lastname = binding.editTextRegisterLastname.text
             var username = binding.editTextRegisterUsername.text
 
+            var intMonth: String = String()
+
+            if (binding.autoCompleteTextViewRegisterMonth.text.toString() == "January"){
+                intMonth = "01"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() == "February"){
+                intMonth = "02"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="March"){
+                intMonth = "03"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="April"){
+                intMonth = "04"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="May"){
+                intMonth = "05"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="June"){
+                intMonth = "06"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="July"){
+                intMonth = "07"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="August"){
+                intMonth = "08"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="September"){
+                intMonth = "09"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="October"){
+                intMonth = "10"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="November"){
+                intMonth = "11"
+            }else if (binding.autoCompleteTextViewRegisterMonth.text.toString() =="December"){
+                intMonth = "12"
+            }
+
             var date = binding.autoCompleteTextViewRegisterYear.text.toString() + "-" +
-                    binding.autoCompleteTextViewRegisterMonth.text.toString() + "-" +
-                    binding.autoCompleteTextViewRegisterYear.text.toString()
+                    intMonth.toString() + "-" +
+                    binding.autoCompleteTextViewRegisterDay.text.toString()
 
             var email = binding.editTextRegisterEmail.text
             var password = binding.editTextRegisterPassword.text
@@ -79,9 +107,7 @@ class RegisterActivity : AppCompatActivity() {
                     lastname.toString(),
                     date
                 )
-
                 startActivity(Intent(this, LoginActivity::class.java))
-
             }else{
                 Toast.makeText(this@RegisterActivity, "Unable to Register", Toast.LENGTH_SHORT).show()
             }
