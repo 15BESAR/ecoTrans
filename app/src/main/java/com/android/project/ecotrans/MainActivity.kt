@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         //!isLogin
         mainViewModel.getUser().observe(this) { user ->
             if(!user.isLogin){
-//                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
             }
         }
 
@@ -149,8 +149,6 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerViewMainLocationList.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.recyclerViewMainLocationList.addItemDecoration(itemDecoration)
-
-        setupLocationList()
     }
 
     private fun setupAction() {
@@ -173,13 +171,13 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.imageViewMainSearch.setOnClickListener {
-//                    mainViewModel.querySearch(query)
-//                    mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
-//                        setLocationList(items)
-//                    }
-//                    mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
-//                        showLoadingLocationList(it)
-//                    }
+                    mainViewModel.querySearch(binding.editTextMainSearch.text.toString())
+                    mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
+                        setupLocationList(items as ArrayList<PredictionsItem>)
+                    }
+                    mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
+                        showLoadingLocationList(it)
+                    }
 
             binding.editTextMainSearch.text.clear()
         }
@@ -189,13 +187,13 @@ class MainActivity : AppCompatActivity() {
                 if (event.getAction() === KeyEvent.ACTION_DOWN &&
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
-//                    mainViewModel.querySearch(query)
-//                    mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
-//                        setLocationList(items)
-//                    }
-//                    mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
-//                        showLoadingLocationList(it)
-//                    }
+                    mainViewModel.querySearch(binding.editTextMainSearch.text.toString())
+                    mainViewModel.listPredictionsItem.observe(this@MainActivity) { items ->
+                        setupLocationList(items as ArrayList<PredictionsItem>)
+                    }
+                    mainViewModel.isLoadingLocationList.observe(this@MainActivity) {
+                        showLoadingLocationList(it)
+                    }
 
                     binding.editTextMainSearch.text.clear()
                     return true
@@ -209,53 +207,18 @@ class MainActivity : AppCompatActivity() {
 //        TODO("Not yet implemented")
 //    }
 
-    private fun setupLocationList(){
+    private fun setupLocationList(items: ArrayList<PredictionsItem>){
         val listLocation = ArrayList<PredictionsItem>()
         var location : PredictionsItem
-//        for (item in items!!){
-//            user = User()
-//
-//            user.id = item?.id
-//            user.login = item?.login
-//            user.avatar_url = item?.avatarUrl
-//            user.followers_url = item?.followersUrl
-//            user.following_url = item?.followingUrl
-//            user.type = item?.type
-//            user.url = item?.url
-//
-//            listItem.add(user)
-//        }
+        for (item in items!!){
+            location = PredictionsItem()
 
-        location = PredictionsItem()
-        location.description = "Jalan A"
-        location.placeId = "id = 0"
-        listLocation.add(location)
+            location.placeId = item.placeId
+            location.description = item.description
+            location.types = item.types
 
-        location = PredictionsItem()
-        location.description = "Jalan B"
-        location.placeId = "id = 1"
-        listLocation.add(location)
-
-        location = PredictionsItem()
-        location.description = "Jalan C"
-        location.placeId = "id = 2"
-        listLocation.add(location)
-
-        location = PredictionsItem()
-        location.description = "Jalan D"
-        location.placeId = "id = 3"
-        listLocation.add(location)
-
-        location = PredictionsItem()
-        location.description = "Jalan E"
-        location.placeId = "id = 4"
-        listLocation.add(location)
-
-        location = PredictionsItem()
-        location.description = "Jalan F"
-        location.placeId = "id = 5"
-        listLocation.add(location)
-
+            listLocation.add(location)
+        }
 
         val adapter = MainLocationListAdapter()
         adapter.setContext(this)
@@ -271,9 +234,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun selectedLocationDetail(data: PredictionsItem) {
         intent = Intent(this, LocationDetailActivity::class.java)
-        intent.putExtra("location", data)
+        intent.putExtra("location", data.description)
         startActivity(intent)
-
     }
 
     private fun setDashboard(user: User) {
@@ -285,22 +247,11 @@ class MainActivity : AppCompatActivity() {
         binding.textViewMainEmail.text = user.email
     }
 
-//    private fun setLocationList(it: List<PredictionsItem>) {
-//        val adapter = MainActivityAdapter(it, this)
-//        binding.recyclerViewMainLocationList.adapter = adapter
-//
-//        adapter.setOnItemClickCallback(object : MainActivityAdapter.OnItemClickback{
-//            override fun onItemClicked(location: PredictionsItem) {
-//                selectedLocation(location)
-//            }
-//        })
-//    }
-
-//    private fun selectedLocation(location: PredictionsItem){
-//        val intent = Intent(this@MainActivity, LocationDetailActivity::class.java)
-//        intent.putExtra("Location", location)
-//        startActivity(intent)
-//    }
+    private fun selectedLocation(location: PredictionsItem){
+        val intent = Intent(this@MainActivity, LocationDetailActivity::class.java)
+        intent.putExtra("Location", location)
+        startActivity(intent)
+    }
 
     private fun showLoadingMainDashboard(isLoading: Boolean) {
         if (isLoading) {
@@ -308,6 +259,7 @@ class MainActivity : AppCompatActivity() {
             binding.textViewMainLastname.visibility = View.GONE
             binding.textViewMainEmail.visibility = View.GONE
             binding.btnPurchase.visibility = View.GONE
+            binding.btnLogout.visibility = View.GONE
             binding.btnBought.visibility = View.GONE
             binding.progressBarMainDashboard.visibility = View.VISIBLE
         } else {
@@ -316,17 +268,18 @@ class MainActivity : AppCompatActivity() {
             binding.textViewMainEmail.visibility = View.VISIBLE
             binding.btnPurchase.visibility = View.VISIBLE
             binding.btnBought.visibility = View.VISIBLE
+            binding.btnLogout.visibility = View.VISIBLE
             binding.progressBarMainDashboard.visibility = View.GONE
         }
     }
 
-//    private fun showLoadingLocationList(isLoading: Boolean) {
-//        if (isLoading) {
-//            binding.progressBarMainLocationList.visibility = View.VISIBLE
-//        } else {
-//            binding.progressBarMainLocationList.visibility = View.GONE
-//        }
-//    }
+    private fun showLoadingLocationList(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBarMainLocationList.visibility = View.VISIBLE
+        } else {
+            binding.progressBarMainLocationList.visibility = View.GONE
+        }
+    }
 
     private fun showErrorMessage(errorMessage: String){
         Toast.makeText(this@MainActivity, errorMessage.toString(), Toast.LENGTH_SHORT).show()
