@@ -59,7 +59,7 @@
         android:id="@+id/liner_locationDetail_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/ic_liner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
         android:id="@+id/cardView_locatinoDetail_preference_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginHorizontal="16dp"
         android:elevation="10dp"
         app:cardCornerRadius="12dp"
@@ -77,6 +77,7 @@
         tools:context=".MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_locatoinDetail_preference_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/item_bg"
@@ -90,8 +91,8 @@
                 android:layout_marginVertical="4dp"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
-                android:text="Temperature"
-                android:textColor="@color/green_1"
+                android:text="Walking"
+                android:textColor="@color/green_3"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +106,7 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginVertical="4dp"
                 android:paddingLeft="10dp"
-                android:text="Detail"
+                android:text="Routes"
                 android:textColor="@color/grey_1"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -129,6 +130,7 @@
         tools:context=".MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_locatoinDetail_preference_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/item_bg"
@@ -142,8 +144,8 @@
                 android:layout_marginVertical="4dp"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
-                android:text="UV Radiation"
-                android:textColor="@color/green_1"
+                android:text="Bicycling"
+                android:textColor="@color/green_3"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -157,7 +159,7 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginVertical="4dp"
                 android:paddingLeft="10dp"
-                android:text="Detail"
+                android:text="Routes"
                 android:textColor="@color/grey_1"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -181,6 +183,7 @@
         tools:context=".MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_locatoinDetail_preference_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/item_bg"
@@ -194,8 +197,8 @@
                 android:layout_marginVertical="4dp"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
-                android:text="AQI"
-                android:textColor="@color/green_1"
+                android:text="Transit"
+                android:textColor="@color/green_3"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -209,7 +212,7 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginVertical="4dp"
                 android:paddingLeft="10dp"
-                android:text="Detail"
+                android:text="Routes"
                 android:textColor="@color/grey_1"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -224,19 +227,32 @@
         android:id="@+id/liner_locationDetail_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/ic_liner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView_locatinoDetail_preference_3"
         app:layout_constraintVertical_bias="0.586" />
 
+    <ProgressBar
+        android:id="@+id/progressBar_detailLocation"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liner_locationDetail_2"
+        tools:visibility="visible" />
+
     <com.android.project.ecotrans.custom_view.MyButton
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="Start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
