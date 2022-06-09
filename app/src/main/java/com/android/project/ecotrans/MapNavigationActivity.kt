@@ -16,6 +16,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -41,6 +42,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
+import kotlin.properties.Delegates
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -58,37 +60,50 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var originLocationLatLng: LatLng
     private lateinit var destinationLocationLatLng: LatLng
-    private lateinit var username: String
+
     private var boundsBuilder = LatLngBounds.builder()
+    private lateinit var pointes: String
+    private lateinit var polyline: Polyline
+
+    private lateinit var token: String
+    private lateinit var destinationName: String
+
+    private lateinit var destinationId: String
+    private lateinit var originId: String
+    private var distance by Delegates.notNull<Int>()
+    private var carbon by Delegates.notNull<Int>()
+    private var reward by Delegates.notNull<Int>()
+
+    private var timeEstimated by Delegates.notNull<Int>()
+
+    private var isFinished: Boolean = false
 
     //test radius
     private lateinit var destinationCircle: Circle
     private var inOnce: Boolean = false
-
-    //test polyline
-    private var allLatLng = ArrayList<LatLng>()
-
-    //geofence
-    private lateinit var geofencingClient: GeofencingClient
-    private val geofencePendingIntent: PendingIntent by lazy {
-        val intent = Intent(this, MapNavigationGeofenceBroadcastReceiver::class.java)
-        intent.action = MapNavigationGeofenceBroadcastReceiver.ACTION_GEOFENCE_EVENT
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
-        } else {
-            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        }
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapNavigationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        this.destinationLocationLatLng = LatLng(-6.8770772, 107.6182631)
-        this.username = "stevenss"
+//        this.destinationLocationLatLng = LatLng(-6.8770772, 107.6182631)
+//        this.username = "stevenss"
+        val desLat = intent.getStringExtra("destinationLat") as String
+        val desLng = intent.getStringExtra("destinationLng") as String
+        this.pointes = intent.getStringExtra("pointes") as String
+        this.destinationLocationLatLng = LatLng(desLat.toDouble(), desLng.toDouble())
+
+        this.originId = intent.getStringExtra("originId") as String
+        this.destinationId = intent.getStringExtra("destinationId") as String
+        this.distance = intent.getIntExtra("distance", 0)
+        this.carbon = intent.getIntExtra("carbon", 0)
+        this.reward = intent.getIntExtra("reward", 0)
+
+        this.token = intent.getStringExtra("token") as String
+        this.destinationName = intent.getStringExtra("destinationName") as String
+
+        this.timeEstimated = intent.getIntExtra("timeEstimated", 0)
 
         setupViewModel()
         setupView()
@@ -110,20 +125,22 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
             showLoading(it)
         }
 
-        mapNavigationViewModel.isLoadingJourneyInformation.observe(this){
-            showLoadingJourneyInformation(it)
+        //forcastin values
+        mapNavigationViewModel.aqi.observe(this){
+            if(it != null){
+                binding.textViewMapNavigationAqiValue.text = it.toString()
+            }
         }
-
-        mapNavigationViewModel.isLoadingPreferenceList.observe(this){
-            showLoadingPreferenceList(it)
+        mapNavigationViewModel.uv.observe(this){
+            if(it != null){
+                binding.textViewMapNavigationUVValue.text = it.toString()
+            }
         }
-
-        //get routes
-        val json = JSONObject()
-        json.put("origin", "Jalan Tubagus Depan No 76")
-        json.put("destination", "Borma Dago")
-        json.put("preference", "walking")
-        val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        mapNavigationViewModel.temp.observe(this){
+            if(it != null){
+                binding.textViewMapNavigationTempratureValue.text = it.toString()
+            }
+        }
     }
 
     private fun setupView() {
@@ -134,6 +151,12 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         navMapFragment.getMapAsync(this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        val json = JSONObject()
+        json.put("destination", this.destinationName)
+        json.put("arrivedHour", this.timeEstimated/3600)
+        val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        mapNavigationViewModel.getForecastData(this.token, requestBody)
     }
 
     private fun setupAction() {
@@ -150,16 +173,20 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 //        TODO("Not yet implemented")
 //    }
 
-    private fun showLoadingPreferenceList(it: Boolean?) {
-
-    }
-
-    private fun showLoadingJourneyInformation(it: Boolean?) {
-
-    }
-
     private fun showLoading(it: Boolean?) {
-
+        if (it == true) {
+            binding.progressBarMapNavigationForcasting.visibility = View.VISIBLE
+//            binding.btnStart.visibility = View.GONE
+            binding.textViewMapNavigationAqiValue.visibility = View.GONE
+            binding.textViewMapNavigationUVValue.visibility = View.GONE
+            binding.textViewMapNavigationTempratureValue.visibility = View.GONE
+        } else {
+            binding.progressBarMapNavigationForcasting.visibility = View.GONE
+//            binding.btnStart.visibility = View.VISIBLE
+            binding.textViewMapNavigationAqiValue.visibility = View.VISIBLE
+            binding.textViewMapNavigationUVValue.visibility = View.VISIBLE
+            binding.textViewMapNavigationTempratureValue.visibility = View.VISIBLE
+        }
     }
 
     private fun showErrorMessage(errorMessage: String){
@@ -167,6 +194,7 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(navMap: GoogleMap) {
+        isFinished = false
         this.navMap = navMap
         createLocationRequest()
         createLocationCallback()
@@ -178,17 +206,27 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         showRoutes()
         startLocationUpdates()
 
-        navMap.setOnMyLocationChangeListener(OnMyLocationChangeListener { location ->
+        navMap.setOnMyLocationChangeListener(OnMyLocationChangeListener { radius ->
             val distance = FloatArray(2)
             Location.distanceBetween(
-            location.latitude, location.longitude,
+                radius.latitude, radius.longitude,
             destinationCircle.getCenter().latitude, destinationCircle.getCenter().longitude, distance
             )
 
             if (distance[0] <= destinationCircle.getRadius() && !inOnce) {
                 inOnce = true
+                isFinished = true
                 stopLocationUpdates()
-                startActivity(Intent(this, FinishActivity::class.java))
+                val intent = Intent(this, FinishActivity::class.java)
+                intent.putExtra("isFinished", this.isFinished)
+
+                intent.putExtra("originId", this.originId)
+                intent.putExtra("destinationId", this.destinationId)
+                intent.putExtra("distance", this.distance)
+                intent.putExtra("carbon", this.carbon)
+                intent.putExtra("reward", this.reward)
+
+                startActivity(intent)
             }
         })
     }
@@ -261,8 +299,8 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun showMyMarker(location: Location) {
 
-//        val originLocation = LatLng(location.latitude, location.longitude)
-        val originLocation = LatLng(-6.8837471, 107.6163225)
+        val originLocation = LatLng(location.latitude, location.longitude)
+//        val originLocation = LatLng(-6.8837471, 107.6163225)
 //        navMap.addMarker(
 //            MarkerOptions()
 //                .position(originLocation)
@@ -326,12 +364,12 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
                     val lastLatLng = LatLng(location.latitude, location.longitude)
 
                     //draw polyline
-                    allLatLng.add(lastLatLng)
-                    navMap.addPolyline(
-                        PolylineOptions()
-                            .color(Color.CYAN)
-                            .width(10f)
-                            .addAll(allLatLng))
+//                    allLatLng.add(lastLatLng)
+//                    navMap.addPolyline(
+//                        PolylineOptions()
+//                            .color(Color.CYAN)
+//                            .width(10f)
+//                            .addAll(allLatLng))
 
                     val cameraPosition = CameraPosition.Builder()
                         .target(lastLatLng)
@@ -397,7 +435,7 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         destinationCircle = navMap.addCircle(
             CircleOptions()
                 .center(this.destinationLocationLatLng)
-                .radius(100.0)
+                .radius(50.0)
                 .fillColor(0x22FF0000)
                 .strokeColor(Color.RED)
                 .strokeWidth(3f)
@@ -412,15 +450,15 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun showRoutes(){
-        val path: List<LatLng>? = decodePoints("ln_i@_yyoS?LF@LB@BANMfAKnAGZM^KT?N@RFX]N_BmAyA_AoA}@w@i@]OmAWcDm@qAUiF}@wCi@_@KeCiBwBqAv@mANC")
+        val path: List<LatLng>? = decodePoints(this.pointes)
 
         if (path != null) {
             var polylineOptions: PolylineOptions = PolylineOptions()
             polylineOptions.addAll(path)
             polylineOptions.width(20F)
-            polylineOptions.color(R.color.purple_700)
+            polylineOptions.color(R.color.new_teal_2)
             polylineOptions.pattern(listOf(Dot(), Gap(15F)))
-            navMap.addPolyline(polylineOptions)
+            this.polyline = navMap.addPolyline(polylineOptions)
         }
     }
 
