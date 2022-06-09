@@ -57,6 +57,13 @@ interface ApiService {
     fun getRoutes(
         @Header("Authorization") token: String,
         @Body requestBody: RequestBody
-    ): Call<ResponseRoutes>
+    ): Call<ResponseRoute>
+
+    @Headers("Content-Type: application/json")
+    @POST("forecast")
+    fun getForecast(
+        @Header("Authorization") token: String,
+        @Body requestBody: RequestBody
+    ): Call<ResponseForecast>
 
 }
