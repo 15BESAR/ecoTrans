@@ -247,12 +247,6 @@ class MainActivity : AppCompatActivity() {
         binding.textViewMainEmail.text = user.email
     }
 
-    private fun selectedLocation(location: PredictionsItem){
-        val intent = Intent(this@MainActivity, LocationDetailActivity::class.java)
-        intent.putExtra("Location", location)
-        startActivity(intent)
-    }
-
     private fun showLoadingMainDashboard(isLoading: Boolean) {
         if (isLoading) {
             binding.textViewMainFirstname.visibility = View.GONE
