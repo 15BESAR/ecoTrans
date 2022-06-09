@@ -79,36 +79,114 @@
             android:background="@drawable/dashboard_bg"
             android:padding="8dp">
 
-
-            <ImageView
-                android:id="@+id/imageView_finish_icon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:elevation="15dp"
-                android:innerRadius="0dp"
-                android:shape="ring"
-                android:src="@drawable/ecotranslogo"
-                android:thicknessRatio="1.9"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.733" />
-
             <TextView
+                android:id="@+id/textView_mapNavigation_aqi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FORCASTING"
-                app:layout_constraintBottom_toTopOf="@+id/imageView_finish_icon"
-                app:layout_constraintEnd_toEndOf="@+id/imageView_finish_icon"
-                app:layout_constraintStart_toStartOf="@+id/imageView_finish_icon"
+                android:text="AQI"
+                android:textColor="@color/new_teal_2"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/textView_mapNavigation_forecasting"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView_mapNavigation_temprature" />
+
+            <TextView
+                android:id="@+id/textView_mapNavigation_temprature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Temprature"
+                android:textColor="@color/new_teal_2"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_mapNavigation_forecasting" />
+
+            <TextView
+                android:id="@+id/textView_mapNavigation_UV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UV"
+                android:textColor="@color/new_teal_2"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textView_mapNavigation_forecasting"
+                app:layout_constraintTop_toTopOf="@+id/textView_mapNavigation_temprature" />
+
+
+            <TextView
+                android:id="@+id/textView_mapNavigation_aqiValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textColor="@color/new_teal_1"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textView_mapNavigation_aqi"
+                app:layout_constraintStart_toStartOf="@+id/textView_mapNavigation_aqi"
+                app:layout_constraintTop_toTopOf="@+id/textView_mapNavigation_tempratureValue" />
+
+            <TextView
+                android:id="@+id/textView_mapNavigation_tempratureValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="-"
+                android:textColor="@color/new_teal_1"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textView_mapNavigation_temprature"
+                app:layout_constraintStart_toStartOf="@+id/textView_mapNavigation_temprature"
+                app:layout_constraintTop_toBottomOf="@+id/textView_mapNavigation_temprature" />
+
+            <TextView
+                android:id="@+id/textView_mapNavigation_UVValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textColor="@color/new_teal_1"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textView_mapNavigation_UV"
+                app:layout_constraintStart_toStartOf="@+id/textView_mapNavigation_UV"
+                app:layout_constraintTop_toTopOf="@+id/textView_mapNavigation_tempratureValue" />
+
+            <TextView
+                android:id="@+id/textView_mapNavigation_forecasting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="FORCASTING WHEN ARRIVED"
+                android:fontFamily="@font/musticapro_semibold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_mapNavigation_forcasting"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_mapNavigation_temprature"
+                app:layout_constraintVertical_bias="0.542"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+
 
     <!--    <com.android.project.ecotrans.custom_view.MyButton-->
 <!--        android:id="@+id/btn_done"-->
