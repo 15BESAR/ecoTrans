@@ -3,15 +3,9 @@ package com.android.project.ecotrans
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.project.ecotrans.databinding.ActivityMainLocationlistItemBinding
 import com.android.project.ecotrans.response.PredictionsItem
-import com.android.project.ecotrans.response.ResponseAutoComplete
-import com.android.project.ecotrans.response.ResponseVoucher
-import com.bumptech.glide.Glide
 
 class MainLocationListAdapter() : RecyclerView.Adapter<MainLocationListAdapter.MainLocationListHolder>(){
     private lateinit var onItemClickCallback: OnItemClickback

@@ -21,6 +21,7 @@ import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.response.PredictionsItem
 import com.android.project.ecotrans.view_model.MainViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
+import kotlin.properties.Delegates
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var token: String
+    private var points by Delegates.notNull<Int>()
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
 //
@@ -111,6 +113,7 @@ class MainActivity : AppCompatActivity() {
         }
         mainViewModel.userData.observe(this){
             setDashboard(it)
+            this.points = it.points as Int
         }
         mainViewModel.isLoadingDashboard.observe(this) {
             showLoadingMainDashboard(it)
@@ -157,6 +160,7 @@ class MainActivity : AppCompatActivity() {
 
             val intent = Intent(this, PurchaseActivity::class.java)
             intent.putExtra("isDetailed", isDetailed)
+            intent.putExtra("points", points)
             startActivity(intent)
         }
 
@@ -255,6 +259,9 @@ class MainActivity : AppCompatActivity() {
             binding.btnPurchase.visibility = View.GONE
             binding.btnLogout.visibility = View.GONE
             binding.btnBought.visibility = View.GONE
+            binding.textViewMainUsername.visibility = View.GONE
+            binding.textViewMainVoucherInterest.visibility = View.GONE
+            binding.textViewMainPoints.visibility = View.GONE
             binding.progressBarMainDashboard.visibility = View.VISIBLE
         } else {
             binding.textViewMainFirstname.visibility = View.VISIBLE
@@ -264,14 +271,19 @@ class MainActivity : AppCompatActivity() {
             binding.btnBought.visibility = View.VISIBLE
             binding.btnLogout.visibility = View.VISIBLE
             binding.progressBarMainDashboard.visibility = View.GONE
+            binding.textViewMainUsername.visibility = View.VISIBLE
+            binding.textViewMainVoucherInterest.visibility = View.VISIBLE
+            binding.textViewMainPoints.visibility = View.VISIBLE
         }
     }
 
     private fun showLoadingLocationList(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBarMainLocationList.visibility = View.VISIBLE
+            binding.recyclerViewMainLocationList.visibility = View.GONE
         } else {
             binding.progressBarMainLocationList.visibility = View.GONE
+            binding.recyclerViewMainLocationList.visibility = View.VISIBLE
         }
     }
 
