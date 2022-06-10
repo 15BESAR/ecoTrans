@@ -1,7 +1,6 @@
 package com.android.project.ecotrans
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.datastore.core.DataStore
@@ -9,8 +8,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.RecyclerView
 import com.android.project.ecotrans.databinding.ActivityBoughtVoucherlistItemBinding
-import com.android.project.ecotrans.response.ResponseVoucher
-import com.android.project.ecotrans.view_model.BoughtViewModel
+import com.android.project.ecotrans.response.Voucher
+import com.android.project.ecotrans.response.VouchersItem
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -21,8 +20,8 @@ class BoughtVoucherListAdapter() : RecyclerView.Adapter<BoughtVoucherListAdapter
         this.context = context
     }
 
-    private val listVoucher: ArrayList<ResponseVoucher> = ArrayList()
-    fun setListVoucher(listVoucher: List<ResponseVoucher>){
+    private val listVoucher: ArrayList<Voucher> = ArrayList()
+    fun setListVoucher(listVoucher: ArrayList<Voucher>){
         this.listVoucher.addAll(listVoucher)
     }
 
@@ -45,7 +44,7 @@ class BoughtVoucherListAdapter() : RecyclerView.Adapter<BoughtVoucherListAdapter
 
     class BoughtVoucherListHolder(private val binding: ActivityBoughtVoucherlistItemBinding, context: Context) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: ResponseVoucher) {
+        fun bind(data: Voucher) {
             with(binding) {
 //                Glide.with(itemView.context)
 //                    .load(user.avatar_url)

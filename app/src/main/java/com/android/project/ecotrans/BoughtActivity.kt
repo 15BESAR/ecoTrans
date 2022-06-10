@@ -1,9 +1,9 @@
 package com.android.project.ecotrans
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -12,12 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.project.ecotrans.databinding.ActivityBoughtBinding
-import com.android.project.ecotrans.databinding.ActivityMainBinding
-import com.android.project.ecotrans.databinding.ActivityPurchaseBinding
 import com.android.project.ecotrans.model.UserPreference
-import com.android.project.ecotrans.response.ResponseVoucher
+import com.android.project.ecotrans.response.Voucher
+import com.android.project.ecotrans.response.VouchersItem
 import com.android.project.ecotrans.view_model.BoughtViewModel
-import com.android.project.ecotrans.view_model.PurchaseViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
 
 
@@ -26,6 +24,9 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class BoughtActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoughtBinding
     private lateinit var boughtViewModel: BoughtViewModel
+
+    private lateinit var userId: String
+    private lateinit var token: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,24 @@ class BoughtActivity : AppCompatActivity() {
         boughtViewModel.errorMessage.observe(this){
             showErrorMessage(it)
         }
+
+        boughtViewModel.getUser().observe(this){
+            if (it != null){
+                this.token = it.token
+                this.userId = it.id
+                boughtViewModel.getBoughtVoucher(this.token, this.userId)
+            }
+        }
+
+        boughtViewModel.boughtVoucher.observe(this){
+            if (it != null){
+                setupVoucherList(it)
+            }
+        }
+
+        boughtViewModel.isLoading.observe(this){
+            showLoading(it)
+        }
     }
 
     private fun setupView() {
@@ -59,7 +78,7 @@ class BoughtActivity : AppCompatActivity() {
         binding.recyclerViewBoughtVoucherlist.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.recyclerViewBoughtVoucherlist.addItemDecoration(itemDecoration)
-        setupVoucherList()
+//        setupVoucherList()
     }
 
     private fun setupAction() {
@@ -76,8 +95,7 @@ class BoughtActivity : AppCompatActivity() {
 //        TODO("Not yet implemented")
 //    }
 
-    private fun setupVoucherList(){
-        val listVoucher = ArrayList<ResponseVoucher>()
+    private fun setupVoucherList(listBoughtVoucher: ArrayList<Voucher>){
         //        for (item in items!!){
 //            user = User()
 //
@@ -92,39 +110,45 @@ class BoughtActivity : AppCompatActivity() {
 //            listItem.add(user)
 //        }
 
-        var voucher : ResponseVoucher = ResponseVoucher()
-        voucher.category = "GoFood"
-        voucher.partnerName = "GOJEK"
-        voucher.price = 500
-        voucher.stock = 10
-        voucher.voucherName = "Diskon 50% hingga 25RB"
-        listVoucher.add(voucher)
-
-        voucher = ResponseVoucher()
-        voucher.category = "Furniture"
-        voucher.partnerName = "Tokopedia"
-        voucher.price = 1000
-        voucher.stock = 10
-        voucher.voucherName = "Diskon 5% hingga 100RB"
-        listVoucher.add(voucher)
-
-        voucher = ResponseVoucher()
-        voucher.category = "GoSend"
-        voucher.partnerName = "GOJEK"
-        voucher.price = 200
-        voucher.stock = 10
-        voucher.voucherName = "Gratis Ongkir hingga 10RB"
-        listVoucher.add(voucher)
+//        var voucher : ResponseVoucher = ResponseVoucher()
+//        voucher.category = "GoFood"
+//        voucher.partnerName = "GOJEK"
+//        voucher.price = 500
+//        voucher.stock = 10
+//        voucher.voucherName = "Diskon 50% hingga 25RB"
+//        listVoucher.add(voucher)
+//
+//        voucher = ResponseVoucher()
+//        voucher.category = "Furniture"
+//        voucher.partnerName = "Tokopedia"
+//        voucher.price = 1000
+//        voucher.stock = 10
+//        voucher.voucherName = "Diskon 5% hingga 100RB"
+//        listVoucher.add(voucher)
+//
+//        voucher = ResponseVoucher()
+//        voucher.category = "GoSend"
+//        voucher.partnerName = "GOJEK"
+//        voucher.price = 200
+//        voucher.stock = 10
+//        voucher.voucherName = "Gratis Ongkir hingga 10RB"
+//        listVoucher.add(voucher)
 
         val adapter = BoughtVoucherListAdapter()
         adapter.setContext(this)
-        adapter.setListVoucher(listVoucher)
+        adapter.setListVoucher(listBoughtVoucher)
         binding.recyclerViewBoughtVoucherlist.adapter = adapter
     }
 
-//    private fun buyVoucher(data: ResponseVoucher) {
-//        //
-//    }
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBarBoughtVoucherlist.visibility = View.VISIBLE
+            binding.recyclerViewBoughtVoucherlist.visibility = View.GONE
+        } else {
+            binding.progressBarBoughtVoucherlist.visibility = View.GONE
+            binding.recyclerViewBoughtVoucherlist.visibility = View.VISIBLE
+        }
+    }
 
     private fun showErrorMessage(errorMessage: String){
         Toast.makeText(this@BoughtActivity, errorMessage.toString(), Toast.LENGTH_SHORT).show()
