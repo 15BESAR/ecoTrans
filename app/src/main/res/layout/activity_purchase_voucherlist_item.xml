@@ -52,7 +52,6 @@
             android:id="@+id/textView_voucherListItem_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:fontFamily="@font/musticapro_semibold"
             android:text="Name"
             android:textColor="@color/green_2"
@@ -60,7 +59,7 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.052"
             card_view:layout_constraintStart_toEndOf="@+id/imageView_voucherListItem_smallMap"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            card_view:layout_constraintTop_toTopOf="@+id/imageView_voucherListItem_smallMap" />
 
         <TextView
             android:id="@+id/textView_voucherListItem_category"
@@ -71,8 +70,8 @@
             android:textColor="@color/grey_1"
             android:textStyle="italic"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.052"
-            card_view:layout_constraintStart_toEndOf="@+id/imageView_voucherListItem_smallMap"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintStart_toStartOf="@+id/textView_voucherListItem_name"
             card_view:layout_constraintTop_toBottomOf="@+id/textView_voucherListItem_name" />
 
         <TextView
@@ -84,22 +83,21 @@
             android:text="Price: "
             android:textColor="@color/grey_1"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.051"
-            card_view:layout_constraintStart_toEndOf="@+id/imageView_voucherListItem_smallMap"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintStart_toStartOf="@+id/textView_voucherListItem_category"
             card_view:layout_constraintTop_toBottomOf="@+id/textView_voucherListItem_category" />
 
         <TextView
             android:id="@+id/textView_voucherListItem_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:fontFamily="@font/musticapro_semibold"
             android:text="-"
             android:textColor="@color/grey_1"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.051"
+            card_view:layout_constraintHorizontal_bias="0.039"
             card_view:layout_constraintStart_toEndOf="@+id/text_price"
-            card_view:layout_constraintTop_toBottomOf="@+id/textView_voucherListItem_category" />
+            card_view:layout_constraintTop_toTopOf="@+id/text_price" />
 
         <TextView
             android:id="@+id/textView_voucherListItem_stock"
@@ -127,6 +125,8 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintVertical_bias="0.728" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

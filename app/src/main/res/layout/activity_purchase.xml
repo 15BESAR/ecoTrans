@@ -25,6 +25,29 @@
             android:layout_marginLeft="25dp"
             android:src="@drawable/ic_baseline_arrow_back_ios_24"/>
 
+        <TextView
+            android:id="@+id/textView_purchase_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/new_teal_2"
+            android:textStyle="bold"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="10dp"
+            android:textAlignment="center"
+            android:text="Points: "
+            />
+
+        <TextView
+            android:id="@+id/textView_purchase_pointsValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/green_1"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="10dp"
+            android:textAlignment="center"
+            android:text="-"
+            />
     </LinearLayout>
 
     <LinearLayout
