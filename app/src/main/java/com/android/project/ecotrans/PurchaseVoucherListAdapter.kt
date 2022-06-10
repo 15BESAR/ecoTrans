@@ -1,7 +1,6 @@
 package com.android.project.ecotrans
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.datastore.core.DataStore
@@ -9,8 +8,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.RecyclerView
 import com.android.project.ecotrans.databinding.ActivityPurchaseVoucherlistItemBinding
-import com.android.project.ecotrans.response.ResponseVoucher
+import com.android.project.ecotrans.response.VouchersItem
 import com.android.project.ecotrans.view_model.PurchaseViewModel
+import com.bumptech.glide.Glide
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -26,14 +26,19 @@ class PurchaseVoucherListAdapter() : RecyclerView.Adapter<PurchaseVoucherListAda
         this.context = context
     }
 
-    private val listVoucher: ArrayList<ResponseVoucher> = ArrayList()
-    fun setListVoucher(listVoucher: List<ResponseVoucher>){
+    private val listVoucher: ArrayList<VouchersItem> = ArrayList()
+    fun setListVoucher(listVoucher: List<VouchersItem>){
         this.listVoucher.addAll(listVoucher)
     }
 
     private lateinit var userId: String
     fun setUserId(userId: String){
         this.userId = userId
+    }
+
+    private lateinit var token: String
+    fun setToken(token: String){
+        this.token = token
     }
 
     private lateinit var purchaseViewModel: PurchaseViewModel
@@ -50,7 +55,7 @@ class PurchaseVoucherListAdapter() : RecyclerView.Adapter<PurchaseVoucherListAda
 //        holder.itemView.setOnClickListener {
 //            onItemClickCallback.onItemClicked(listVoucher[holder.adapterPosition])
 //        }
-        holder.bind(this.listVoucher[position], this.purchaseViewModel, "test id")
+        holder.bind(this.listVoucher[position], this.purchaseViewModel, this.userId, this.token)
 
     }
 
@@ -60,12 +65,17 @@ class PurchaseVoucherListAdapter() : RecyclerView.Adapter<PurchaseVoucherListAda
 
     class PurchaseVoucherListHolder(private val binding: ActivityPurchaseVoucherlistItemBinding, context: Context) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: ResponseVoucher, purchaseViewModel: PurchaseViewModel, userId: String) {
+        fun bind(
+            data: VouchersItem,
+            purchaseViewModel: PurchaseViewModel,
+            userId: String,
+            token: String
+        ) {
             with(binding) {
 //                Glide.with(itemView.context)
-//                    .load(user.avatar_url)
+//                    .load(data.imageUrl)
 //                    .circleCrop()
-//                    .into(imgAvatar)
+//                    .into(binding.imageViewVoucherListItemSmallMap)
 
                 textViewVoucherListItemName.text = data.voucherName
                 textViewVoucherListItemCategory.text = data.category
@@ -81,7 +91,7 @@ class PurchaseVoucherListAdapter() : RecyclerView.Adapter<PurchaseVoucherListAda
                     json.put("buyQuantity", 1)
                     val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
-                    purchaseViewModel.test(data.voucherName.toString())
+                    purchaseViewModel.purchaseVoucher(token, requestBody, data.voucherName.toString())
                 }
             }
         }
