@@ -3,6 +3,7 @@ package com.android.project.ecotrans
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
@@ -10,9 +11,11 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -25,8 +28,8 @@ import com.android.project.ecotrans.model.UserPreference
 import com.android.project.ecotrans.response.PredictionsItem
 import com.android.project.ecotrans.view_model.LocationDetailViewModel
 import com.android.project.ecotrans.view_model.ViewModelFactory
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback
@@ -36,16 +39,20 @@ import com.google.android.gms.maps.model.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
+class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback{
     private lateinit var detailMap: GoogleMap
     private lateinit var binding: ActivityLocationDetailBinding
     private lateinit var locationDetailViewModel: LocationDetailViewModel
     private lateinit var username: String
+
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
 
     private lateinit var token: String
     private lateinit var id: String
@@ -61,8 +68,6 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private var distance by Delegates.notNull<Int>()
     private var carbon by Delegates.notNull<Int>()
     private var reward by Delegates.notNull<Int>()
-
-    private var onceVisible: Int = 0
 
     private lateinit var destinationLocationLatLng: LatLng
     private var boundsBuilder = LatLngBounds.builder()
@@ -170,6 +175,8 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setupAction() {
         binding.btnStart.setOnClickListener {
+            stopLocationUpdates()
+
             val intent = Intent(this, MapNavigationActivity::class.java)
             intent.putExtra("destinationLat", this.destinationLocationLatLng.latitude.toString())
             intent.putExtra("destinationLng", this.destinationLocationLatLng.longitude.toString())
@@ -200,7 +207,7 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             json.put("userId", this.id)
             json.put("origin", this.originLocation)
             json.put("destination", this.destinationName)//"Jalan Dago Asri, Dago, Kota Bandung, Jawa Barat, Indonesia")
-            json.put("preference", "driving")
+            json.put("preference", this.preference)
             val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
             detailMap.clear()
@@ -272,11 +279,13 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         this.detailMap = detailMap
         this.detailMap.clear()
         setMapStyle()
+        createLocationCallback()
+        createLocationRequest()
+
 
         this.detailMap.uiSettings.isZoomControlsEnabled = true
-        getOriginLocation()
-
-
+//        getOriginLocation()
+        startLocationUpdates()
     }
 
 
@@ -439,5 +448,99 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             )
         }
         return decoded
+    }
+
+
+    /////////////////// update my location
+
+    private val resolutionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartIntentSenderForResult()
+        ) { result ->
+            when (result.resultCode) {
+                RESULT_OK ->
+                    Log.i(TAG, "onActivityResult: All location settings are satisfied.")
+                RESULT_CANCELED ->
+                    Toast.makeText(
+                        this@LocationDetailActivity,
+                        "Anda harus mengaktifkan GPS untuk menggunakan aplikasi ini!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+            }
+        }
+
+    private fun createLocationRequest() {
+        locationRequest = LocationRequest.create().apply {
+            interval = TimeUnit.SECONDS.toMillis(1)
+            maxWaitTime = TimeUnit.SECONDS.toMillis(1)
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+        val client = LocationServices.getSettingsClient(this)
+        client.checkLocationSettings(builder.build())
+            .addOnSuccessListener {
+                getOriginLocation()
+            }
+            .addOnFailureListener { exception ->
+                if (exception is ResolvableApiException) {
+                    try {
+                        resolutionLauncher.launch(
+                            IntentSenderRequest.Builder(exception.resolution).build()
+                        )
+                    } catch (sendEx: IntentSender.SendIntentException) {
+                        Toast.makeText(this@LocationDetailActivity, sendEx.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+    }
+
+    private fun createLocationCallback() {
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                for (location in locationResult.locations) {
+                    Log.d(TAG, "onLocationResult: " + location.latitude + ", " + location.longitude)
+                    val lastLatLng = LatLng(location.latitude, location.longitude)
+
+//                    draw polyline
+//                    allLatLng.add(lastLatLng)
+//                    navMap.addPolyline(
+//                        PolylineOptions()
+//                            .color(Color.CYAN)
+//                            .width(10f)
+//                            .addAll(allLatLng))
+
+//                    val cameraPosition = CameraPosition.Builder()
+//                        .target(lastLatLng)
+//                        .zoom(17F)
+//                        .build()
+//                    val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
+//                    navMap.animateCamera(cameraUpdate)
+                }
+            }
+        }
+    }
+
+    private fun startLocationUpdates() {
+        try {
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        } catch (exception: SecurityException) {
+            Log.e(TAG, "Error : " + exception.message)
+        }
+    }
+    private fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+//    override fun onResume() {
+//        super.onResume()
+////        startLocationUpdates()
+//    }
+    override fun onPause() {
+        super.onPause()
+        stopLocationUpdates()
     }
 }
