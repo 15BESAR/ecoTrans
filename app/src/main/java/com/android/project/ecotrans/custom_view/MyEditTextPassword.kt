@@ -12,6 +12,7 @@ import android.view.View.OnTouchListener
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.android.project.ecotrans.R
+import java.util.function.IntPredicate
 
 class MyEditTextPassword : AppCompatEditText, OnTouchListener {
 
@@ -49,8 +50,9 @@ class MyEditTextPassword : AppCompatEditText, OnTouchListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (s.toString().length < 6){
-                    error = "Must be more than 6 char"
+                if (s.toString().length < 6 && !s.toString().matches(".*[A-Z].*".toRegex()) && !s.toString().matches(".*\\d.*".toRegex())){
+                    error = "Must more than 6 Character & contains Upper Case & contains Number"
+
                 }
             }
         })
