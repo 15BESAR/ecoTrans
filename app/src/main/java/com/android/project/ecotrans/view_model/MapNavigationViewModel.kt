@@ -16,6 +16,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
+import kotlin.math.roundToInt
 
 class MapNavigationViewModel(private val pref: UserPreference) : ViewModel() {
 
@@ -54,10 +55,9 @@ class MapNavigationViewModel(private val pref: UserPreference) : ViewModel() {
                 _isLoading.value = false
                 if (response.isSuccessful) {
 
-                    _aqi.value = response.body()?.forecast?.aqi as Double
-                    _temp.value = response.body()?.forecast?.temp as Double
-                    _uv.value = response.body()?.forecast?.uv as Double
-
+                    _aqi.value = (response.body()?.forecast?.aqi as Double * 100.0).roundToInt() / 100.0
+                    _temp.value = (response.body()?.forecast?.temp as Double * 100.0).roundToInt() / 100.0
+                    _uv.value = (response.body()?.forecast?.uv as Double * 100.0).roundToInt() / 100.0
                 } else {
                     Log.e("MainActivity", "onFailure: ${response.message()}")
 

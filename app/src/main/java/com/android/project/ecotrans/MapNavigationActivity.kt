@@ -47,16 +47,16 @@ import kotlin.properties.Delegates
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback{
     private lateinit var navMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private lateinit var binding: ActivityMapNavigationBinding
     private lateinit var mapNavigationViewModel: MapNavigationViewModel
 
-    private var isTracking = false
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
+
 
     private lateinit var originLocationLatLng: LatLng
     private lateinit var destinationLocationLatLng: LatLng
@@ -76,7 +76,6 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var timeEstimated by Delegates.notNull<Int>()
 
-    private var isFinished: Boolean = false
 
     //test radius
     private lateinit var destinationCircle: Circle
@@ -152,9 +151,14 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        var arrivedHr: Int = this.timeEstimated/3600
+        if (arrivedHr == 0){
+            arrivedHr = 1
+        }
+
         val json = JSONObject()
         json.put("destination", this.destinationName)
-        json.put("arrivedHour", this.timeEstimated/3600)
+        json.put("arrivedHour", arrivedHr)
         val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
         mapNavigationViewModel.getForecastData(this.token, requestBody)
     }
@@ -163,6 +167,18 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 //        binding.btnDone.setOnClickListener {
 //            startActivity(Intent(this, FinishActivity::class.java))
 //        }
+        binding.btnRetry.setOnClickListener {
+            var arrivedHr: Int = this.timeEstimated/3600
+            if (arrivedHr == 0){
+                arrivedHr = 1
+            }
+
+            val json = JSONObject()
+            json.put("destination", this.destinationName)
+            json.put("arrivedHour", arrivedHr)
+            val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            mapNavigationViewModel.getForecastData(this.token, requestBody)
+        }
 
         binding.imageViewMapNavigationBack.setOnClickListener {
             finish()
@@ -176,13 +192,13 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun showLoading(it: Boolean?) {
         if (it == true) {
             binding.progressBarMapNavigationForcasting.visibility = View.VISIBLE
-//            binding.btnStart.visibility = View.GONE
+            binding.btnRetry.visibility = View.GONE
             binding.textViewMapNavigationAqiValue.visibility = View.GONE
             binding.textViewMapNavigationUVValue.visibility = View.GONE
             binding.textViewMapNavigationTempratureValue.visibility = View.GONE
         } else {
             binding.progressBarMapNavigationForcasting.visibility = View.GONE
-//            binding.btnStart.visibility = View.VISIBLE
+            binding.btnRetry.visibility = View.VISIBLE
             binding.textViewMapNavigationAqiValue.visibility = View.VISIBLE
             binding.textViewMapNavigationUVValue.visibility = View.VISIBLE
             binding.textViewMapNavigationTempratureValue.visibility = View.VISIBLE
@@ -194,7 +210,6 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(navMap: GoogleMap) {
-        isFinished = false
         this.navMap = navMap
         createLocationRequest()
         createLocationCallback()
@@ -215,10 +230,8 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
             if (distance[0] <= destinationCircle.getRadius() && !inOnce) {
                 inOnce = true
-                isFinished = true
                 stopLocationUpdates()
                 val intent = Intent(this, FinishActivity::class.java)
-                intent.putExtra("isFinished", this.isFinished)
 
                 intent.putExtra("originId", this.originId)
                 intent.putExtra("destinationId", this.destinationId)
@@ -396,16 +409,15 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun stopLocationUpdates() {
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
-    override fun onResume() {
-        super.onResume()
-        if (isTracking) {
-            startLocationUpdates()
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        startLocationUpdates()
+//    }
     override fun onPause() {
         super.onPause()
         stopLocationUpdates()
     }
+
 
     companion object {
         private const val TAG = "MapsActivity"
@@ -503,5 +515,7 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return decoded
     }
+
+
 
 }
