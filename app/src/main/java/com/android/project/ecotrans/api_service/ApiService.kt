@@ -66,4 +66,37 @@ interface ApiService {
         @Body requestBody: RequestBody
     ): Call<ResponseForecast>
 
+    @Headers("Content-Type: application/json")
+    @GET("vouchers")
+    fun getAllVoucher(
+        @Header("Authorization") token: String
+    ): Call<ResponseGetAllVoucher>
+
+    @Headers("Content-Type: application/json")
+    @POST("purchase")
+    fun purchase(
+        @Header("Authorization") token: String,
+        @Body requestBody: RequestBody
+    ): Call<ResponsePurchaseVoucher>
+
+    @Headers("Content-Type: application/json")
+    @GET("purchases/{user}")
+    fun getBoughtVoucher(
+        @Header("Authorization") token: String,
+        @Path("user") id: String
+    ): Call<ResponseGetAllPurchaseHistory>
+
+    @Headers("Content-Type: application/json")
+    @GET("voucher/{voucherId}")
+    fun getVoucherById(
+        @Header("Authorization") token: String,
+        @Path("voucherId") id: String
+    ): Call<ResponseGetVoucherById>
+
+    @Headers("Content-Type: application/json")
+    @POST("journey")
+    fun finishJourney(
+        @Header("Authorization") token: String,
+        @Body requestBody: RequestBody
+    ): Call<ResponseFinish>
 }
