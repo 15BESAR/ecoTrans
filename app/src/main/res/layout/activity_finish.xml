@@ -47,11 +47,11 @@
                 app:layout_constraintVertical_bias="0.188" />
 
             <TextView
-                android:id="@+id/textView_finish_originDestination"
+                android:id="@+id/textView_finish_journey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:text="Origin - Destination"
+                android:text="Journey ID: "
                 android:textColor="@color/green_2"
                 android:textSize="20dp"
                 android:textStyle="bold"
@@ -61,11 +61,24 @@
                 app:layout_constraintVertical_bias="0.524" />
 
             <TextView
+                android:id="@+id/textView_finish_journeyId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="-"
+                android:textColor="@color/new_teal_2"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_finish_journey"
+                app:layout_constraintStart_toEndOf="@+id/textView_finish_journey"
+                app:layout_constraintTop_toTopOf="@+id/textView_finish_journey"/>
+
+            <TextView
                 android:id="@+id/textView_finish_reward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reward"
-                android:textColor="@color/green_2"
+                android:textColor="@color/new_teal_2"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/imageView_finish_icon"
@@ -82,15 +95,15 @@
                 android:textColor="@color/new_grey"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView_finish_originDestination"
-                app:layout_constraintTop_toBottomOf="@+id/textView_finish_originDestination"
+                app:layout_constraintStart_toStartOf="@+id/textView_finish_journey"
+                app:layout_constraintTop_toBottomOf="@+id/textView_finish_journey"
                 app:layout_constraintVertical_bias="0.086" />
 
             <TextView
                 android:id="@+id/textView_finish_timeStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="84dp"
+                android:layout_marginStart="50dp"
                 android:text="-"
                 android:textColor="@color/new_grey"
                 android:textStyle="italic"
@@ -107,7 +120,7 @@
                 android:textColor="@color/new_grey"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView_finish_originDestination"
+                app:layout_constraintStart_toStartOf="@+id/textView_finish_journey"
                 app:layout_constraintTop_toBottomOf="@+id/text_finish_timeStart"
                 app:layout_constraintVertical_bias="0.086" />
 
@@ -131,7 +144,7 @@
                 android:textColor="@color/new_grey"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView_finish_originDestination"
+                app:layout_constraintStart_toStartOf="@+id/textView_finish_journey"
                 app:layout_constraintTop_toBottomOf="@+id/text_finish_timeFinish"
                 app:layout_constraintVertical_bias="0.086" />
 
@@ -145,7 +158,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView_finish_timeStart"
                 app:layout_constraintTop_toTopOf="@+id/text_finish_distanceTraveled"
-                app:layout_constraintVertical_bias="0.074" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/text_finish_emissionSaved"
@@ -155,7 +168,7 @@
                 android:textColor="@color/new_grey"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView_finish_originDestination"
+                app:layout_constraintStart_toStartOf="@+id/textView_finish_journey"
                 app:layout_constraintTop_toBottomOf="@+id/text_finish_distanceTraveled" />
 
             <TextView
@@ -169,6 +182,22 @@
                 app:layout_constraintStart_toStartOf="@+id/textView_finish_timeStart"
                 app:layout_constraintTop_toTopOf="@+id/text_finish_emissionSaved"
                 app:layout_constraintVertical_bias="0.062" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_finish"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/green_2"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.787"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
