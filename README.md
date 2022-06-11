@@ -5,6 +5,9 @@ There's also another Core Feature which is that the Application can give it's Us
 
 There is a Transaction involved where everytime the users finish their journey until the selected destination, they can get a reward point based on how many carbon emission they saved, and with that reward the users can buy a spesific vouchers or coupons based on users interest.
 
+# EcoTrans Demo Video
+```https://drive.google.com/file/d/1AmjjN4KELWcFOhjUni4H5TJn46vaTrLS/view?usp=sharing```
+
 # EcoTrans - Android Application Tech (Android Studio)
 Android Application created with Kotlin Language which responsible for Front-End Product of EcoTrans. This Mobile Application created using Android Studio IDE and utilizing Modern Android Development which is Android Jetpack. The mobile application also have it's API Service that can link to the Back-End Product which developed by Cloud Computing and Machine Learning developers.
 
