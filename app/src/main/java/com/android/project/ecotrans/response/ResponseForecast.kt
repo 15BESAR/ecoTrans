@@ -14,11 +14,14 @@ data class ResponseForecast(
 data class Forecast(
 
 	@field:SerializedName("uv")
-	val uv: Double? = null,
+	val uv: Int? = null,
 
 	@field:SerializedName("temp")
 	val temp: Double? = null,
 
 	@field:SerializedName("aqi")
-	val aqi: Double? = null
+	val aqi: Double? = null,
+
+	@field:SerializedName("time")
+	val time: Int? = null
 )
