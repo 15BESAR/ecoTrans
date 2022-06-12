@@ -76,12 +76,12 @@
             card_view:layout_constraintTop_toBottomOf="@+id/textView_voucherListItem_name" />
 
         <TextView
-            android:id="@+id/text_price"
+            android:id="@+id/text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/musticapro_semibold"
-            android:text="Price: "
+            android:text="Date: "
             android:textColor="@color/grey_1"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.0"
@@ -89,7 +89,7 @@
             card_view:layout_constraintTop_toBottomOf="@+id/textView_voucherListItem_category" />
 
         <TextView
-            android:id="@+id/textView_voucherListItem_price"
+            android:id="@+id/textView_voucherListItem_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/musticapro_semibold"
@@ -97,8 +97,24 @@
             android:textColor="@color/grey_1"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.051"
-            card_view:layout_constraintStart_toEndOf="@+id/text_price"
-            card_view:layout_constraintTop_toTopOf="@+id/text_price" />
+            card_view:layout_constraintStart_toEndOf="@+id/text_date"
+            card_view:layout_constraintTop_toTopOf="@+id/text_date" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_boughtItem"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/green_2"
+            android:visibility="gone"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
