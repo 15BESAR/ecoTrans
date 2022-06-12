@@ -80,10 +80,10 @@ interface ApiService {
     ): Call<ResponsePurchaseVoucher>
 
     @Headers("Content-Type: application/json")
-    @GET("purchases/{user}")
+    @GET("purchases")
     fun getBoughtVoucher(
         @Header("Authorization") token: String,
-        @Path("user") id: String
+//        @Path("user") id: String
     ): Call<ResponseGetAllPurchaseHistory>
 
     @Headers("Content-Type: application/json")
