@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -84,10 +85,12 @@ class PurchaseVoucherListAdapter() : RecyclerView.Adapter<PurchaseVoucherListAda
                 textViewVoucherListItemStock.text = data.stock.toString()
 
                 binding.imageButtonVoucherListItemBuy.setOnClickListener {
+                    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
                     val json = JSONObject()
                     json.put("userId", userId)
                     json.put("voucherId", data.voucherId)
-                    json.put("buyDate", Calendar.getInstance().time)
+                    json.put("buyDate", sdf.format(Date()))
                     json.put("buyQuantity", 1)
                     val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
 

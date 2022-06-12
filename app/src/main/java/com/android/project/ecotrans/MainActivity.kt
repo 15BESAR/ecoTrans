@@ -1,14 +1,17 @@
 package com.android.project.ecotrans
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import android.widget.ImageView
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -145,7 +148,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-
+        binding.textViewMainNoDestination.visibility = View.VISIBLE
         supportActionBar?.hide()
 
         val layoutManager = LinearLayoutManager(this)
@@ -279,6 +282,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showLoadingLocationList(isLoading: Boolean) {
         if (isLoading) {
+            binding.textViewMainNoDestination.visibility = View.GONE
             binding.progressBarMainLocationList.visibility = View.VISIBLE
             binding.recyclerViewMainLocationList.visibility = View.GONE
         } else {

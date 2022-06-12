@@ -1,5 +1,7 @@
 package com.android.project.ecotrans
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,8 @@ import com.android.project.ecotrans.view_model.ViewModelFactory
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.properties.Delegates
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -35,6 +39,8 @@ class FinishActivity : AppCompatActivity() {
     private var carbon by Delegates.notNull<Int>()
     private var reward by Delegates.notNull<Int>()
 
+    private lateinit var startDate: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFinishBinding.inflate(layoutInflater)
@@ -45,6 +51,8 @@ class FinishActivity : AppCompatActivity() {
         this.distance = intent.getIntExtra("distance", 0)
         this.carbon = intent.getIntExtra("carbon", 0)
         this.reward = intent.getIntExtra("reward", 0)
+
+        this.startDate = intent.getStringExtra("startDate") as String
 
         setupViewModel()
         setupView()
@@ -76,15 +84,16 @@ class FinishActivity : AppCompatActivity() {
                 this.token = it.token
 
                 //finish journey
+                val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                 val json = JSONObject()
-                json.put("userId", "37778226-035e-417c-8baf-509e888657f2")
-                json.put("origin", "ChIJl02Bz3GMaS4RCgefgFZdKtI")
-                json.put("destination", "ChIJY9TrwiH0aS4RrvGqlZvI_Mw")
-                json.put("startTime", "2018-12-10T13:49:51.141Z")
-                json.put("finishTime", "2018-12-10T16:49:51.141Z")
+                json.put("userId", this.id)
+                json.put("origin", this.originId)
+                json.put("destination", this.destinationId)
+                json.put("startTime", this.startDate)
+                json.put("finishTime", sdf.format(Date()))
                 json.put("distanceTravelled", 10.43F)
                 json.put("emissionSaved", 4.45F)
-                json.put("reward", 102)
+                json.put("reward", 100)
                 val requestBody = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
                 finishViewModel.postJourney(this.token, requestBody)
@@ -107,9 +116,20 @@ class FinishActivity : AppCompatActivity() {
         binding.textViewFinishEmissionSaved.text = it.emissionSaved.toString()
         binding.textViewFinishDistanceTraveled.text = it.distanceTravelled.toString()
         binding.textViewFinishJourneyId.text = it.journeyId.toString()
-        binding.textViewFinishTimeStart.text = it.finishTime.toString()
-        binding.textViewFinishTimeFinish.text = it.startTime.toString()
+        binding.textViewFinishTimeStart.text = it.startTime.toString()
+        binding.textViewFinishTimeFinish.text = it.finishTime.toString()
 
+        val reward = ObjectAnimator.ofFloat(binding.textViewFinishReward, View.ALPHA, 1f).setDuration(250)
+        val journeyId = ObjectAnimator.ofFloat(binding.textViewFinishJourneyId, View.ALPHA, 1f).setDuration(250)
+        val timeStart = ObjectAnimator.ofFloat(binding.textViewFinishTimeStart, View.ALPHA, 1f).setDuration(250)
+        val timeFinish = ObjectAnimator.ofFloat(binding.textViewFinishTimeFinish, View.ALPHA, 1f).setDuration(250)
+        val distance = ObjectAnimator.ofFloat(binding.textViewFinishDistanceTraveled, View.ALPHA, 1f).setDuration(250)
+        val emission = ObjectAnimator.ofFloat(binding.textViewFinishEmissionSaved, View.ALPHA, 1f).setDuration(250)
+
+        AnimatorSet().apply {
+            playSequentially(reward, journeyId, timeStart, timeFinish, distance, emission)
+            start()
+        }
     }
 
     private fun setupView() {

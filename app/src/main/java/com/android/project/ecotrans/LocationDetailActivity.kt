@@ -39,7 +39,10 @@ import com.google.android.gms.maps.model.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 
@@ -177,6 +180,8 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         binding.btnStart.setOnClickListener {
             stopLocationUpdates()
 
+            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
             val intent = Intent(this, MapNavigationActivity::class.java)
             intent.putExtra("destinationLat", this.destinationLocationLatLng.latitude.toString())
             intent.putExtra("destinationLng", this.destinationLocationLatLng.longitude.toString())
@@ -191,6 +196,8 @@ class LocationDetailActivity : AppCompatActivity(), OnMapReadyCallback{
             intent.putExtra("timeEstimated", this.timeEstimated)
             intent.putExtra("destinationName", this.destinationName)
             intent.putExtra("token", this.token)
+
+            intent.putExtra("startDate", sdf.format(Date()))
             startActivity(intent)
         }
 
