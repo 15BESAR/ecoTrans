@@ -21,8 +21,8 @@ class BoughtViewModel(private val pref: UserPreference) : ViewModel() {
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
-    private var _boughtVouchers = MutableLiveData<ArrayList<Voucher>>()
-    var boughtVoucher: LiveData<ArrayList<Voucher>> = _boughtVouchers
+    private var _boughtVouchers = MutableLiveData<ArrayList<PurchasesItem>>()
+    var boughtVouchers: LiveData<ArrayList<PurchasesItem>> = _boughtVouchers
 
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
@@ -34,7 +34,7 @@ class BoughtViewModel(private val pref: UserPreference) : ViewModel() {
     fun getBoughtVoucher(token: String, id:String) {
         _isLoading.value = true
         _isError.value = false
-        var client = ApiConfig.getApiService().getBoughtVoucher("Bearer $token", id)
+        var client = ApiConfig.getApiService().getBoughtVoucher("Bearer $token")
         client.enqueue(object : Callback<ResponseGetAllPurchaseHistory> {
             override fun onResponse(
                 call: Call<ResponseGetAllPurchaseHistory>,
@@ -43,14 +43,14 @@ class BoughtViewModel(private val pref: UserPreference) : ViewModel() {
                 _isLoading.value = false
                 if (response.isSuccessful) {
 
-                    try {
-                        val purchases = response.body()?.purchases as ArrayList<PurchasesItem>
-                        for (item in purchases){
-                            getVoucherById(token, item.voucherId.toString())
-                        }
-                    }catch (e: Exception){
-                        _errorMessage.value = "Empty..."
-                    }
+//                    try {
+                        _boughtVouchers.value = response.body()?.purchases as ArrayList<PurchasesItem>
+//                        for (item in purchases){
+//                            getVoucherById(token, item.voucherId.toString())
+//                        }
+//                    }catch (e: Exception){
+//                        _errorMessage.value = "Empty..."
+//                    }
 
                 } else {
                     Log.e("MainActivity", "onFailure: ${response.message()}")
@@ -68,32 +68,32 @@ class BoughtViewModel(private val pref: UserPreference) : ViewModel() {
         })
     }
 
-    fun getVoucherById(token: String, voucherId:String) {
-        _isLoading.value = true
-        _isError.value = false
-        var client = ApiConfig.getApiService().getVoucherById("Bearer $token", voucherId)
-        client.enqueue(object : Callback<ResponseGetVoucherById> {
-            override fun onResponse(
-                call: Call<ResponseGetVoucherById>,
-                response: retrofit2.Response<ResponseGetVoucherById>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful) {
-                    _boughtVouchers.value?.add(response.body()?.voucher as Voucher)
-
-                } else {
-                    Log.e("MainActivity", "onFailure: ${response.message()}")
-
-//                    _errorMessage.value = "Wrong Password or Email"
-//                    _isError.value = true
-                }
-            }
-            override fun onFailure(call: Call<ResponseGetVoucherById>, t: Throwable) {
+//    fun getVoucherById(token: String, voucherId:String) {
+//        _isLoading.value = true
+//        _isError.value = false
+//        var client = ApiConfig.getApiService().getVoucherById("Bearer $token", voucherId)
+//        client.enqueue(object : Callback<ResponseGetVoucherById> {
+//            override fun onResponse(
+//                call: Call<ResponseGetVoucherById>,
+//                response: retrofit2.Response<ResponseGetVoucherById>
+//            ) {
 //                _isLoading.value = false
-//                _isError.value = true
-//                _errorMessage.value = t.message as String
-                Log.e("MainActivity", "onFailure: ${t.message}")
-            }
-        })
-    }
+//                if (response.isSuccessful) {
+//                    _boughtVouchers.value?.add(response.body()?.voucher as Voucher)
+//
+//                } else {
+//                    Log.e("MainActivity", "onFailure: ${response.message()}")
+//
+////                    _errorMessage.value = "Wrong Password or Email"
+////                    _isError.value = true
+//                }
+//            }
+//            override fun onFailure(call: Call<ResponseGetVoucherById>, t: Throwable) {
+////                _isLoading.value = false
+////                _isError.value = true
+////                _errorMessage.value = t.message as String
+//                Log.e("MainActivity", "onFailure: ${t.message}")
+//            }
+//        })
+//    }
 }

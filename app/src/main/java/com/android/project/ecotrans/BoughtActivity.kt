@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.project.ecotrans.databinding.ActivityBoughtBinding
 import com.android.project.ecotrans.model.UserPreference
+import com.android.project.ecotrans.response.PurchasesItem
 import com.android.project.ecotrans.response.Voucher
 import com.android.project.ecotrans.response.VouchersItem
 import com.android.project.ecotrans.view_model.BoughtViewModel
@@ -60,7 +61,7 @@ class BoughtActivity : AppCompatActivity() {
             }
         }
 
-        boughtViewModel.boughtVoucher.observe(this){
+        boughtViewModel.boughtVouchers.observe(this){
             if (it != null){
                 setupVoucherList(it)
             }
@@ -95,7 +96,7 @@ class BoughtActivity : AppCompatActivity() {
 //        TODO("Not yet implemented")
 //    }
 
-    private fun setupVoucherList(listBoughtVoucher: ArrayList<Voucher>){
+    private fun setupVoucherList(listBoughtVoucher: ArrayList<PurchasesItem>){
         //        for (item in items!!){
 //            user = User()
 //
@@ -134,9 +135,17 @@ class BoughtActivity : AppCompatActivity() {
 //        voucher.voucherName = "Gratis Ongkir hingga 10RB"
 //        listVoucher.add(voucher)
 
+        var listBoughtVoucherById: ArrayList<PurchasesItem> = ArrayList()
+
+        for (item in listBoughtVoucher){
+            if (item.userId == this.userId){
+                listBoughtVoucherById.add(item)
+            }
+        }
+
         val adapter = BoughtVoucherListAdapter()
         adapter.setContext(this)
-        adapter.setListVoucher(listBoughtVoucher)
+        adapter.setListVoucher(listBoughtVoucherById)
         binding.recyclerViewBoughtVoucherlist.adapter = adapter
     }
 
