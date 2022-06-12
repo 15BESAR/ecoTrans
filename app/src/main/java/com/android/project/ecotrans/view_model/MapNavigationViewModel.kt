@@ -54,15 +54,15 @@ class MapNavigationViewModel(private val pref: UserPreference) : ViewModel() {
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-
+                    _isError.value = false
                     _aqi.value = (response.body()?.forecast?.aqi as Double * 100.0).roundToInt() / 100.0
                     _temp.value = (response.body()?.forecast?.temp as Double * 100.0).roundToInt() / 100.0
-                    _uv.value = (response.body()?.forecast?.uv as Double * 100.0).roundToInt() / 100.0
+                    _uv.value = (response.body()?.forecast?.uv as Int * 100.0).roundToInt() / 100.0
                 } else {
                     Log.e("MainActivity", "onFailure: ${response.message()}")
 
 //                    _errorMessage.value = "Wrong Password or Email"
-//                    _isError.value = true
+                    _isError.value = true
                 }
             }
             override fun onFailure(call: Call<ResponseForecast>, t: Throwable) {
@@ -70,6 +70,7 @@ class MapNavigationViewModel(private val pref: UserPreference) : ViewModel() {
 //                _isError.value = true
 //                _errorMessage.value = t.message as String
                 Log.e("MainActivity", "onFailure: ${t.message}")
+                _isError.value = true
             }
         })
     }

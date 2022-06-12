@@ -41,7 +41,9 @@ import com.google.android.gms.maps.model.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 
@@ -74,6 +76,8 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback{
     private var carbon by Delegates.notNull<Int>()
     private var reward by Delegates.notNull<Int>()
 
+    private lateinit var startDate: String
+
     private var timeEstimated by Delegates.notNull<Int>()
 
 
@@ -98,6 +102,8 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback{
         this.distance = intent.getIntExtra("distance", 0)
         this.carbon = intent.getIntExtra("carbon", 0)
         this.reward = intent.getIntExtra("reward", 0)
+
+        this.startDate = intent.getStringExtra("startDate") as String
 
         this.token = intent.getStringExtra("token") as String
         this.destinationName = intent.getStringExtra("destinationName") as String
@@ -129,6 +135,7 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback{
             if(it != null){
                 binding.textViewMapNavigationAqiValue.text = it.toString()
             }
+
         }
         mapNavigationViewModel.uv.observe(this){
             if(it != null){
@@ -138,6 +145,11 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback{
         mapNavigationViewModel.temp.observe(this){
             if(it != null){
                 binding.textViewMapNavigationTempratureValue.text = it.toString()
+            }
+        }
+        mapNavigationViewModel.isError.observe(this){
+            if(it){
+                binding.btnRetry.visibility = View.VISIBLE
             }
         }
     }
@@ -183,6 +195,21 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback{
         binding.imageViewMapNavigationBack.setOnClickListener {
             finish()
         }
+
+        binding.btnForceFinish.setOnClickListener {
+            stopLocationUpdates()
+            val intent = Intent(this, FinishActivity::class.java)
+
+            intent.putExtra("originId", this.originId)
+            intent.putExtra("destinationId", this.destinationId)
+            intent.putExtra("distance", this.distance)
+            intent.putExtra("carbon", this.carbon)
+            intent.putExtra("reward", this.reward)
+
+            intent.putExtra("startDate", this.startDate)
+
+            startActivity(intent)
+        }
     }
 
 //    private fun setupAnimation() {
@@ -198,7 +225,6 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback{
             binding.textViewMapNavigationTempratureValue.visibility = View.GONE
         } else {
             binding.progressBarMapNavigationForcasting.visibility = View.GONE
-            binding.btnRetry.visibility = View.VISIBLE
             binding.textViewMapNavigationAqiValue.visibility = View.VISIBLE
             binding.textViewMapNavigationUVValue.visibility = View.VISIBLE
             binding.textViewMapNavigationTempratureValue.visibility = View.VISIBLE
@@ -238,6 +264,8 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback{
                 intent.putExtra("distance", this.distance)
                 intent.putExtra("carbon", this.carbon)
                 intent.putExtra("reward", this.reward)
+
+                intent.putExtra("startDate", this.startDate)
 
                 startActivity(intent)
             }
@@ -442,7 +470,7 @@ class MapNavigationActivity : AppCompatActivity(), OnMapReadyCallback{
                 .position(this.destinationLocationLatLng)
                 .title("destination")
                 .icon(getDestinationMarker())
-        )?.showInfoWindow()
+        )//?.showInfoWindow()
 
         destinationCircle = navMap.addCircle(
             CircleOptions()
