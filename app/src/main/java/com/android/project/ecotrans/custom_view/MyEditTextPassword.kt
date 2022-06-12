@@ -50,7 +50,7 @@ class MyEditTextPassword : AppCompatEditText, OnTouchListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (s.toString().length < 6 && !s.toString().matches(".*[A-Z].*".toRegex()) && !s.toString().matches(".*\\d.*".toRegex())){
+                if (s.toString().length < 6 || !s.toString().matches(".*[A-Z].*".toRegex()) || !s.toString().matches(".*\\d.*".toRegex())){
                     error = "Must more than 6 Character & contains Upper Case & contains Number"
 
                 }
