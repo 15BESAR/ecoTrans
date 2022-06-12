@@ -1,11 +1,14 @@
 # Introduction
-![image](https://user-images.githubusercontent.com/79919380/173211478-b7d99525-9b0b-49ea-a505-3092c1a7c136.png)
+![image](https://user-images.githubusercontent.com/79919380/173211536-020d811a-4040-402f-a448-bc00f6a70990.png)
+
 EcoTrans is an Application that allow it's Users to reach their destination with the most enviromental friendly way or method. This Application provide it's Users with all kinds of Eco friendly transportation and it's own route that factoring the production of it's carbon emission and compared it to the usual private transportation.
 
-![image](https://user-images.githubusercontent.com/79919380/173211485-705adb08-9d73-4ea0-9e8e-ad0d4de214bb.png)
+![image](https://user-images.githubusercontent.com/79919380/173211555-0f3d3792-d9f0-49b8-b68e-e1def916f1f4.png)
+
 There's also another Core Feature which is that the Application can give it's Users Environment Information like Air Quality, UV, and Temprature that all are predicted with it's own Machine Learning. With this information Users can know and prepare themself more so that they can adjust themself to the current environment condition.
 
-![image](https://user-images.githubusercontent.com/79919380/173211491-dfb85206-8cef-4d33-82d7-862fa82b87d2.png)
+![image](https://user-images.githubusercontent.com/79919380/173211564-684af0ae-7eb6-4c70-b03e-e9fbc9ce34a0.png)
+
 There is a Transaction involved where everytime the users finish their journey until the selected destination, they can get a reward point based on how many carbon emission they saved, and with that reward the users can buy a spesific vouchers or coupons based on users interest.
 
 # EcoTrans Demo Video
