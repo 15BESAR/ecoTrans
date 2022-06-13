@@ -19,7 +19,7 @@ Android Application created with Kotlin Language which responsible for Front-End
 
 # How To Run Locally
 
-## 1. Download from this link and install in Android Smarthphone:
+## 1. Download from this link and install in Android Smarthphone (enable GPS Location):
 ```https://drive.google.com/file/d/19xiMcGviZ8x2vhD_D6ORxhn6gScAX-P2/view?usp=sharing```
 Make sure to allow your smartphone location / GPS
 
